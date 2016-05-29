@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Chapter 1: Introducing Python Core Concepts &mdash; arista-python-web2py 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="arista-python-web2py 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Chapter 2: Script Framework for Use Cases" href="core-concepts.html" />
+    <link rel="prev" title="Preface" href="preface.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="core-concepts.html" title="Chapter 2: Script Framework for Use Cases"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="preface.html" title="Preface"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">arista-python-web2py 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="chapter-1-introducing-python-core-concepts">
+<h1>Chapter 1: Introducing Python Core Concepts<a class="headerlink" href="#chapter-1-introducing-python-core-concepts" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#python-implementation-on-various-operating-systems" id="id6">Python Implementation on Various Operating Systems</a><ul>
+<li><a class="reference internal" href="#microsoft-windows" id="id7">Microsoft Windows</a></li>
+<li><a class="reference internal" href="#apple-mac-os-x" id="id8">Apple Mac OS X</a></li>
+<li><a class="reference internal" href="#ubuntu" id="id9">Ubuntu</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#python-package-manager-pip" id="id10">Python Package Manager (pip)</a></li>
+</ul>
+</div>
+<p>Network engineers require to connect to network devices, collect data using network OS commands and parse through the data to discover the required information. With that in mind, Python’s core concepts such as data types, operations, data structures, control flow statements and modules are discussed in this chapter.  Before discussing the core concepts, Python implementation on various operating systems need to be discussed.</p>
+<div class="section" id="python-implementation-on-various-operating-systems">
+<h2><a class="toc-backref" href="#id6">Python Implementation on Various Operating Systems</a><a class="headerlink" href="#python-implementation-on-various-operating-systems" title="Permalink to this headline">¶</a></h2>
+<p>Python implementation on Microsoft Windows, Apple Mac’s OS X, Ubuntu Linux distribution and Arista Extensible Operation System (EOS) is discussed in this section. There are two tracks of Python versions available today 2.x and 3.x. Python version 2.x is widely deployed and the industry will eventually move to 3.x. Python programs in this book are written using the version 2.7.x.</p>
+<div class="section" id="microsoft-windows">
+<h3><a class="toc-backref" href="#id7">Microsoft Windows</a><a class="headerlink" href="#microsoft-windows" title="Permalink to this headline">¶</a></h3>
+<p>Python is not installed by default on Microsoft Windows operating systems. You can download and install python from <a class="reference external" href="http://www.python.org">www.python.org</a> website.  For this book, It is recommended to download and install Python version 2.7.x. By default, Python will be installed in the c:Python27 folder. After installing Python, PATH variable needs to be updated with the path to the Python installation folder.</p>
+<img alt="_images/ch01-pic1.png" src="_images/ch01-pic1.png" />
+<p>After changing the PATH variable, launch the Windows command prompt and verify you can invoke the Python interpreter.</p>
+<img alt="_images/ch01-pic2.png" src="_images/ch01-pic2.png" />
+<p>Python interpreter is located in the folder C:Python27. Python standard library modules are located in C:Python27folder.</p>
+<img alt="_images/ch01-pic3.png" src="_images/ch01-pic3.png" />
+</div>
+<div class="section" id="apple-mac-os-x">
+<h3><a class="toc-backref" href="#id8">Apple Mac OS X</a><a class="headerlink" href="#apple-mac-os-x" title="Permalink to this headline">¶</a></h3>
+<p>Apple Mac OS X comes with Python 2.7.x. You can verify by invoking the interpretor from the terminal. If your OS X version does not have Python installed by default, you can download and install python from <a class="reference external" href="http://www.python.org">www.python.org</a> website.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>anees:~ anees$ python
+Python 2.7.10 (default, Aug 22 2015, 20:33:39)
+[GCC 4.2.1 Compatible Apple LLVM 7.0.0 (clang-700.0.59.1)] on darwin
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+
+Python interpreter is located in /usr/bin folder and Python standard library files are located in /usr/lib/python2.7 folder.
+
+::
+
+anees:~ anees$ which python
+/usr/bin/python
+anees:~ anees$ ls -l /usr/lib/python2.7
+lrwxr-xr-x  1 root  wheel  75 Sep 17 05:27 /usr/lib/python2.7 -&gt; ../../System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7
+
+anees:~ anees$ ls -l /usr/lib/python2.7/
+
+****** Skipped ******
+-rw-r--r--     1 root  wheel    8252 Aug 22 20:37 posixfile.pyo
+-rw-r--r--     1 root  wheel   13925 Aug 22 20:36 posixpath.py
+-rw-r--r--     1 root  wheel   12570 Aug 22 20:37 posixpath.pyc
+-rw-r--r--     1 root  wheel   12570 Aug 22 20:37 posixpath.pyo
+-rw-r--r--     1 root  wheel   11777 Aug 22 20:36 pprint.py
+-rw-r--r--     1 root  wheel   11144 Aug 22 20:37 pprint.pyc
+-rw-r--r--     1 root  wheel   10967 Aug 22 20:37 pprint.pyo
+-rwxr-xr-x     1 root  wheel   22782 Aug 22 20:36 profile.py
+-rw-r--r--     1 root  wheel   18408 Aug 22 20:37 profile.pyc
+-rw-r--r--     1 root  wheel   18161 Aug 22 20:37 profile.pyo
+-rw-r--r--     1 root  wheel   26711 Aug 22 20:36 pstats.py
+-rw-r--r--     1 root  wheel   28013 Aug 22 20:37 pstats.pyc
+-rw-r--r--     1 root  wheel   28013 Aug 22 20:37 pstats.pyo
+
+****** Skipped ******
+</pre></div>
+</div>
+</div>
+<div class="section" id="ubuntu">
+<h3><a class="toc-backref" href="#id9">Ubuntu</a><a class="headerlink" href="#ubuntu" title="Permalink to this headline">¶</a></h3>
+<p>Linux distributions come with default Python 2.7.x. Some of the newer distributions come with Python 3.x. Most of the linux software modules are built on top of this default Python version. So upgrading the default Python version on Linux will break those modules. It is recommended to install the desired version using Python virtua environment. For the use cases in this book, the default Python version should be sufficient.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>anees@ubuntu-web2py:~$ which python
+/usr/bin/python
+anees@ubuntu-web2py:~$
+anees@ubuntu-web2py:~$ python --version
+Python 2.7.6
+
+anees@ubuntu-web2py:~$ ls -l /usr/lib/python2.7
+total 8228
+-rw-r--r--  1 root root  17876 Jun 22  2015 _abcoll.py
+-rw-r--r--  1 root root  24794 Dec 29 12:08 _abcoll.pyc
+-rw-r--r--  1 root root   7145 Jun 22  2015 abc.py
+-rw-r--r--  1 root root   6121 Dec 29 12:08 abc.pyc
+-rw-r--r--  1 root root  34231 Jun 22  2015 aifc.py
+-rw-r--r--  1 root root  30307 Dec 29 12:08 aifc.pyc
+-rw-r--r--  1 root root     60 Jun 22  2015 antigravity.py
+-rw-r--r--  1 root root    201 Dec 29 12:08 antigravity.pyc
+-rw-r--r--  1 root root   2663 Jun 22  2015 anydbm.py
+-rw-r--r--  1 root root   2794 Dec 29 12:08 anydbm.pyc
+-rw-r--r--  1 root root    217 Jun 22  2015 argparse.egg-info
+-rw-r--r--  1 root root  88691 Jun 22  2015 argparse.py
+-rw-r--r--  1 root root  63859 Dec 29 12:08 argparse.pyc
+-rw-r--r--  1 root root  11805 Jun 22  2015 ast.py
+-rw-r--r--  1 root root  12906 Dec 29 12:08 ast.pyc
+
+****** Skipped ******
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="python-package-manager-pip">
+<h2><a class="toc-backref" href="#id10">Python Package Manager (pip)</a><a class="headerlink" href="#python-package-manager-pip" title="Permalink to this headline">¶</a></h2>
+<p>When Python is installed from the source, it has come with library of standard modules. When a Python interpreter is invoked, very limited number of modules were imported by default into your program’s main namespace. Other standard modules in the library can be imported into your program when you need them. There are many vendors, developer community create Python modules and deliver them through pip. pip is a Python package installer which is used to install Python packages from a repository called PyPI (Python Package Index). If you download Python versions 2.7.9 (or 3.4) and above from <a class="reference external" href="http://www.python.org">www.python.org</a>, pip installer is installed by default.</p>
+<p>If pip is not installed on your Windows or Mac OS X, you can download the Python program <a class="reference external" href="https://bootstrap.pypa.io/get-pip.py">get-pip.py</a> and install it on your system.</p>
+<div class="literal-block-wrapper container" id="microsoft-windows-or-mac-os-x">
+<div class="code-block-caption"><span class="caption-text">Microsoft Windows or Mac OS X</span><a class="headerlink" href="#microsoft-windows-or-mac-os-x" title="Permalink to this code">¶</a></div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">python get-pip.py</span>
+</pre></div>
+</div>
+</div>
+<p>You can verify pip installation on your Windows as described below.</p>
+<div class="literal-block-wrapper container" id="id3">
+<div class="code-block-caption"><span class="caption-text">Microsoft Windows</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">C:\Users\anees&gt;python -m pip show</span>
+<span class="go"> ERROR: Please provide a package name or names.</span>
+<span class="go"> You are using pip version 7.1.2, however version 8.0.2 is available.</span>
+<span class="go"> You should consider upgrading via the &#39;python -m pip install --upgrade pip&#39; command.</span>
+
+
+<span class="go"> C:\Users\anees&gt;python -m pip install --upgrade pip</span>
+<span class="go"> Collecting pip</span>
+<span class="go">   Downloading pip-8.0.2-py2.py3-none-any.whl (1.2MB)</span>
+<span class="go">     100% |################################| 1.2MB 435kB/s</span>
+<span class="go"> Installing collected packages: pip</span>
+<span class="go">   Found existing installation: pip 7.1.2</span>
+<span class="go">     Uninstalling pip-7.1.2:</span>
+<span class="go">       Successfully uninstalled pip-7.1.2</span>
+<span class="go"> Successfully installed pip-8.0.2</span>
+</pre></div>
+</div>
+</div>
+<p>You can verify pip installation on your Mac OS X as described below.</p>
+<div class="literal-block-wrapper container" id="id4">
+<div class="code-block-caption"><span class="caption-text">Apple Mac OS X</span><a class="headerlink" href="#id4" title="Permalink to this code">¶</a></div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">anees:~ anees$</span> pip show
+<span class="go">ERROR: Please provide a package name or names.</span>
+<span class="go">You are using pip version 7.1.2, however version 8.0.2 is available.</span>
+<span class="go">You should consider upgrading via the &#39;pip install --upgrade pip&#39; command.</span>
+
+<span class="gp">anees:~ anees$</span> sudo pip install --upgrade pip
+<span class="go">Password:</span>
+<span class="go">The directory &#39;/Users/anees/Library/Caches/pip/http&#39; or its parent directory is not owned by the current user and the cache has been disabled. Please check the permissions and owner of that directory. If executing pip with sudo, you may want sudo&#39;s -H flag.</span>
+<span class="go">The directory &#39;/Users/anees/Library/Caches/pip&#39; or its parent directory is not owned by the current user and caching wheels has been disabled. check the permissions and owner of that directory. If executing pip with sudo, you may want sudo&#39;s -H flag.</span>
+<span class="go">Collecting pip</span>
+<span class="go">  Downloading pip-8.0.2-py2.py3-none-any.whl (1.2MB)</span>
+<span class="go">    100% |████████████████████████████████| 1.2MB 477kB/s</span>
+<span class="go">Installing collected packages: pip</span>
+<span class="go">  Found existing installation: pip 7.1.2</span>
+<span class="go">    Uninstalling pip-7.1.2:</span>
+<span class="go">      Successfully uninstalled pip-7.1.2</span>
+<span class="go">Successfully installed pip-8.0.2</span>
+<span class="gp">anees:~ anees$</span>
+</pre></div>
+</div>
+</div>
+<p>Since the default Python version on Ubuntu Linux distribution  may be prior to 2.7.9, you need to install pip from Linux package manager.</p>
+<div class="literal-block-wrapper container" id="id5">
+<div class="code-block-caption"><span class="caption-text">Ubuntu</span><a class="headerlink" href="#id5" title="Permalink to this code">¶</a></div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">anees@ubuntu-web2py:~$</span> python --version
+<span class="go">Python 2.7.6</span>
+
+<span class="gp">anees@ubuntu-web2py:~$</span> sudo apt-get install python-pip
+
+<span class="gp">anees@ubuntu-web2py:~$</span> pip -V
+<span class="go">pip 1.5.4 from /usr/lib/python2.7/dist-packages (python 2.7)</span>
+</pre></div>
+</div>
+</div>
+<p>Later in this book, there are few Python packages installed using pip as and when needed by the use cases. Some of the packages may not be delivered through pip and you can download through your system packet manager or manually download it to the library.  For more information to learn about pip, visit <a class="reference external" href="https://pip.pypa.io/en/stable/">https://pip.pypa.io/en/stable/</a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Chapter 1: Introducing Python Core Concepts</a><ul>
+<li><a class="reference internal" href="#python-implementation-on-various-operating-systems">Python Implementation on Various Operating Systems</a><ul>
+<li><a class="reference internal" href="#microsoft-windows">Microsoft Windows</a></li>
+<li><a class="reference internal" href="#apple-mac-os-x">Apple Mac OS X</a></li>
+<li><a class="reference internal" href="#ubuntu">Ubuntu</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#python-package-manager-pip">Python Package Manager (pip)</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="preface.html"
+                        title="previous chapter">Preface</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="core-concepts.html"
+                        title="next chapter">Chapter 2: Script Framework for Use Cases</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/introduction.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="core-concepts.html" title="Chapter 2: Script Framework for Use Cases"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="preface.html" title="Preface"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">arista-python-web2py 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Anees Mohamed.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

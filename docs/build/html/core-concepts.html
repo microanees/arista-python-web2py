@@ -1,0 +1,1062 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Chapter 2: Script Framework for Use Cases &mdash; arista-python-web2py 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="arista-python-web2py 0.0.1 documentation" href="index.html" />
+    <link rel="prev" title="Chapter 1: Introducing Python Core Concepts" href="introduction.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="introduction.html" title="Chapter 1: Introducing Python Core Concepts"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">arista-python-web2py 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="chapter-2-script-framework-for-use-cases">
+<h1>Chapter 2: Script Framework for Use Cases<a class="headerlink" href="#chapter-2-script-framework-for-use-cases" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#first-program-show-version" id="id1">First Program - Show version</a></li>
+<li><a class="reference internal" href="#second-program-running-show-version-on-multiple-switches" id="id2">Second Program - Running Show Version on Multiple Switches</a><ul>
+<li><a class="reference internal" href="#using-idle" id="id3">Using IDLE</a></li>
+<li><a class="reference internal" href="#for-loop" id="id4">for loop</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#third-program-using-external-input" id="id5">Third Program - Using External Input</a></li>
+<li><a class="reference internal" href="#fourth-program-storing-result-in-dictionary" id="id6">Fourth Program – Storing Result in Dictionary</a></li>
+<li><a class="reference internal" href="#fifth-program-handling-exceptions" id="id7">Fifth Program – Handling Exceptions</a></li>
+<li><a class="reference internal" href="#summary-script-framework" id="id8">Summary – Script Framework</a></li>
+</ul>
+</div>
+<p>This chapter is going to help you to build a Python script framework using some of the core concepts learned in the previous chapter. By using this framework you build some of the common network operational use cases such as inventory, capacity planning and troubleshooting network issues later in this book.</p>
+<div class="section" id="first-program-show-version">
+<h2><a class="toc-backref" href="#id1">First Program - Show version</a><a class="headerlink" href="#first-program-show-version" title="Permalink to this headline">¶</a></h2>
+<p>In this section, we will write a Python script using pyeapi and connect to one of the Arista switches and collect “show version” from the switch.</p>
+<p>Make sure you enable management api on the Arista switch.  Below is the sample configuration to enable management api when the management interface is configured under default vrf.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">configure</span>
+<span class="go">!</span>
+<span class="go">interface Management1</span>
+<span class="go">   ip address 172.28.132.42/20</span>
+<span class="go">!</span>
+<span class="go">management api http-commands</span>
+<span class="go">  no shutdown</span>
+<span class="go">!</span>
+</pre></div>
+</div>
+<p>Below is the sample configuration to enable management api when the management interface is configured under non default vrf.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">configure</span>
+<span class="go">!</span>
+<span class="go">interface Management1</span>
+<span class="go">   vrf forwarding mgmt</span>
+<span class="go">   ip address 172.28.132.45/20</span>
+<span class="go">!</span>
+<span class="go">management api http-commands</span>
+<span class="go">   no shutdown</span>
+<span class="go">   vrf mgmt</span>
+<span class="go">      no shutdown</span>
+</pre></div>
+</div>
+<p>Launch the Python interpreter from your system and connect to Arista switch using pyeapi.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>anees:~ anees$ python
+Python 2.7.10 (default, Aug 22 2015, 20:33:39)
+[GCC 4.2.1 Compatible Apple LLVM 7.0.0 (clang-700.0.59.1)] on darwin
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+
+&gt;&gt;&gt; import pyeapi
+
+&gt;&gt;&gt; node = pyeapi.connect(transport=&quot;https&quot;, host=&quot;172.28.132.41&quot;, username=&quot;admin&quot;, password=&quot;admin&quot;, port=None)
+
+&gt;&gt;&gt; version = node.execute([&quot;show version&quot;])
+
+&gt;&gt;&gt; version
+{u&#39;jsonrpc&#39;: u&#39;2.0&#39;, u&#39;result&#39;: [{u&#39;memTotal&#39;: 8069504, u&#39;version&#39;: u&#39;4.15.2F&#39;, u&#39;internalVersion&#39;: u&#39;4.15.2F-2663444.4152F&#39;, u&#39;serialNumber&#39;: u&#39;JPE14080457&#39;, u&#39;systemMacAddress&#39;: u&#39;00:1c:73:57:4f:49&#39;, u&#39;bootupTimestamp&#39;: 1446677012.2, u&#39;memFree&#39;: 4381616, u&#39;modelName&#39;: u&#39;DCS-7050SX-128-F&#39;, u&#39;architecture&#39;: u&#39;i386&#39;, u&#39;internalBuildId&#39;: u&#39;b664b979-69d7-4157-9543-20278086874a&#39;, u&#39;hardwareRevision&#39;: u&#39;02.00&#39;}], u&#39;id&#39;: u&#39;4522839056&#39;}
+</pre></div>
+</div>
+<p>Response of the output is stored as dictionary in the variable “version”.  Dictionary is a Python data structure represented in { } bracket and the data is represented as key:&lt;value&gt; pair.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">version</span><span class="p">)</span>
+<span class="go">&lt;type &#39;dict&#39;&gt;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">version</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[u&#39;jsonrpc&#39;, u&#39;result&#39;, u&#39;id&#39;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span>
+<span class="go">[{u&#39;memTotal&#39;: 8069504, u&#39;version&#39;: u&#39;4.15.2F&#39;, u&#39;internalVersion&#39;: u&#39;4.15.2F-2663444.4152F&#39;, u&#39;serialNumber&#39;: u&#39;JPE14080457&#39;, u&#39;systemMacAddress&#39;: u&#39;00:1c:73:57:4f:49&#39;, u&#39;bootupTimestamp&#39;: 1446677012.2, u&#39;memFree&#39;: 4381616, u&#39;modelName&#39;: u&#39;DCS-7050SX-128-F&#39;, u&#39;architecture&#39;: u&#39;i386&#39;, u&#39;internalBuildId&#39;: u&#39;b664b979-69d7-4157-9543-20278086874a&#39;, u&#39;hardwareRevision&#39;: u&#39;02.00&#39;}]</span>
+</pre></div>
+</div>
+<p>Value of the key “result” is a list which is another Python data structure represents in square [ ] brackets.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">])</span>
+<span class="go">&lt;type &#39;list&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">])</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">{u&#39;memTotal&#39;: 8069504, u&#39;version&#39;: u&#39;4.15.2F&#39;, u&#39;internalVersion&#39;: u&#39;4.15.2F-2663444.4152F&#39;, u&#39;serialNumber&#39;: u&#39;JPE14080457&#39;, u&#39;systemMacAddress&#39;: u&#39;00:1c:73:57:4f:49&#39;, u&#39;bootupTimestamp&#39;: 1446677012.2, u&#39;memFree&#39;: 4381616, u&#39;modelName&#39;: u&#39;DCS-7050SX-128-F&#39;, u&#39;architecture&#39;: u&#39;i386&#39;, u&#39;internalBuildId&#39;: u&#39;b664b979-69d7-4157-9543-20278086874a&#39;, u&#39;hardwareRevision&#39;: u&#39;02.00&#39;}</span>
+</pre></div>
+</div>
+<p>Finally the desired data is accessible in the output of version[“result”][0]. As you see the curly bracket, it is a Python dictionary data structure.  You can access the desired data using the keys “version”, “modelName” or “serialNumber”.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;version&quot;</span><span class="p">]</span>
+<span class="go">u&#39;4.15.2F&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Data is represented in unicode format u’ ’. You can convert to string using str().</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;version&quot;</span><span class="p">])</span>
+<span class="go">&#39;4.15.2F&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;serialNumber&quot;</span><span class="p">])</span>
+<span class="go">&#39;JPE14080457&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;modelName&quot;</span><span class="p">])</span>
+<span class="go">&#39;DCS-7050SX-128-F&#39;</span>
+</pre></div>
+</div>
+<p>As you have seen, the actual output of show version is stored as dictionary under List which is a value within a parent dictionary. If it is confusing, Python’s pprint module provides a good view of the nested data structure.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pprint</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">version</span><span class="p">)</span>
+<span class="go">{u&#39;id&#39;: u&#39;4522839056&#39;,</span>
+<span class="go"> u&#39;jsonrpc&#39;: u&#39;2.0&#39;,</span>
+<span class="go"> u&#39;result&#39;: [{u&#39;architecture&#39;: u&#39;i386&#39;,</span>
+<span class="go">              u&#39;bootupTimestamp&#39;: 1446677012.2,</span>
+<span class="go">              u&#39;hardwareRevision&#39;: u&#39;02.00&#39;,</span>
+<span class="go">              u&#39;internalBuildId&#39;: u&#39;b664b979-69d7-4157-9543-20278086874a&#39;,</span>
+<span class="go">              u&#39;internalVersion&#39;: u&#39;4.15.2F-2663444.4152F&#39;,</span>
+<span class="go">              u&#39;memFree&#39;: 4381616,</span>
+<span class="go">              u&#39;memTotal&#39;: 8069504,</span>
+<span class="go">              u&#39;modelName&#39;: u&#39;DCS-7050SX-128-F&#39;,</span>
+<span class="go">              u&#39;serialNumber&#39;: u&#39;JPE14080457&#39;,</span>
+<span class="go">              u&#39;systemMacAddress&#39;: u&#39;00:1c:73:57:4f:49&#39;,</span>
+<span class="go">              u&#39;version&#39;: u&#39;4.15.2F&#39;}]}</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;serialNumber&quot;</span><span class="p">]</span>
+<span class="go">u&#39;JPE14080457&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="second-program-running-show-version-on-multiple-switches">
+<h2><a class="toc-backref" href="#id2">Second Program - Running Show Version on Multiple Switches</a><a class="headerlink" href="#second-program-running-show-version-on-multiple-switches" title="Permalink to this headline">¶</a></h2>
+<p>Power of programming language is repeatability. Since you have already created a program to collect show version, let us use this code to collect show version from multiple switches in the network.</p>
+<p>Since we will be creating several python programs, let us create a folder in our systems. In this example I have created a folder called my-scripts under /Users/anees/Google Drive/.</p>
+<div class="section" id="using-idle">
+<h3><a class="toc-backref" href="#id3">Using IDLE</a><a class="headerlink" href="#using-idle" title="Permalink to this headline">¶</a></h3>
+<p>Now it is the time to start using Python’s IDLE environment. This is helpful while developing the script where we have to test the script as we make progress with the script.</p>
+<p>For MAC, type “idle” in the terminal window and you will see Python IDLE shell is opened.</p>
+<img alt="_images/ch02-pic1.png" src="_images/ch02-pic1.png" />
+<p>Create a new file from File → New File</p>
+<img alt="_images/ch02-pic2.png" src="_images/ch02-pic2.png" />
+<p>It opens a new untitled IDLE file. Save this file using File → Save As under the folder you created with the name as inventory_version.py.</p>
+<img alt="_images/ch02-pic3.png" src="_images/ch02-pic3.png" />
+<p>Write your program and save from File → Save (or Command + S).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyeapi</span>
+
+<span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s2">&quot;172.28.132.41&quot;</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="n">version</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show version&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Test your program from Run → Run Module (or F5).</p>
+<img alt="_images/ch02-pic4.png" src="_images/ch02-pic4.png" />
+<p>The program runs in the IDLE shell, which you can see, in the right side of the following screenshot. You can also access the variables from the IDLE shell.</p>
+</div>
+<div class="section" id="for-loop">
+<h3><a class="toc-backref" href="#id4">for loop</a><a class="headerlink" href="#for-loop" title="Permalink to this headline">¶</a></h3>
+<p>Now let us create a program to collect the Model Name, Serial Number and EOS versions on multiple Arista switches in your network.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyeapi</span>
+
+<span class="c1"># Create a List of Switches</span>
+<span class="n">switches</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;172.28.132.41&quot;</span><span class="p">,</span> <span class="s2">&quot;172.28.132.40&quot;</span><span class="p">,</span> <span class="s2">&quot;172.28.132.45&quot;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="c1"># Define API Connection String</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># Execute the desired command</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show version&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Print the desired Output</span>
+    <span class="nb">print</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;*******************************************************&quot;</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Switch IP: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">switch</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Model Name: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;modelName&quot;</span><span class="p">])</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Serial Number: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;serialNumber&quot;</span><span class="p">])</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;EOS Version: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;version&quot;</span><span class="p">])</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;*******************************************************&quot;</span><span class="p">)</span>
+    <span class="nb">print</span>
+</pre></div>
+</div>
+<p>Save and run the command. You will see the output in the IDLE shell similar to the following output.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="go">&gt;&gt;&gt;</span>
+
+<span class="go">*******************************************************</span>
+<span class="go">Switch IP: 172.28.132.41</span>
+<span class="go">Model Name: DCS-7050SX-128-F</span>
+<span class="go">Serial Number: JPE14080457</span>
+<span class="go">EOS Version: 4.15.2F</span>
+<span class="go">*******************************************************</span>
+
+
+<span class="go">*******************************************************</span>
+<span class="go">Switch IP: 172.28.132.40</span>
+<span class="go">Model Name: DCS-7050SX-128-F</span>
+<span class="go">Serial Number: JPE14080459</span>
+<span class="go">EOS Version: 4.15.2F</span>
+<span class="go">*******************************************************</span>
+
+
+<span class="go">*******************************************************</span>
+<span class="go">Switch IP: 172.28.132.45</span>
+<span class="go">Model Name: DCS-7280SE-64-F</span>
+<span class="go">Serial Number: JPE14443170</span>
+<span class="go">EOS Version: 4.15.2F</span>
+<span class="go">*******************************************************</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="third-program-using-external-input">
+<h2><a class="toc-backref" href="#id5">Third Program - Using External Input</a><a class="headerlink" href="#third-program-using-external-input" title="Permalink to this headline">¶</a></h2>
+<p>In the second program, we have listed the switch IP addresses, username and password in the script. In this program, we will enter the IPs in a text file and enforce the program to prompt for username and password when the script is executed.</p>
+<p>Create a file named “switches” in the same directory as you are saving the Python scripts using any text editor of your choice. And add the list of IP addresses of the switches. Format the file as plain text (Format → Make Plain Text).</p>
+<p>Open the IDLE and create a new python script named inventory_version_input.py.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">Third Program - Inventory - show version - Using External Input</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">pyeapi</span>
+
+<span class="c1"># Define file path and file names</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Google Drive/my-scripts/&quot;</span>
+<span class="n">file_name_switches</span> <span class="o">=</span> <span class="s2">&quot;switches.txt&quot;</span>
+<span class="n">file_switches</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name_switches</span>
+</pre></div>
+</div>
+<p>Run this command and verify the value of the variable file from the python shell.</p>
+<img alt="_images/ch02-pic5.png" src="_images/ch02-pic5.png" />
+<p>Let us update the script to read the content of the file “switches”.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">Third Program - Inventory - show version - Using External Input</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">pyeapi</span>
+
+<span class="c1"># Define file path and file names</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Google Drive/my-scripts/&quot;</span>
+<span class="n">file_name_switches</span> <span class="o">=</span> <span class="s2">&quot;switches.txt&quot;</span>
+<span class="n">file_switches</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name_switches</span>
+
+<span class="c1"># Read the content of the file and save it in a List</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_switches</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="n">line</span>
+</pre></div>
+</div>
+<p>Run the script and verify the result.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">172.28.132.41</span>
+
+<span class="go">172.28.132.40</span>
+
+<span class="go">172.28.132.45</span>
+</pre></div>
+</div>
+<p>We will store the IP addresses read from the file into a list.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">Third Program - Inventory - show version - Using External Input</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">pyeapi</span>
+
+<span class="c1"># Define file path and file names</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Google Drive/my-scripts/&quot;</span>
+<span class="n">file_name_switches</span> <span class="o">=</span> <span class="s2">&quot;switches.txt&quot;</span>
+<span class="n">file_switches</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name_switches</span>
+
+
+<span class="c1"># Read the content of the file and save it in a List</span>
+
+<span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_switches</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Run this program.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="go">&gt;&gt;&gt;</span>
+
+<span class="go"># You will not see any output since we are not sending any data to output</span>
+
+<span class="go"># Type the variable name switches</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">switches</span>
+<span class="go">[&#39;172.28.132.41\n&#39;, &#39;172.28.132.40\n&#39;, &#39;172.28.132.45&#39;]</span>
+
+<span class="go"># It appears that new line character “\n” is added in the list</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">switches</span><span class="p">)</span>
+<span class="go">&lt;type &#39;list&#39;&gt;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">switches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">&#39;172.28.132.41\n&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">switches</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">&#39;172.28.132.40\n&#39;</span>
+
+<span class="go"># You can strip the new line character</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">switches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="go">&#39;172.28.132.41&#39;</span>
+</pre></div>
+</div>
+<p>Let us fix the script to strip the new line character.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">Third Program - Inventory - show version - Using External Input</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">pyeapi</span>
+
+<span class="c1"># Define file path and file names</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Google Drive/my-scripts/&quot;</span>
+<span class="n">file_name_switches</span> <span class="o">=</span> <span class="s2">&quot;switches.txt&quot;</span>
+<span class="n">file_switches</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name_switches</span>
+
+
+<span class="c1"># Read the content of the file and save it in a List</span>
+
+<span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_switches</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Save and run the program.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">switches</span>
+<span class="go">[&#39;172.28.132.41&#39;, &#39;172.28.132.40&#39;, &#39;172.28.132.45&#39;]</span>
+</pre></div>
+</div>
+<p>Now let us get the username and password interactively instead of hard coding in the script.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">Third Program - Inventory - show version - Using External Input</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">pyeapi</span>
+
+<span class="c1"># Define file path and file names</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Google Drive/my-scripts/&quot;</span>
+<span class="n">file_name_switches</span> <span class="o">=</span> <span class="s2">&quot;switches.txt&quot;</span>
+<span class="n">file_switches</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name_switches</span>
+
+
+<span class="c1"># Read the content of the file and save it in a List</span>
+
+<span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_switches</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1"># Input Username and Password</span>
+<span class="n">my_username</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter your username: &quot;</span><span class="p">)</span>
+<span class="n">my_password</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter your password: &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Save and run the program.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">Enter your username: admin</span>
+<span class="go">Enter your password: admin</span>
+</pre></div>
+</div>
+<p>Obviously we don’t want to display the password on the screen when we type. We will use the Python module “getpass” to input password without displaying on the screen.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">Third Program - Inventory - show version - Using External Input</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">pyeapi</span>
+<span class="kn">import</span> <span class="nn">getpass</span>
+
+<span class="c1"># Define file path and file names</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Google Drive/my-scripts/&quot;</span>
+<span class="n">file_name_switches</span> <span class="o">=</span> <span class="s2">&quot;switches.txt&quot;</span>
+<span class="n">file_switches</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name_switches</span>
+
+
+<span class="c1"># Read the content of the file and save it in a List</span>
+
+<span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_switches</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="c1"># Input Username and Password</span>
+
+<span class="n">my_username</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter your username: &quot;</span><span class="p">)</span>
+<span class="n">my_password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">&quot;Enter your password: &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When you run this program from IDLE (on Apple Mac), the password prompt will not be prompted in the IDLE shell. It will be shown in the Apple Mac terminal where you have started the IDLE.</p>
+<img alt="_images/ch02-pic6.png" src="_images/ch02-pic6.png" />
+<p>You can also run your Python script from terminal.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">anees:my-scripts anees$</span> <span class="nb">pwd</span>
+<span class="go">/Users/anees/Google Drive/my-scripts</span>
+
+<span class="gp">anees:my-scripts anees$</span> ls
+<span class="go">inventory_version.py          switches.txt</span>
+<span class="go">inventory_version_input.py</span>
+
+<span class="gp">anees:my-scripts anees$</span> python inventory_version_input.py
+<span class="go">Enter your username: admin</span>
+<span class="go">Enter your password:</span>
+<span class="gp">anees:my-scripts anees$</span>
+</pre></div>
+</div>
+<p>Now we have achieved our requirements of inputting switch IP addresses, username and password from outside the python script. Let us complete the program with the inventory.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">Third Program - Inventory - show version - Using External Input</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">pyeapi</span>
+<span class="kn">import</span> <span class="nn">getpass</span>
+
+<span class="c1"># Define file path and file names</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Google Drive/my-scripts/&quot;</span>
+<span class="n">file_name_switches</span> <span class="o">=</span> <span class="s2">&quot;switches.txt&quot;</span>
+<span class="n">file_switches</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name_switches</span>
+
+
+<span class="c1"># Read the content of the file and save it in a List</span>
+
+<span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_switches</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="c1"># Input Username and Password</span>
+
+<span class="n">my_username</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter your username: &quot;</span><span class="p">)</span>
+<span class="n">my_password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">&quot;Enter your password: &quot;</span><span class="p">)</span>
+
+<span class="c1"># Collect Inventory using pyeapi</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="c1"># Define API Connection String</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># Execute the desired command</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show version&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Print the desired Output</span>
+    <span class="nb">print</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;*******************************************************&quot;</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Switch IP: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">switch</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Model Name: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;modelName&quot;</span><span class="p">])</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Serial Number: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;serialNumber&quot;</span><span class="p">])</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;EOS Version: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;version&quot;</span><span class="p">])</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;*******************************************************&quot;</span><span class="p">)</span>
+    <span class="nb">print</span>
+</pre></div>
+</div>
+<p>Run the script.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="n">Enter</span> <span class="n">your</span> <span class="n">username</span><span class="p">:</span> <span class="n">admin</span>
+
+<span class="o">*******************************************************</span>
+<span class="n">Switch</span> <span class="n">IP</span><span class="p">:</span> <span class="mf">172.28</span><span class="o">.</span><span class="mf">132.41</span>
+<span class="n">Model</span> <span class="n">Name</span><span class="p">:</span> <span class="n">DCS</span><span class="o">-</span><span class="mi">7050</span><span class="n">SX</span><span class="o">-</span><span class="mi">128</span><span class="o">-</span><span class="n">F</span>
+<span class="n">Serial</span> <span class="n">Number</span><span class="p">:</span> <span class="n">JPE14080457</span>
+<span class="n">EOS</span> <span class="n">Version</span><span class="p">:</span> <span class="mf">4.15</span><span class="o">.</span><span class="mi">3</span><span class="n">F</span>
+<span class="o">*******************************************************</span>
+
+
+<span class="o">*******************************************************</span>
+<span class="n">Switch</span> <span class="n">IP</span><span class="p">:</span> <span class="mf">172.28</span><span class="o">.</span><span class="mf">132.40</span>
+<span class="n">Model</span> <span class="n">Name</span><span class="p">:</span> <span class="n">DCS</span><span class="o">-</span><span class="mi">7050</span><span class="n">SX</span><span class="o">-</span><span class="mi">128</span><span class="o">-</span><span class="n">F</span>
+<span class="n">Serial</span> <span class="n">Number</span><span class="p">:</span> <span class="n">JPE14080459</span>
+<span class="n">EOS</span> <span class="n">Version</span><span class="p">:</span> <span class="mf">4.15</span><span class="o">.</span><span class="mi">3</span><span class="n">F</span>
+<span class="o">*******************************************************</span>
+
+
+<span class="o">*******************************************************</span>
+<span class="n">Switch</span> <span class="n">IP</span><span class="p">:</span> <span class="mf">172.28</span><span class="o">.</span><span class="mf">132.45</span>
+<span class="n">Model</span> <span class="n">Name</span><span class="p">:</span> <span class="n">DCS</span><span class="o">-</span><span class="mi">7280</span><span class="n">SE</span><span class="o">-</span><span class="mi">64</span><span class="o">-</span><span class="n">F</span>
+<span class="n">Serial</span> <span class="n">Number</span><span class="p">:</span> <span class="n">JPE14443170</span>
+<span class="n">EOS</span> <span class="n">Version</span><span class="p">:</span> <span class="mf">4.15</span><span class="o">.</span><span class="mi">3</span><span class="n">F</span>
+<span class="o">*******************************************************</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fourth-program-storing-result-in-dictionary">
+<h2><a class="toc-backref" href="#id6">Fourth Program – Storing Result in Dictionary</a><a class="headerlink" href="#fourth-program-storing-result-in-dictionary" title="Permalink to this headline">¶</a></h2>
+<p>So far we output the data within the “for loop” as and when we parse the required data using the print statement. In this program we are going to save the output in a Python dictionary instead of printing within the “for loop”. At the end of the program we will print the dictionary using pprint.</p>
+<p>Before writing the program, we need to come up with the structure of the dictionary. Structure of the dictionary depends on what data we want to collect and report. Our goal is to collect Model Name, Serial Number and EOS version of each of the switches. Hence the proposed dictionary structure is shown below:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="n">IP</span> <span class="n">Address</span><span class="p">:</span>
+      <span class="p">{</span>
+      <span class="n">Model</span> <span class="n">Name</span><span class="p">:</span>
+      <span class="n">Serial</span> <span class="n">Number</span><span class="p">:</span>
+      <span class="n">EOS</span> <span class="n">Version</span><span class="p">:</span>
+      <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Now, the algorithm is going to look like this</p>
+<ol class="arabic simple">
+<li>Create a blank dictionary before “for loop”
+inventory = {  }</li>
+<li>For each IP address, create an entry (Key, Value) with the IP address as the key and a blank dictionary as the value.
+inventory[“10.10.10.11”] = { }</li>
+<li>Add the entries for
+inventory[“10.10.10.11”][“Model Name:”]
+inventory[“10.10.10.11”][“Serial Number:”]
+inventory[“10.10.10.11”][“EOS Version:”]</li>
+</ol>
+<p>Launch Python interpreter from your terminal.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>anees:~ anees$ python
+Python 2.7.10 (default, Aug 22 2015, 20:33:39)
+[GCC 4.2.1 Compatible Apple LLVM 7.0.0 (clang-700.0.59.1)] on darwin
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+
+&gt;&gt;&gt; inventory = { }
+&gt;&gt;&gt;
+&gt;&gt;&gt; type(inventory)
+&lt;type &#39;dict&#39;&gt;
+&gt;&gt;&gt;
+&gt;&gt;&gt; inventory[&quot;10.10.10.11&quot;] = { }
+&gt;&gt;&gt;
+&gt;&gt;&gt; inventory
+{&#39;10.10.10.11&#39;: {}}
+&gt;&gt;&gt;
+&gt;&gt;&gt; inventory[&quot;10.10.10.11&quot;][&quot;Model Name:&quot;] = &quot;7050SX&quot;
+&gt;&gt;&gt; inventory[&quot;10.10.10.11&quot;][&quot;Serial Number:&quot;] = &quot;srx123456&quot;
+&gt;&gt;&gt; inventory[&quot;10.10.10.11&quot;][&quot;EOS Version:&quot;] = &quot;4.15.3f&quot;
+&gt;&gt;&gt;
+&gt;&gt;&gt; inventory
+{&#39;10.10.10.11&#39;: {&#39;Serial Number:&#39;: &#39;srx123456&#39;, &#39;EOS Version:&#39;: &#39;4.15.3f&#39;, &#39;Model Name:&#39;: &#39;7050SX&#39;}}
+&gt;&gt;&gt;
+&gt;&gt;&gt; import pprint
+&gt;&gt;&gt;
+&gt;&gt;&gt; pprint.pprint(inventory)
+{&#39;10.10.10.11&#39;: {&#39;EOS Version:&#39;: &#39;4.15.3f&#39;,
+                 &#39;Model Name:&#39;: &#39;7050SX&#39;,
+                 &#39;Serial Number:&#39;: &#39;srx123456&#39;}}
+</pre></div>
+</div>
+<p>Let us go back and update our original inventory_version program. Create a new python program with the name inventory_version_output.py and save it in your folder.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">Fourth Program - Inventory - show version - Store Result in a Dictionary</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">pyeapi</span>
+<span class="kn">import</span> <span class="nn">getpass</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+
+<span class="c1"># Define file path and file names</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Google Drive/my-scripts/&quot;</span>
+<span class="n">file_name_switches</span> <span class="o">=</span> <span class="s2">&quot;switches.txt&quot;</span>
+<span class="n">file_switches</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name_switches</span>
+
+
+<span class="c1"># Read the content of the file and save it in a List</span>
+
+<span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_switches</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+
+<span class="c1"># Input Username and Password</span>
+
+<span class="n">my_username</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter your username: &quot;</span><span class="p">)</span>
+<span class="n">my_password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">&quot;Enter your password: &quot;</span><span class="p">)</span>
+
+<span class="c1"># Collect Inventory using pyeapi</span>
+
+<span class="n">inventory</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Define API Connection String</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># Execute the desired command</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show version&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Extract Desired data from show version</span>
+    <span class="n">model_name</span> <span class="o">=</span> <span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;modelName&quot;</span><span class="p">]</span>
+    <span class="n">serial_number</span> <span class="o">=</span> <span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;serialNumber&quot;</span><span class="p">]</span>
+    <span class="n">EOS_version</span> <span class="o">=</span> <span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;version&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Update the inventory dictionary with the desired data</span>
+    <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">][</span><span class="s2">&quot;Model Name:&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_name</span>
+    <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">][</span><span class="s2">&quot;Serial Number:&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serial_number</span>
+    <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">][</span><span class="s2">&quot;EOS Version:&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">EOS_version</span>
+
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">inventory</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Run this program and verify the result.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">Enter your username: admin</span>
+<span class="go">{&#39;172.28.132.40&#39;: {&#39;EOS Version:&#39;: u&#39;4.15.3F&#39;,</span>
+<span class="go">                   &#39;Model Name:&#39;: u&#39;DCS-7050SX-128-F&#39;,</span>
+<span class="go">                   &#39;Serial Number:&#39;: u&#39;JPE14080459&#39;},</span>
+<span class="go"> &#39;172.28.132.41&#39;: {&#39;EOS Version:&#39;: u&#39;4.15.3F&#39;,</span>
+<span class="go">                   &#39;Model Name:&#39;: u&#39;DCS-7050SX-128-F&#39;,</span>
+<span class="go">                   &#39;Serial Number:&#39;: u&#39;JPE14080457&#39;},</span>
+<span class="go"> &#39;172.28.132.45&#39;: {&#39;EOS Version:&#39;: u&#39;4.15.3F&#39;,</span>
+<span class="go">                   &#39;Model Name:&#39;: u&#39;DCS-7280SE-64-F&#39;,</span>
+<span class="go">                   &#39;Serial Number:&#39;: u&#39;JPE14443170&#39;}}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fifth-program-handling-exceptions">
+<h2><a class="toc-backref" href="#id7">Fifth Program – Handling Exceptions</a><a class="headerlink" href="#fifth-program-handling-exceptions" title="Permalink to this headline">¶</a></h2>
+<p>On the switches.txt file, add an IP address of a switch that does not exist in the network or that does not have eAPI enabled. For example, the below list has the IP address 172.28.170.143 which does not exist in the network.</p>
+<ul class="simple">
+<li>172.28.132.41</li>
+<li><strong>172.28.170.143</strong></li>
+<li>172.28.132.40</li>
+<li>172.28.132.45</li>
+</ul>
+<p>Create a new program inventory_version_exception.py in your folder. Copy the program from inventory_version_output.py and run the program.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">Enter your username: admin</span>
+<span class="go">No handlers could be found for logger &quot;pyeapi.eapilib&quot;</span>
+
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;/Users/anees/Google Drive/my-scripts/inventory_version_exception.py&quot;</span>, line <span class="m">46</span>, in <span class="n">&lt;module&gt;</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show version&quot;</span><span class="p">])</span>
+  File <span class="nb">&quot;/Library/Python/2.7/site-packages/pyeapi/eapilib.py&quot;</span>, line <span class="m">464</span>, in <span class="n">execute</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+  File <span class="nb">&quot;/Library/Python/2.7/site-packages/pyeapi/eapilib.py&quot;</span>, line <span class="m">394</span>, in <span class="n">send</span>
+    <span class="k">raise</span> <span class="ne">ConnectionError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="s1">&#39;unable to connect to eAPI&#39;</span><span class="p">)</span>
+<span class="gr">ConnectionError</span>: <span class="n">unable to connect to eAPI</span>
+</pre></div>
+</div>
+<p>Because of that one incorrect IP address, the entire program fails. This will be annoying in real world where you may be managing hundreds of devices and any one device that is not available at the moment you are running the script make the entire program fail. Software programming languages have a process called Exception Handling which should be used to react to any errors or exceptions that impacts the normal flow of your program.</p>
+<p>Python has <code class="docutils literal"><span class="pre">try/except</span></code> keywords to handle exceptions so that you can run the scripts without exiting the program and reacts to the errors the way you wanted. The below example is used to explain <code class="docutils literal"><span class="pre">try/except</span></code> keywords.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># Define API Connection String</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># Execute the desired command</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show version&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Extract Desired data from show version</span>
+    <span class="n">model_name</span> <span class="o">=</span> <span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;modelName&quot;</span><span class="p">]</span>
+    <span class="n">serial_number</span> <span class="o">=</span> <span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;serialNumber&quot;</span><span class="p">]</span>
+    <span class="n">EOS_version</span> <span class="o">=</span> <span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;version&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Update the inventory dictionary with the desired data</span>
+
+    <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">][</span><span class="s2">&quot;Model Name:&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_name</span>
+    <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">][</span><span class="s2">&quot;Serial Number:&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serial_number</span>
+    <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">][</span><span class="s2">&quot;EOS Version:&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">EOS_version</span>
+
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+</pre></div>
+</div>
+<p>The commands under the <code class="docutils literal"><span class="pre">try:</span></code> section called as try clause and the commands under <code class="docutils literal"><span class="pre">except:</span></code> section called as except clause. If there is any exception occurs while executing try clause, except clause will be executed and then the program execution continues. If there are no exceptions in the try clause, except clause is skipped.</p>
+<p>We will update our script inventory_version_exception.py with try/except clause. In this script, we will create a separate dictionary called “errors” in which we will store the IP addresses of the switch that fails the pyeapi call and the corresponding error messages.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">Fifth Program - Inventory - show version - Handling Exceptions</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">pyeapi</span>
+<span class="kn">import</span> <span class="nn">getpass</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+
+
+<span class="c1"># Define file path and file names</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Google Drive/my-scripts/&quot;</span>
+<span class="n">file_name_switches</span> <span class="o">=</span> <span class="s2">&quot;switches.txt&quot;</span>
+<span class="n">file_switches</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name_switches</span>
+
+
+<span class="c1"># Read the content of the file and save it in a List</span>
+
+<span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_switches</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1"># Input Username and Password</span>
+
+<span class="n">my_username</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter your username: &quot;</span><span class="p">)</span>
+<span class="n">my_password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">&quot;Enter your password: &quot;</span><span class="p">)</span>
+
+<span class="c1"># Collect Inventory using pyeapi</span>
+
+<span class="c1"># Collect Inventory using pyeapi</span>
+
+<span class="n">inventory</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Define API Connection String</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Execute the desired command</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show version&quot;</span><span class="p">])</span>
+
+        <span class="c1"># Extract Desired data from show version</span>
+        <span class="n">model_name</span> <span class="o">=</span> <span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;modelName&quot;</span><span class="p">]</span>
+        <span class="n">serial_number</span> <span class="o">=</span> <span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;serialNumber&quot;</span><span class="p">]</span>
+        <span class="n">EOS_version</span> <span class="o">=</span> <span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;version&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Update the inventory dictionary with the desired data</span>
+        <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">][</span><span class="s2">&quot;Model Name:&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_name</span>
+        <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">][</span><span class="s2">&quot;Serial Number:&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serial_number</span>
+        <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">][</span><span class="s2">&quot;EOS Version:&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">EOS_version</span>
+
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">inventory</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Save and run the script.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">Enter your username: admin</span>
+<span class="go">No handlers could be found for logger &quot;pyeapi.eapilib&quot;</span>
+<span class="go">{&#39;172.28.170.143&#39;: &#39;ConnectionError: unable to connect to eAPI&#39;}</span>
+<span class="go">{&#39;172.28.132.40&#39;: {&#39;EOS Version:&#39;: u&#39;4.15.3F&#39;,</span>
+<span class="go">                   &#39;Model Name:&#39;: u&#39;DCS-7050SX-128-F&#39;,</span>
+<span class="go">                   &#39;Serial Number:&#39;: u&#39;JPE14080459&#39;},</span>
+<span class="go"> &#39;172.28.132.41&#39;: {&#39;EOS Version:&#39;: u&#39;4.15.3F&#39;,</span>
+<span class="go">                   &#39;Model Name:&#39;: u&#39;DCS-7050SX-128-F&#39;,</span>
+<span class="go">                   &#39;Serial Number:&#39;: u&#39;JPE14080457&#39;},</span>
+<span class="go"> &#39;172.28.132.45&#39;: {&#39;EOS Version:&#39;: u&#39;4.15.3F&#39;,</span>
+<span class="go">                   &#39;Model Name:&#39;: u&#39;DCS-7280SE-64-F&#39;,</span>
+<span class="go">                   &#39;Serial Number:&#39;: u&#39;JPE14443170&#39;}}</span>
+</pre></div>
+</div>
+<p>Exception can happen due to variety of reasons. For example, it could be because of the switch is not reachable or the switch is reachable but the EOS command entered in the script is incorrect. In that case, we are expecting the module (Pyeapi) that is used to facilitate the connection should differentiate the errors and allow the programmer to handle it in the script. Pyeapi module has few types of exceptions. For more information about the exceptions supported by pyeapi module, refer the pyeapi module documentation <a class="reference external" href="http://pyeapi.readthedocs.io/en/master/client_modules/eapilib.html">Python Client for eAPI</a>.</p>
+<p>You can also explore the modules from Python interpreter.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">dir</span><span class="p">(</span><span class="n">pyeapi</span><span class="p">)</span>
+<span class="go">[&#39;__all__&#39;, &#39;__author__&#39;, &#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__file__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;__path__&#39;, &#39;__version__&#39;, &#39;client&#39;, &#39;config_for&#39;, &#39;connect&#39;, &#39;connect_to&#39;, &#39;eapilib&#39;, &#39;load_config&#39;, &#39;utils&#39;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">dir</span><span class="p">(</span><span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="p">)</span>
+<span class="go">[&#39;CommandError&#39;, &#39;ConnectionError&#39;, &#39;DEFAULT_HTTPS_PORT&#39;, &#39;DEFAULT_HTTP_LOCAL_PORT&#39;, &#39;DEFAULT_HTTP_PATH&#39;, &#39;DEFAULT_HTTP_PORT&#39;, &#39;DEFAULT_UNIX_SOCKET&#39;, &#39;EapiConnection&#39;, &#39;EapiError&#39;, &#39;HTTPConnection&#39;, &#39;HTTPSConnection&#39;, &#39;HttpConnection&#39;, &#39;HttpEapiConnection&#39;, &#39;HttpLocalEapiConnection&#39;, &#39;HttpsConnection&#39;, &#39;HttpsEapiConnection&#39;, &#39;SocketConnection&#39;, &#39;SocketEapiConnection&#39;, &#39;_LOGGER&#39;, &#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__file__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;base64&#39;, &#39;debug&#39;, &#39;https_connection_factory&#39;, &#39;json&#39;, &#39;logging&#39;, &#39;make_iterable&#39;, &#39;socket&#39;, &#39;ssl&#39;, &#39;sys&#39;]</span>
+</pre></div>
+</div>
+<p>We can update our script inventory_version_exception.py to differentiate the type of pyeapi exceptions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">Fifth Program - Inventory - show version - Handling Exceptions</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">pyeapi</span>
+<span class="kn">import</span> <span class="nn">getpass</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+
+
+<span class="c1"># Define file path and file names</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Google Drive/my-scripts/&quot;</span>
+<span class="n">file_name_switches</span> <span class="o">=</span> <span class="s2">&quot;switches.txt&quot;</span>
+<span class="n">file_switches</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name_switches</span>
+
+
+<span class="c1"># Read the content of the file and save it in a List</span>
+
+<span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_switches</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1"># Input Username and Password</span>
+
+<span class="n">my_username</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter your username: &quot;</span><span class="p">)</span>
+<span class="n">my_password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">&quot;Enter your password: &quot;</span><span class="p">)</span>
+
+<span class="c1"># Collect Inventory using pyeapi</span>
+
+<span class="c1"># Collect Inventory using pyeapi</span>
+
+<span class="n">inventory</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Define API Connection String</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Execute the desired command</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show version&quot;</span><span class="p">])</span>
+
+        <span class="c1"># Extract Desired data from show version</span>
+        <span class="n">model_name</span> <span class="o">=</span> <span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;modelName&quot;</span><span class="p">]</span>
+        <span class="n">serial_number</span> <span class="o">=</span> <span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;serialNumber&quot;</span><span class="p">]</span>
+        <span class="n">EOS_version</span> <span class="o">=</span> <span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;version&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Update the inventory dictionary with the desired data</span>
+        <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">][</span><span class="s2">&quot;Model Name:&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_name</span>
+        <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">][</span><span class="s2">&quot;Serial Number:&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serial_number</span>
+        <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">][</span><span class="s2">&quot;EOS Version:&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">EOS_version</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">inventory</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Verify the error messages.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">Enter your username: admin</span>
+<span class="go">No handlers could be found for logger &quot;pyeapi.eapilib&quot;</span>
+<span class="go">{&#39;172.28.170.143&#39;: &#39;ConnectionError: unable to connect to eAPI&#39;}</span>
+<span class="go">{&#39;172.28.132.40&#39;: {&#39;EOS Version:&#39;: u&#39;4.15.3F&#39;,</span>
+<span class="go">                   &#39;Model Name:&#39;: u&#39;DCS-7050SX-128-F&#39;,</span>
+<span class="go">                   &#39;Serial Number:&#39;: u&#39;JPE14080459&#39;},</span>
+<span class="go"> &#39;172.28.132.41&#39;: {&#39;EOS Version:&#39;: u&#39;4.15.3F&#39;,</span>
+<span class="go">                   &#39;Model Name:&#39;: u&#39;DCS-7050SX-128-F&#39;,</span>
+<span class="go">                   &#39;Serial Number:&#39;: u&#39;JPE14080457&#39;},</span>
+<span class="go"> &#39;172.28.132.45&#39;: {&#39;EOS Version:&#39;: u&#39;4.15.3F&#39;,</span>
+<span class="go">                   &#39;Model Name:&#39;: u&#39;DCS-7280SE-64-F&#39;,</span>
+<span class="go">                   &#39;Serial Number:&#39;: u&#39;JPE14443170&#39;}}</span>
+</pre></div>
+</div>
+<p>Change the command syntax “show version” to “show ver” and run the command.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">Enter your username: admin</span>
+<span class="go">No handlers could be found for logger &quot;pyeapi.eapilib&quot;</span>
+<span class="go">{&#39;172.28.132.40&#39;: &#39;CommandError: Check your EOS command syntax&#39;,</span>
+<span class="go"> &#39;172.28.132.41&#39;: &#39;CommandError: Check your EOS command syntax&#39;,</span>
+<span class="go"> &#39;172.28.132.45&#39;: &#39;CommandError: Check your EOS command syntax&#39;,</span>
+<span class="go"> &#39;172.28.170.143&#39;: &#39;ConnectionError: unable to connect to eAPI&#39;}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="summary-script-framework">
+<h2><a class="toc-backref" href="#id8">Summary – Script Framework</a><a class="headerlink" href="#summary-script-framework" title="Permalink to this headline">¶</a></h2>
+<p>We have learned various Python concepts step by step using the inventory use case and finally we got a structure for our network use case Python script if you have observed closely all the five programs. The structure of code is shown below:</p>
+<p><strong>Section 1:</strong> Import Modules</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyeapi</span>
+<span class="kn">import</span> <span class="nn">getpass</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+</pre></div>
+</div>
+<p><strong>Section 2:</strong> Read the list of switch IP addresses from a file and store it in a Python list</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Google Drive/my-scripts/&quot;</span>
+<span class="n">file_name_switches</span> <span class="o">=</span> <span class="s2">&quot;switches.txt&quot;</span>
+<span class="n">file_switches</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name_switches</span>
+
+<span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_switches</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</pre></div>
+</div>
+<p><strong>Section 3:</strong> Input Username and Password that have access to the switches</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">my_username</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter your username: &quot;</span><span class="p">)</span>
+<span class="n">my_password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">&quot;Enter your password: &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Section 4:</strong> Main Algorithm Specific to your use case</p>
+<p>For every switch in the Python list</p>
+<blockquote>
+<div><ol class="upperalpha simple">
+<li>Connect to the switch using Arista’s pyeapi module</li>
+<li>Execute the commands needed for your logic</li>
+<li>Core Logic</li>
+<li>Store the result into a dictionary</li>
+</ol>
+</div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">inventory</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Define API Connection String</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Execute the desired command</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show version&quot;</span><span class="p">])</span>
+
+        <span class="c1"># Extract Desired data from show version</span>
+        <span class="n">model_name</span> <span class="o">=</span> <span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;modelName&quot;</span><span class="p">]</span>
+        <span class="n">serial_number</span> <span class="o">=</span> <span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;serialNumber&quot;</span><span class="p">]</span>
+        <span class="n">EOS_version</span> <span class="o">=</span> <span class="n">version</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;version&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Update the inventory dictionary with the desired data</span>
+        <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">][</span><span class="s2">&quot;Model Name:&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_name</span>
+        <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">][</span><span class="s2">&quot;Serial Number:&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serial_number</span>
+        <span class="n">inventory</span><span class="p">[</span><span class="n">switch</span><span class="p">][</span><span class="s2">&quot;EOS Version:&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">EOS_version</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+</pre></div>
+</div>
+<p><strong>Section 5:</strong> Print the dictionaries</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">inventory</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We are going to use this five sections framework for all the use cases in this document. In all the use cases we reuse the commands from sections 1, 2, 3, 4A and 5. Only sections that changes based on the requirements of use cases are 4B, 4C, and 4D.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Chapter 2: Script Framework for Use Cases</a><ul>
+<li><a class="reference internal" href="#first-program-show-version">First Program - Show version</a></li>
+<li><a class="reference internal" href="#second-program-running-show-version-on-multiple-switches">Second Program - Running Show Version on Multiple Switches</a><ul>
+<li><a class="reference internal" href="#using-idle">Using IDLE</a></li>
+<li><a class="reference internal" href="#for-loop">for loop</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#third-program-using-external-input">Third Program - Using External Input</a></li>
+<li><a class="reference internal" href="#fourth-program-storing-result-in-dictionary">Fourth Program – Storing Result in Dictionary</a></li>
+<li><a class="reference internal" href="#fifth-program-handling-exceptions">Fifth Program – Handling Exceptions</a></li>
+<li><a class="reference internal" href="#summary-script-framework">Summary – Script Framework</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="previous chapter">Chapter 1: Introducing Python Core Concepts</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/core-concepts.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="introduction.html" title="Chapter 1: Introducing Python Core Concepts"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">arista-python-web2py 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Anees Mohamed.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

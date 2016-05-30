@@ -14,3 +14,4 @@ Contents:
     preface
     introduction
     core-concepts
+    troubleshooting

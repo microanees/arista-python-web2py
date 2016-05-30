@@ -1,0 +1,1382 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Chapter 3: Troubleshooting Use Cases &mdash; Python for Network Engineers</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Python for Network Engineers" href="index.html"/>
+        <link rel="prev" title="Chapter 2: Script Framework for Use Cases" href="core-concepts.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> arista-python-web2py
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Chapter 1: Introducing Python Core Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core-concepts.html">Chapter 2: Script Framework for Use Cases</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chapter 3: Troubleshooting Use Cases</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#monitor-data-plane-drops">Monitor Data Plane Drops</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#algorithm">Algorithm:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#develop-program">Develop Program:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#final-script">Final Script:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#monitor-control-plane-drops">Monitor Control Plane Drops</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Algorithm:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Develop Program:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Final Script:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">arista-python-web2py</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Chapter 3: Troubleshooting Use Cases</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/troubleshooting.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="chapter-3-troubleshooting-use-cases">
+<h1>Chapter 3: Troubleshooting Use Cases<a class="headerlink" href="#chapter-3-troubleshooting-use-cases" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#monitor-data-plane-drops" id="id4">Monitor Data Plane Drops</a><ul>
+<li><a class="reference internal" href="#algorithm" id="id5">Algorithm:</a></li>
+<li><a class="reference internal" href="#develop-program" id="id6">Develop Program:</a></li>
+<li><a class="reference internal" href="#final-script" id="id7">Final Script:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#monitor-control-plane-drops" id="id8">Monitor Control Plane Drops</a><ul>
+<li><a class="reference internal" href="#id1" id="id9">Algorithm:</a></li>
+<li><a class="reference internal" href="#id2" id="id10">Develop Program:</a></li>
+<li><a class="reference internal" href="#id3" id="id11">Final Script:</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>This chapter shows how to build Python scripts for a couple of network troubleshooting use cases. There are no new Python concepts introduced in this chapter but it gives a good practice to use the framework and Python concepts you learned so far in this book. For all the use cases, first we are going to write a high level algorithm, then we start writing the script step bt step based on the algorithm.</p>
+<div class="section" id="monitor-data-plane-drops">
+<h2><a class="toc-backref" href="#id4">Monitor Data Plane Drops</a><a class="headerlink" href="#monitor-data-plane-drops" title="Permalink to this headline">¶</a></h2>
+<p>The goal of this script is to discover if there are any packet drops in any of the switches in the network. First we will write down the algorithm (or troubleshooting steps) and then we will build the script.</p>
+<div class="section" id="algorithm">
+<h3><a class="toc-backref" href="#id5">Algorithm:</a><a class="headerlink" href="#algorithm" title="Permalink to this headline">¶</a></h3>
+<p>Our requirement is to list out the name of the switches, interface numbers and the corresponding drop counters. You can collect all the information using “show interfaces” command.  In this example, we are going to use “show interfaces counters discards”  to find the interfaces that see drops and then collect the “show interface” for that particular interface and get the detailed drop counters.</p>
+<p><strong>Step 1:</strong> Identify if there are any drops in the switch and obtain the interface numbers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Arista</span><span class="o">-</span><span class="n">switch</span><span class="c1"># show interfaces counters discards | json</span>
+<span class="p">{</span>
+    <span class="s2">&quot;inDiscardsTotal&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;interfaces&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Ethernet8&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;outDiscards&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;inDiscards&quot;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;Ethernet9&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;outDiscards&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;inDiscards&quot;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;Ethernet2&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;outDiscards&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;inDiscards&quot;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;Ethernet3&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;outDiscards&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;inDiscards&quot;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;Ethernet1&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;outDiscards&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;inDiscards&quot;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">},</span>
+           <span class="s2">&quot;Ethernet21&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;outDiscards&quot;</span><span class="p">:</span> <span class="mi">45941</span><span class="p">,</span>
+            <span class="s2">&quot;inDiscards&quot;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">},</span>
+</pre></div>
+</div>
+<p><strong>Step 2:</strong> If any of the interfaces has non-zero counter in inDiscards or outDiscards, collect the show interface and print the detailed output or input error counters.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Arista</span><span class="o">-</span><span class="n">switch</span><span class="c1"># show interfaces ethernet 21 | json</span>
+<span class="p">{</span>
+    <span class="s2">&quot;interfaces&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Ethernet21&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;lastStatusChangeTimestamp&quot;</span><span class="p">:</span> <span class="mf">1450734922.8865843</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Ethernet21&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;interfaceStatus&quot;</span><span class="p">:</span> <span class="s2">&quot;connected&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;autoNegotiate&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;burnedInAddress&quot;</span><span class="p">:</span> <span class="s2">&quot;00:1c:73:57:4f:5e&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;loopbackMode&quot;</span><span class="p">:</span> <span class="s2">&quot;loopbackNone&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;interfaceStatistics&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;inBitsRate&quot;</span><span class="p">:</span> <span class="mf">0.7396139208713536</span><span class="p">,</span>
+                <span class="s2">&quot;inPktsRate&quot;</span><span class="p">:</span> <span class="mf">0.0007222792196009312</span><span class="p">,</span>
+                <span class="s2">&quot;outBitsRate&quot;</span><span class="p">:</span> <span class="mf">549.4475135300596</span><span class="p">,</span>
+                <span class="s2">&quot;updateInterval&quot;</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span>
+                <span class="s2">&quot;outPktsRate&quot;</span><span class="p">:</span> <span class="mf">0.9075684364502475</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;mtu&quot;</span><span class="p">:</span> <span class="mi">9214</span><span class="p">,</span>
+            <span class="s2">&quot;hardware&quot;</span><span class="p">:</span> <span class="s2">&quot;ethernet&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;duplex&quot;</span><span class="p">:</span> <span class="s2">&quot;duplexFull&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;bandwidth&quot;</span><span class="p">:</span> <span class="mi">1000000000</span><span class="p">,</span>
+            <span class="s2">&quot;forwardingModel&quot;</span><span class="p">:</span> <span class="s2">&quot;dataLink&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;lineProtocolStatus&quot;</span><span class="p">:</span> <span class="s2">&quot;up&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;interfaceCounters&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;outBroadcastPkts&quot;</span><span class="p">:</span> <span class="mi">11025</span><span class="p">,</span>
+                <span class="s2">&quot;linkStatusChanges&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                <span class="s2">&quot;totalOutErrors&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;inMulticastPkts&quot;</span><span class="p">:</span> <span class="mi">754</span><span class="p">,</span>
+                <span class="s2">&quot;counterRefreshTime&quot;</span><span class="p">:</span> <span class="mf">1450757484.079082</span><span class="p">,</span>
+                <span class="s2">&quot;inBroadcastPkts&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="hll">                <span class="s2">&quot;outputErrorsDetail&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class="hll">                    <span class="s2">&quot;deferredTransmissions&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class="hll">                    <span class="s2">&quot;txPause&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class="hll">                    <span class="s2">&quot;collisions&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class="hll">                    <span class="s2">&quot;lateCollisions&quot;</span><span class="p">:</span> <span class="mi">0</span>
+</span><span class="hll">                <span class="p">},</span>
+</span>                <span class="s2">&quot;inOctets&quot;</span><span class="p">:</span> <span class="mi">96512</span><span class="p">,</span>
+<span class="hll">                <span class="s2">&quot;outDiscards&quot;</span><span class="p">:</span> <span class="mi">45941</span><span class="p">,</span>
+</span>                <span class="s2">&quot;outOctets&quot;</span><span class="p">:</span> <span class="mi">78324214888</span><span class="p">,</span>
+                <span class="s2">&quot;inUcastPkts&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="hll">                <span class="s2">&quot;inputErrorsDetail&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class="hll">                    <span class="s2">&quot;runtFrames&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class="hll">                    <span class="s2">&quot;rxPause&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class="hll">                    <span class="s2">&quot;fcsErrors&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class="hll">                    <span class="s2">&quot;alignmentErrors&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class="hll">                    <span class="s2">&quot;giantFrames&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class="hll">                    <span class="s2">&quot;symbolErrors&quot;</span><span class="p">:</span> <span class="mi">0</span>
+</span><span class="hll">                <span class="p">},</span>
+</span>                <span class="s2">&quot;outUcastPkts&quot;</span><span class="p">:</span> <span class="mi">152941271</span><span class="p">,</span>
+                <span class="s2">&quot;outMulticastPkts&quot;</span><span class="p">:</span> <span class="mi">1512</span><span class="p">,</span>
+                <span class="s2">&quot;totalInErrors&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="hll">                <span class="s2">&quot;inDiscards&quot;</span><span class="p">:</span> <span class="mi">0</span>
+</span>            <span class="p">},</span>
+            <span class="s2">&quot;interfaceMembership&quot;</span><span class="p">:</span> <span class="s2">&quot;Member of Port-Channel10&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;interfaceAddress&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">&quot;physicalAddress&quot;</span><span class="p">:</span> <span class="s2">&quot;00:1c:73:57:4f:5e&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;F5-2&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="develop-program">
+<h3><a class="toc-backref" href="#id6">Develop Program:</a><a class="headerlink" href="#develop-program" title="Permalink to this headline">¶</a></h3>
+<p>Open the IDLE and create a new program and save as interface_drops.py in your folder.
+Copy the code from section 1, 2, 3 from our framework and paste it in this new program.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Discover if there is any packet drops in the network</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">### Section 1</span>
+
+<span class="kn">import</span> <span class="nn">pyeapi</span>
+<span class="kn">import</span> <span class="nn">getpass</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+
+<span class="c1">### Section 2</span>
+
+<span class="c1"># Define file path and file names</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Google Drive/my-scripts/&quot;</span>
+<span class="n">file_name_switches</span> <span class="o">=</span> <span class="s2">&quot;switches.txt&quot;</span>
+<span class="n">file_switches</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name_switches</span>
+
+<span class="c1"># Read the content of the file and save it in a List</span>
+
+<span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_switches</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+
+<span class="c1">### Section 3</span>
+
+<span class="c1"># Input Username and Password</span>
+
+<span class="n">my_username</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter your username: &quot;</span><span class="p">)</span>
+<span class="n">my_password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">&quot;Enter your password: &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Step 1:</strong> Identify interfaces having packet drops</p>
+<p>Start section 4 with the usual <code class="docutils literal"><span class="pre">for</span></code> loop and pyeapi command. Collect “show interfaces counters discards” output from the switches. Later in the program we will store the result in the dictionary we name as interface_drops.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">### Section 4</span>
+
+<span class="n">interface_drops</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Define API Connection String</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+        <span class="c1"># Execute the desired command</span>
+<span class="hll">        <span class="n">interface_counters</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces counters discards&quot;</span><span class="p">])</span>
+</span>
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+
+<span class="c1">### Section 5</span>
+
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Save and run the program. We are going to explore the dictionary to find the exact key to see the the packet drops.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="n">Enter</span> <span class="n">your</span> <span class="n">username</span><span class="p">:</span> <span class="n">admin</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">interface_counters</span><span class="p">)</span>
+<span class="p">{</span><span class="s1">u&#39;id&#39;</span><span class="p">:</span> <span class="s1">u&#39;4408635024&#39;</span><span class="p">,</span>
+ <span class="s1">u&#39;jsonrpc&#39;</span><span class="p">:</span> <span class="s1">u&#39;2.0&#39;</span><span class="p">,</span>
+ <span class="s1">u&#39;result&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">u&#39;inDiscardsTotal&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+              <span class="s1">u&#39;interfaces&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;Ethernet1/1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                                               <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+                              <span class="s1">u&#39;Ethernet10/1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                                                <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+                              <span class="s1">u&#39;Ethernet10/2&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                                                <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+                              <span class="s1">u&#39;Ethernet10/3&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                                                <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+
+
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">interface_counters</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">])</span>
+<span class="p">[{</span><span class="s1">u&#39;inDiscardsTotal&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="s1">u&#39;interfaces&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;Ethernet1/1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+                  <span class="s1">u&#39;Ethernet10/1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+                  <span class="s1">u&#39;Ethernet10/2&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+                  <span class="s1">u&#39;Ethernet10/3&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+                  <span class="s1">u&#39;Ethernet10/4&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+                  <span class="s1">u&#39;Ethernet11/1&#39;</span><span class="p">:</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">interface_counters</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="p">{</span><span class="s1">u&#39;inDiscardsTotal&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+ <span class="s1">u&#39;interfaces&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;Ethernet1/1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+                 <span class="s1">u&#39;Ethernet10/1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+                 <span class="s1">u&#39;Ethernet10/2&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+                 <span class="s1">u&#39;Ethernet10/3&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+                 <span class="s1">u&#39;Ethernet10/4&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span>
+
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">interface_counters</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">])</span>
+<span class="p">{</span><span class="s1">u&#39;Ethernet1/1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+ <span class="s1">u&#39;Ethernet10/1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+ <span class="s1">u&#39;Ethernet10/2&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+ <span class="s1">u&#39;Ethernet10/3&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+ <span class="s1">u&#39;Ethernet10/4&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+ <span class="s1">u&#39;Ethernet11/1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+ <span class="s1">u&#39;Ethernet11/2&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+ <span class="s1">u&#39;Ethernet11/3&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+ <span class="s1">u&#39;Ethernet11/4&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+ <span class="s1">u&#39;Ethernet12/1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span>
+
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">interface_counters_clean</span> <span class="o">=</span> <span class="n">interface_counters</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">interface_counters_clean</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="p">[</span><span class="s1">u&#39;Ethernet4/3&#39;</span><span class="p">,</span>
+ <span class="s1">u&#39;Ethernet55/4&#39;</span><span class="p">,</span>
+ <span class="s1">u&#39;Ethernet15/4&#39;</span><span class="p">,</span>
+ <span class="s1">u&#39;Ethernet26/3&#39;</span><span class="p">,</span>
+ <span class="s1">u&#39;Ethernet15/2&#39;</span><span class="p">,</span>
+ <span class="s1">u&#39;Ethernet54/1&#39;</span><span class="p">,</span>
+ <span class="s1">u&#39;Ethernet48/4&#39;</span><span class="p">,</span>
+ <span class="s1">u&#39;Ethernet58/4&#39;</span><span class="p">,</span>
+ <span class="s1">u&#39;Ethernet48/1&#39;</span><span class="p">,</span>
+ <span class="s1">u&#39;Ethernet48/2&#39;</span><span class="p">,</span>
+ <span class="s1">u&#39;Ethernet48/3&#39;</span><span class="p">,</span>
+ <span class="s1">u&#39;Ethernet58/3&#39;</span><span class="p">,</span>
+ <span class="s1">u&#39;Ethernet36/3&#39;</span><span class="p">,</span>
+ <span class="s1">u&#39;Ethernet36/2&#39;</span><span class="p">,</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="s2">&quot;Ethernet4/3&quot;</span><span class="p">]</span>
+<span class="p">{</span><span class="s1">u&#39;inDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">u&#39;outDiscards&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="s2">&quot;Ethernet4/3&quot;</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span>
+<span class="mi">0</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="s2">&quot;Ethernet4/3&quot;</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span>
+<span class="mi">0</span>
+</pre></div>
+</div>
+<p>For every result from a pyeapi call, our interesting data is under interface_counters [“results”] [0] [“interfaces”] key. Now we know the counters to see the packet drops which is interface_counters_clean [&lt;interface&gt;] [“inDiscards”].</p>
+<p><strong>Step 2:</strong> Collect the Input/Output Drops Statistics</p>
+<p>We are going to iterate through the interfaces within each switch and look for non zero counters. If we see a non zero counter, we will initiate a pyeapi call to collect the “show interface” for that specific interface.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">### Section 4</span>
+
+<span class="n">interface_drops</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Define API Connection String</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+        <span class="c1"># Execute the desired command</span>
+        <span class="n">interface_counters</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces counters discards&quot;</span><span class="p">])</span>
+<span class="hll">        <span class="n">interface_counters_clean</span> <span class="o">=</span> <span class="n">interface_counters</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">]</span>
+</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse through each interface and see if there any non zero inDiscards or outDiscards.</span>
+<span class="sd">        If any interface has non zero counters, collect &quot;show interface&quot; ouput of that interface</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+<span class="hll">        <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">interface_counters_clean</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+</span><span class="hll">            <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class="hll">                <span class="n">show_interface</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">interface</span><span class="p">)])</span>
+</span>
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+
+<span class="c1">### Section 5</span>
+
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Save and run the script. Now we are going to explore within the “show interface” output, what are the specific counters to collect and report.</p>
+<img alt="_images/ch03-pic1.png" src="_images/ch03-pic1.png" />
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="s2">&quot;Ethernet21&quot;</span><span class="p">][</span><span class="s2">&quot;interfaceCounters&quot;</span><span class="p">][</span><span class="s2">&quot;inputErrorsDetail&quot;</span><span class="p">]</span>
+
+<span class="go">{u&#39;runtFrames&#39;: 0, u&#39;fcsErrors&#39;: 0, u&#39;alignmentErrors&#39;: 0, u&#39;rxPause&#39;: 0, u&#39;symbolErrors&#39;: 0, u&#39;giantFrames&#39;: 0}</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="s2">&quot;Ethernet21&quot;</span><span class="p">][</span><span class="s2">&quot;interfaceCounters&quot;</span><span class="p">][</span><span class="s2">&quot;outputErrorsDetail&quot;</span><span class="p">]</span>
+
+<span class="go">{u&#39;lateCollisions&#39;: 0, u&#39;deferredTransmissions&#39;: 0, u&#39;txPause&#39;: 0, u&#39;collisions&#39;: 0}</span>
+</pre></div>
+</div>
+<p>Now we know the key for the input and output error details. What we need to know is to whether to collect the input or output error details. You can use if statements to collect input or output error details depends on whether you see input or output discards.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">### Section 4</span>
+
+<span class="n">interface_drops</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Define API Connection String</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+        <span class="c1"># Execute the desired command</span>
+        <span class="n">interface_counters</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces counters discards&quot;</span><span class="p">])</span>
+        <span class="n">interface_counters_clean</span> <span class="o">=</span> <span class="n">interface_counters</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">]</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse through each interface and see if there any non zero inDiscards or outDiscards.</span>
+<span class="sd">        If any interface has non zero counters, collect &quot;show interface&quot; ouput of that interface</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">interface_counters_clean</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">show_interface</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">interface</span><span class="p">)])</span>
+<span class="hll">                <span class="n">show_interface_clean</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;interfaceCounters&quot;</span><span class="p">]</span>
+</span><span class="hll">                <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class="hll">                    <span class="k">print</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;inputErrorsDetail&quot;</span><span class="p">]</span>
+</span><span class="hll">                <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class="hll">                    <span class="k">print</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;outputErrorsDetail&quot;</span><span class="p">]</span>
+</span>
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+
+<span class="c1">### Section 5</span>
+
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Save and run the script.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">Enter your username: admin</span>
+
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;/Users/anees/Google Drive/my-scripts/interface_drops.py&quot;</span>, line <span class="m">60</span>, in <span class="n">&lt;module&gt;</span>
+    <span class="nb">print</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;outputErrorsDetail&quot;</span><span class="p">]</span>
+<span class="gr">KeyError</span>: <span class="n">&#39;outputErrorsDetail&#39;</span>
+</pre></div>
+</div>
+<p>We are seeing an error message in the above output. It says that there is no key ouputErrorsDetail in the show interface &lt;specific interface&gt;. If you pprint the show interface &lt;specific interface&gt; output, you can see that there are no outputErrorsDetail key under interfaceCounters section. This is because the output shown is for port channel interface. This specific counter is applicable only for physical interface. So we are going to add a check so that if the interface is port channel, we are not going to look for any counters.</p>
+<img alt="_images/ch03-pic2.png" src="_images/ch03-pic2.png" />
+<p>We are going to do the interface check using “if ‘Port-Channel’ not in interface:” logic. It would be better idea to use this logic “if ‘Ethernet’ in interface:” instead of “ ‘Port-Channel’ not in:”. Because show interfaces will also contains SVIs. We need to look at only the Ethernet interfaces. However for learning perspective, we are going to use “if ‘Port-Channel’ not in interface:”.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">### Section 4</span>
+
+<span class="n">interface_drops</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Define API Connection String</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+        <span class="c1"># Execute the desired command</span>
+        <span class="n">interface_counters</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces counters discards&quot;</span><span class="p">])</span>
+        <span class="n">interface_counters_clean</span> <span class="o">=</span> <span class="n">interface_counters</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">]</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse through each interface and see if there any non zero inDiscards or outDiscards.</span>
+<span class="sd">        If any interface has non zero counters, collect &quot;show interface&quot; output of that interface</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">interface_counters_clean</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+<span class="hll">            <span class="k">if</span> <span class="s2">&quot;Port-Channel&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">interface</span><span class="p">:</span>
+</span>                <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">show_interface</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">interface</span><span class="p">)])</span>
+                    <span class="n">show_interface_clean</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;interfaceCounters&quot;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">print</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;inputErrorsDetail&quot;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">print</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;outputErrorsDetail&quot;</span><span class="p">]</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+
+<span class="c1">### Section 5</span>
+
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Save and run the script.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">Enter your username: admin</span>
+
+<span class="go">{u&#39;lateCollisions&#39;: 0, u&#39;deferredTransmissions&#39;: 0, u&#39;txPause&#39;: 0, u&#39;collisions&#39;: 0}</span>
+<span class="go">{}</span>
+</pre></div>
+</div>
+<p><strong>Step 3:</strong> Saving the Result in a Dictionary</p>
+<p>Let us store the result in a nice format in a dictionary.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>Interface_drops =
+{
+
+Switch_host_name: {
+                        Interface_number: {
+                                  “Interface status”: &lt;value&gt;
+                                  “Line Protocol Status”: &lt;value&gt;
+                                  “inDiscards”: {
+                                              “Total Discards”: &lt;value&gt;
+                                              InputErrorsDetail: {
+                                                                    }
+                                  “outDiscards”: {
+                                                “Total Discards”:
+                                                “outputErrorsDetail”:{
+                                                                       }
+}
+</pre></div>
+</div>
+<p>First you need to initiate the dictionary when you start the section 4 in the script.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="hll"><span class="n">interface_drops</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>For every switch, create a key, value pair in the interface_drops dictionary. Here, the value is another dictionary. Since it has to be created for each switch, we create this line inside the “for loop” of the switches. You need to get the hostname of the switch using the command “show hostname”.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="hll"><span class="n">interface_drops</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># lines skipped</span>
+<span class="hll">        <span class="n">host_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show hostname&quot;</span><span class="p">])</span>
+</span><span class="hll">        <span class="n">host_name_clean</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">host_name</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;hostname&quot;</span><span class="p">])</span>
+</span><span class="hll">        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</span></pre></div>
+</div>
+<p>For each switch, we need to create a key, value pair for the interface we are seeing packet drops. This statement should be inside the “for loop” of the interfaces of each switch. Since we need to create the key, value pair only if you see any packet drops, this line will be inside the if statement.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="hll"><span class="n">interface_drops</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># lines skipped</span>
+<span class="hll">        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</span>        <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">interface_counters_clean</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+<span class="hll">                    <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</span></pre></div>
+</div>
+<p>If there is any input discards, we will record the total input discards and input error statistics.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="hll">    <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Total Discards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span>
+</span><span class="hll">    <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Input Errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;inputErrorsDetail&quot;</span><span class="p">]</span>
+</span></pre></div>
+</div>
+<p>Similarly if there is any output discards, then we will record the total output discards and output error statistics.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="hll">    <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Total Discards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span>
+</span><span class="hll">    <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Output Errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;outputErrorsDetail&quot;</span><span class="p">]</span>
+</span></pre></div>
+</div>
+<p>Now let us look at the section 4 of the script we have developed so far.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">### Section 4</span>
+
+<span class="n">interface_drops</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Define API Connection String</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+        <span class="c1"># Execute the desired command</span>
+        <span class="n">interface_counters</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces counters discards&quot;</span><span class="p">])</span>
+        <span class="n">interface_counters_clean</span> <span class="o">=</span> <span class="n">interface_counters</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Collect hostname for documenting results under the host name</span>
+<span class="hll">        <span class="n">host_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show hostname&quot;</span><span class="p">])</span>
+</span><span class="hll">        <span class="n">host_name_clean</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">host_name</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;hostname&quot;</span><span class="p">])</span>
+</span><span class="hll">        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse through each interface and see if there any non zero inDiscards or outDiscards.</span>
+<span class="sd">        If any interface has non zero counters, collect &quot;show interface&quot; output of that interface</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">interface_counters_clean</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="c1"># Skip if the interface is port channel</span>
+            <span class="k">if</span> <span class="s2">&quot;Port-Channel&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">interface</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># Create an entry for the interface under the host name</span>
+<span class="hll">                    <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</span>
+                    <span class="c1"># Collect the interface statistics from the switch</span>
+                    <span class="n">show_interface</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">interface</span><span class="p">)])</span>
+                    <span class="n">show_interface_clean</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;interfaceCounters&quot;</span><span class="p">]</span>
+
+                    <span class="c1"># Collect interface and line protocol status just for documentation purpose</span>
+<span class="hll">                    <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;Interface Status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;interfaceStatus&quot;</span><span class="p">]</span>
+</span><span class="hll">                    <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;Line Protocol Status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;lineProtocolStatus&quot;</span><span class="p">]</span>
+</span>
+                    <span class="c1"># Collect detailed input or output drop counters if there are input or output drops</span>
+                    <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+<span class="hll">                        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class="hll">                        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Total Discards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span>
+</span><span class="hll">                        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Input Errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;inputErrorsDetail&quot;</span><span class="p">]</span>
+</span>                    <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+<span class="hll">                        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class="hll">                        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Total Discards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span>
+</span><span class="hll">                        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Output Errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;outputErrorsDetail&quot;</span><span class="p">]</span>
+</span>
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+
+<span class="c1">### Section 5</span>
+
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">interface_drops</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Save and run the script.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">Enter your username: admin</span>
+<span class="go">{}</span>
+<span class="go">{&#39;22sw2&#39;: {u&#39;Ethernet21&#39;: {&#39;Interface Status&#39;: u&#39;connected&#39;,</span>
+<span class="go">                           &#39;Line Protocol Status&#39;: u&#39;up&#39;,</span>
+<span class="go">                           &#39;outDiscards&#39;: {&#39;Output Errors&#39;: {u&#39;collisions&#39;: 0,</span>
+<span class="go">                                                          u&#39;deferredTransmissions&#39;: 0,</span>
+<span class="go">                                                             u&#39;lateCollisions&#39;: 0,</span>
+<span class="go">                                                             u&#39;txPause&#39;: 0},</span>
+<span class="go">                                           &#39;Total Discards&#39;: 45941}}},</span>
+<span class="go"> &#39;22sw35&#39;: {},</span>
+<span class="go"> &#39;22sw37&#39;: {},</span>
+<span class="go"> &#39;22sw4&#39;: {}}</span>
+</pre></div>
+</div>
+<p>As you see, we are seeing some of the empty dictionaries printed in the output. We can add additional checks in the code to print non empty dictionaries. For example the first empty dictionary { } in the output is printed as part of pprint.pprint(errors). We want to print only the non empty dictionaries.</p>
+<p>The following is one of the methods to check whether a dictionary is empty or not:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>anees:~ anees$ python
+Python 2.7.10 (default, Aug 22 2015, 20:33:39)
+[GCC 4.2.1 Compatible Apple LLVM 7.0.0 (clang-700.0.59.1)] on darwin
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt; # Create an empty dictionary
+&gt;&gt;&gt; errors = { }
+&gt;&gt;&gt;
+&gt;&gt;&gt; not errors
+True
+&gt;&gt;&gt;
+&gt;&gt;&gt; bool(errors)
+False
+&gt;&gt;&gt;
+&gt;&gt;&gt; if not errors:
+...     print &quot;Empty Dictionary&quot;
+...
+Empty Dictionary
+&gt;&gt;&gt;
+&gt;&gt;&gt; # Create a non empty dictionary
+&gt;&gt;&gt; errors = {&quot;test&quot;:{}}
+&gt;&gt;&gt;
+&gt;&gt;&gt; not errors
+False
+&gt;&gt;&gt;
+&gt;&gt;&gt; bool(errors)
+True
+&gt;&gt;&gt; if bool(errors):
+...     print &quot;NOT Empty&quot;
+...
+NOT Empty
+</pre></div>
+</div>
+<p>With these additional checks, we will print errors only if the errors dictionary is non empty and we will not save the switch entry if there are no drops found in that switch.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">### Section 4</span>
+
+<span class="n">interface_drops</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Define API Connection String</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+        <span class="c1"># Execute the desired command</span>
+        <span class="n">interface_counters</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces counters discards&quot;</span><span class="p">])</span>
+        <span class="n">interface_counters_clean</span> <span class="o">=</span> <span class="n">interface_counters</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Collect hostname for documenting results under the host name</span>
+        <span class="n">host_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show hostname&quot;</span><span class="p">])</span>
+        <span class="n">host_name_clean</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">host_name</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;hostname&quot;</span><span class="p">])</span>
+        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse through each interface and see if there any non zero inDiscards or outDiscards.</span>
+<span class="sd">        If any interface has non zero counters, collect &quot;show interface&quot; output of that interface</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">interface_counters_clean</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="c1"># Skip if the interface is port channel</span>
+            <span class="k">if</span> <span class="s2">&quot;Port-Channel&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">interface</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># Create an entry for the interface under the host name</span>
+                    <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+                    <span class="c1"># Collect the interface statistics from the switch</span>
+                    <span class="n">show_interface</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">interface</span><span class="p">)])</span>
+                    <span class="n">show_interface_clean</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;interfaceCounters&quot;</span><span class="p">]</span>
+
+                    <span class="c1"># Collect interface and line protocol status just for documentation purpose</span>
+                    <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;Interface Status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;interfaceStatus&quot;</span><span class="p">]</span>
+                    <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;Line Protocol Status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;lineProtocolStatus&quot;</span><span class="p">]</span>
+
+                    <span class="c1"># Collect detailed input or output drop counters if there are input or output drops</span>
+                    <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Total Discards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span>
+                        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Input Errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;inputErrorsDetail&quot;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Total Discards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span>
+                        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Output Errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;outputErrorsDetail&quot;</span><span class="p">]</span>
+
+<span class="hll">        <span class="k">if</span> <span class="ow">not</span> <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]:</span>
+</span><span class="hll">            <span class="k">del</span> <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]</span>
+</span>
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+
+<span class="c1">### Section 5</span>
+
+<span class="hll"><span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">errors</span><span class="p">):</span>
+</span><span class="hll">    <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+</span>
+<span class="hll"><span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">interface_drops</span><span class="p">):</span>
+</span><span class="hll">    <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">interface_drops</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>Save and run the script. You will no longer see the empty dictionaries.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="n">Enter</span> <span class="n">your</span> <span class="n">username</span><span class="p">:</span> <span class="n">admin</span>
+<span class="p">{</span><span class="s1">&#39;22sw2&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;Ethernet21&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Interface Status&#39;</span><span class="p">:</span> <span class="s1">u&#39;connected&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;Line Protocol Status&#39;</span><span class="p">:</span> <span class="s1">u&#39;up&#39;</span><span class="p">,</span>
+                           <span class="s1">&#39;outDiscards&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;Output Errors&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">u&#39;collisions&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                                                          <span class="s1">u&#39;deferredTransmissions&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                                                             <span class="s1">u&#39;lateCollisions&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                                                             <span class="s1">u&#39;txPause&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+                                           <span class="s1">&#39;Total Discards&#39;</span><span class="p">:</span> <span class="mi">45941</span><span class="p">}}}}</span>
+</pre></div>
+</div>
+<p><strong>Step 4:</strong> Tracking interfaces with incrementing packet drops</p>
+<p>If you want to find the interface that has incrementing packet drops, we need to add additional logic to the script. The logic which we are going to use here is that first we will discover all the interfaces having non zero packet drops by using the script we developed. Then we will wait for 1 minute and again collect the statistics for the same interfaces we have noticed packet drops and compare the result. If there is a difference, we will save the new statistics in the dictionary.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">### Section 1</span>
+
+<span class="hll"><span class="kn">import</span> <span class="nn">time</span>
+</span>
+<span class="c1">### Section 4</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+
+        <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">interface_counters_clean</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="s2">&quot;Port-Channel&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">interface</span><span class="p">:</span>
+<span class="hll">                <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class="hll">                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+</span><span class="hll">                    <span class="n">interface_counters_new</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">interface</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; counters discards&quot;</span><span class="p">])</span>
+</span><span class="hll">                    <span class="n">interface_counters_new_clean</span> <span class="o">=</span> <span class="n">interface_counters_new</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">]</span>
+</span><span class="hll">                    <span class="n">input_discards_difference</span> <span class="o">=</span> <span class="n">interface_counters_new_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span>
+</span>                    <span class="n">output_discards_difference</span> <span class="o">=</span> <span class="n">interface_counters_new_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Now we will add the if statement to verify if there is any difference in the packet drops counters, we will store the result in the dictionary.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">input_discards_difference</span> <span class="ow">or</span> <span class="n">output_discards_difference</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">show_interface</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">interface</span><span class="p">)])</span>
+    <span class="n">show_interface_clean</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;interfaceCounters&quot;</span><span class="p">]</span>
+    <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;Interface Status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;interfaceStatus&quot;</span><span class="p">]</span>
+    <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;Line Protocol Status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;lineProtocolStatus&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">interface_counters_new_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Total Discards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interface_counters_new_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span>
+        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Input Errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;inputErrorsDetail&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">interface_counters_new_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Total Discards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interface_counters_new_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span>
+        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Output Errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;outputErrorsDetail&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="final-script">
+<h3><a class="toc-backref" href="#id7">Final Script:</a><a class="headerlink" href="#final-script" title="Permalink to this headline">¶</a></h3>
+<p>Here is the final script that shows if there are any continuous packet drops in the network.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Discover if there is any packet drops in the network</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">### Section 1</span>
+
+<span class="kn">import</span> <span class="nn">pyeapi</span>
+<span class="kn">import</span> <span class="nn">getpass</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="c1">### Section 2</span>
+
+<span class="c1"># Define file path and file names</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Google Drive/my-scripts/&quot;</span>
+<span class="n">file_name_switches</span> <span class="o">=</span> <span class="s2">&quot;switches.txt&quot;</span>
+<span class="n">file_switches</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name_switches</span>
+
+<span class="c1"># Read the content of the file and save it in a List</span>
+
+<span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_switches</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1">### Section 3</span>
+
+<span class="c1"># Input Username and Password</span>
+
+<span class="n">my_username</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter your username: &quot;</span><span class="p">)</span>
+<span class="n">my_password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">&quot;Enter your password: &quot;</span><span class="p">)</span>
+
+<span class="c1">### Section 4</span>
+
+<span class="n">interface_drops</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Define API Connection String</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Collect the interface drops statistics from the switch</span>
+        <span class="n">interface_counters</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces counters discards&quot;</span><span class="p">])</span>
+        <span class="n">interface_counters_clean</span> <span class="o">=</span> <span class="n">interface_counters</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Collect hostname for documenting results under the host name</span>
+        <span class="n">host_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show hostname&quot;</span><span class="p">])</span>
+        <span class="n">host_name_clean</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">host_name</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;hostname&quot;</span><span class="p">])</span>
+        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse through each interface and see if there any non zero inDiscards or outDiscards.</span>
+<span class="sd">        If any interface has non zero counters, collect &quot;show interface&quot; output of that interface</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">interface_counters_clean</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="c1"># Skip if the interface is port channel</span>
+            <span class="k">if</span> <span class="s2">&quot;Port-Channel&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">interface</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># Collect interface drops statistics for this specific interface after 1 minute</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+                    <span class="n">interface_counters_new</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">interface</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; counters discards&quot;</span><span class="p">])</span>
+                    <span class="n">interface_counters_new_clean</span> <span class="o">=</span> <span class="n">interface_counters_new</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">]</span>
+
+                    <span class="c1"># Identify the difference in packet drops</span>
+                    <span class="n">input_discards_difference</span> <span class="o">=</span> <span class="n">interface_counters_new_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span>
+                    <span class="n">output_discards_difference</span> <span class="o">=</span> <span class="n">interface_counters_new_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span>
+
+                    <span class="c1"># If the packet drops counter increments, collect and store detailed statistics in the dictionary</span>
+                    <span class="k">if</span> <span class="n">input_discards_difference</span> <span class="ow">or</span> <span class="n">output_discards_difference</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="n">show_interface</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">interface</span><span class="p">)])</span>
+                        <span class="n">show_interface_clean</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;interfaceCounters&quot;</span><span class="p">]</span>
+
+                        <span class="c1"># Collect interface and line protocol status just for documentation purpose</span>
+                        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;Interface Status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;interfaceStatus&quot;</span><span class="p">]</span>
+                        <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;Line Protocol Status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;lineProtocolStatus&quot;</span><span class="p">]</span>
+
+                        <span class="c1"># Collect detailed input or output drop counters</span>
+                        <span class="k">if</span> <span class="n">interface_counters_new_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                            <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Total Discards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interface_counters_new_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span>
+                            <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Input Errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;inputErrorsDetail&quot;</span><span class="p">]</span>
+
+                        <span class="k">if</span> <span class="n">interface_counters_new_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                            <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Total Discards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interface_counters_new_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span>
+                            <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">][</span><span class="s2">&quot;Output Errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;outputErrorsDetail&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Delete the dictionary entry for the switch if the switch does not have any incremental packet drops</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]:</span>
+            <span class="k">del</span> <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+
+<span class="c1">### Section 5</span>
+
+<span class="c1"># print the result only if the dictionary is non empty</span>
+<span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">errors</span><span class="p">):</span>
+    <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">interface_drops</span><span class="p">):</span>
+    <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">interface_drops</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Change the troubleshooting steps and modify the script as per your troubleshooting approach. In this use case, we collect interface drop statistics in 1 minute interval for each interface from each switch that sees packet drops. You can modify this logic in different ways. Instead of waiting for 1 minute for each interface of each switches, you can collect interface drop statistics in 1 minute interval for each switch. Or You can collect interface drop statistics in 1 minute interval for all the switches at once and compare the results.</p>
+</div>
+</div>
+<div class="section" id="monitor-control-plane-drops">
+<h2><a class="toc-backref" href="#id8">Monitor Control Plane Drops</a><a class="headerlink" href="#monitor-control-plane-drops" title="Permalink to this headline">¶</a></h2>
+<p>The goal of this script is to discover if there are any control plane drops in any of the switches in the network. First we will write down the algorithm (or troubleshooting steps) and then we will build the script.</p>
+<div class="section" id="id1">
+<h3><a class="toc-backref" href="#id9">Algorithm:</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p><strong>Step 1:</strong> Identify if there are any control plane drops in the switch</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">Arista-switch#show policy-map interface control-plane copp-system-policy | json</span>
+<span class="go">{</span>
+<span class="hll"><span class="go">    &quot;policyMaps&quot;: {</span>
+</span><span class="hll"><span class="go">        &quot;copp-system-policy&quot;: {</span>
+</span><span class="go">            &quot;mapType&quot;: &quot;mapControlPlane&quot;,</span>
+<span class="hll"><span class="go">            &quot;classMaps&quot;: {</span>
+</span><span class="go">                &quot;copp-system-ptp&quot;: {</span>
+<span class="go">                    &quot;shape&quot;: {</span>
+<span class="go">                        &quot;unit&quot;: &quot;pps&quot;,</span>
+<span class="go">                        &quot;rate&quot;: 2500</span>
+<span class="go">                    },</span>
+<span class="go">                    &quot;classPrio&quot;: 13,</span>
+<span class="go">                    &quot;mapType&quot;: &quot;mapControlPlane&quot;,</span>
+<span class="go">                    &quot;matchCondition&quot;: &quot;matchConditionAny&quot;,</span>
+<span class="go">                    &quot;intfPacketCounters&quot;: {</span>
+<span class="go">                        &quot;outPackets&quot;: 0,</span>
+<span class="go">                        &quot;dropPackets&quot;: 0</span>
+<span class="go">                    },</span>
+<span class="go">                    &quot;bandwidth&quot;: {</span>
+<span class="go">                        &quot;unit&quot;: &quot;pps&quot;,</span>
+<span class="go">                        &quot;rate&quot;: 500</span>
+<span class="go">                    },</span>
+<span class="go">                    &quot;match&quot;: {},</span>
+<span class="go">                    &quot;name&quot;: &quot;copp-system-ptp&quot;</span>
+<span class="go">                },</span>
+<span class="hll"><span class="go">                &quot;copp-system-arp&quot;: {</span>
+</span><span class="go">                    &quot;shape&quot;: {</span>
+<span class="go">                        &quot;unit&quot;: &quot;pps&quot;,</span>
+<span class="go">                        &quot;rate&quot;: 10000</span>
+<span class="go">                    },</span>
+<span class="go">                    &quot;classPrio&quot;: 19,</span>
+<span class="go">                    &quot;mapType&quot;: &quot;mapControlPlane&quot;,</span>
+<span class="go">                    &quot;matchCondition&quot;: &quot;matchConditionAny&quot;,</span>
+<span class="hll"><span class="go">                    &quot;intfPacketCounters&quot;: {</span>
+</span><span class="go">                        &quot;outPackets&quot;: 192696,</span>
+<span class="hll"><span class="go">                        &quot;dropPackets&quot;: 0</span>
+</span><span class="go">                    },</span>
+<span class="go">                    &quot;bandwidth&quot;: {</span>
+<span class="go">                        &quot;unit&quot;: &quot;pps&quot;,</span>
+<span class="go">                        &quot;rate&quot;: 1000</span>
+<span class="go">                    },</span>
+<span class="go">                    &quot;match&quot;: {},</span>
+<span class="go">                    &quot;name&quot;: &quot;copp-system-arp&quot;</span>
+<span class="go">                },</span>
+</pre></div>
+</div>
+<p><strong>Step 2:</strong> If we find any of the copp classes have drops, we will save the result in a directory.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">Copp_drops = {</span>
+<span class="go">               “switch_host_name”: {</span>
+<span class="go">               “copp-class-map-name”: {</span>
+<span class="go">                                        “droppackets”: &lt;no of dropped packets&gt;</span>
+<span class="go">                                      }</span>
+<span class="go">                                    }</span>
+</pre></div>
+</div>
+<p><strong>Step 3:</strong> We will add the logic to show the control plane drops only if the counters are incrementing.</p>
+</div>
+<div class="section" id="id2">
+<h3><a class="toc-backref" href="#id10">Develop Program:</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p><strong>Step 1:</strong> Initial Program and explore output counters</p>
+<p>Open the IDLE and create a new program and save as copp_drops.py in your folder.
+Copy the code from section 1, 2, 3 from our framework and paste it in this new program.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Discover if there is any control plane drops in the network</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">### Section 1</span>
+
+<span class="kn">import</span> <span class="nn">pyeapi</span>
+<span class="kn">import</span> <span class="nn">getpass</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+
+<span class="c1">### Section 2</span>
+
+<span class="c1"># Define file path and file names</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Google Drive/my-scripts/&quot;</span>
+<span class="n">file_name_switches</span> <span class="o">=</span> <span class="s2">&quot;switches.txt&quot;</span>
+<span class="n">file_switches</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name_switches</span>
+
+<span class="c1"># Read the content of the file and save it in a List</span>
+
+<span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_switches</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1">### Section 3</span>
+
+<span class="c1"># Input Username and Password</span>
+
+<span class="n">my_username</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter your username: &quot;</span><span class="p">)</span>
+<span class="n">my_password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">&quot;Enter your password: &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Start section 4 with the usual “for loop” and pyeapi command. Collect “show policy-map interface control-plane copp-system-policy” output from the switches. Then from IDLE shell, we will explore how to pull the required counters.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">### Section 4</span>
+
+<span class="n">copp_drops</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Define API Connection String</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+        <span class="c1"># Execute the desired command</span>
+<span class="hll">        <span class="n">copp_counters</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show policy-map interface control-plane copp-system-policy&quot;</span><span class="p">])</span>
+</span>
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+
+<span class="c1">### Section 5</span>
+
+<span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">errors</span><span class="p">):</span>
+    <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Save and run the program.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">Enter your username: admin</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">copp_counters</span><span class="p">)</span>
+<span class="go">{u&#39;id&#39;: u&#39;4585156240&#39;,</span>
+<span class="go"> u&#39;jsonrpc&#39;: u&#39;2.0&#39;,</span>
+<span class="go"> u&#39;result&#39;: [{u&#39;policyMaps&#39;: {u&#39;copp-system-policy&#39;: {u&#39;classMaps&#39;: {u&#39;copp-system-OspfIsis&#39;: {u&#39;bandwidth&#39;: {u&#39;rate&#39;: 5000,</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">copp_counters</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;policyMaps&quot;</span><span class="p">][</span><span class="s2">&quot;copp-system-policy&quot;</span><span class="p">][</span><span class="s2">&quot;classMaps&quot;</span><span class="p">])</span>
+<span class="go">{u&#39;copp-system-OspfIsis&#39;: {u&#39;bandwidth&#39;: {u&#39;rate&#39;: 5000, u&#39;unit&#39;: u&#39;pps&#39;},</span>
+<span class="go">                           u&#39;classPrio&#39;: 11,</span>
+<span class="go">                           u&#39;intfPacketCounters&#39;: {u&#39;dropPackets&#39;: 0,</span>
+<span class="go">                                                   u&#39;outPackets&#39;: 0},</span>
+<span class="go">                           u&#39;mapType&#39;: u&#39;mapControlPlane&#39;,</span>
+<span class="go">                           u&#39;match&#39;: {},</span>
+<span class="go">                           u&#39;matchCondition&#39;: u&#39;matchConditionAny&#39;,</span>
+<span class="go">                           u&#39;name&#39;: u&#39;copp-system-OspfIsis&#39;,</span>
+<span class="go">                           u&#39;shape&#39;: {u&#39;rate&#39;: 10000, u&#39;unit&#39;: u&#39;pps&#39;}},</span>
+<span class="go"> u&#39;copp-system-acllog&#39;: {u&#39;bandwidth&#39;: {u&#39;rate&#39;: 1000, u&#39;unit&#39;: u&#39;pps&#39;},</span>
+<span class="go">                         u&#39;classPrio&#39;: 30,</span>
+<span class="go">                         u&#39;intfPacketCounters&#39;: {u&#39;dropPackets&#39;: 0,</span>
+<span class="go">                                                 u&#39;outPackets&#39;: 0},</span>
+<span class="go">                         u&#39;mapType&#39;: u&#39;mapControlPlane&#39;,</span>
+<span class="go">                         u&#39;match&#39;: {},</span>
+<span class="go">                         u&#39;matchCondition&#39;: u&#39;matchConditionAny&#39;,</span>
+<span class="go">                         u&#39;name&#39;: u&#39;copp-system-acllog&#39;,</span>
+<span class="go">                         u&#39;shape&#39;: {u&#39;rate&#39;: 10000, u&#39;unit&#39;: u&#39;pps&#39;}},</span>
+
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copp_counters_clean</span> <span class="o">=</span> <span class="n">copp_counters</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;policyMaps&quot;</span><span class="p">][</span><span class="s2">&quot;copp-system-policy&quot;</span><span class="p">][</span><span class="s2">&quot;classMaps&quot;</span><span class="p">]</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copp_counters_clean</span><span class="p">[</span><span class="s2">&quot;copp-system-acllog&quot;</span><span class="p">][</span><span class="s2">&quot;intfPacketCounters&quot;</span><span class="p">][</span><span class="s2">&quot;dropPackets&quot;</span><span class="p">]</span>
+<span class="go">0</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copp_counters_clean</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[u&#39;copp-system-selfip&#39;, u&#39;copp-system-tc6to7&#39;, u&#39;copp-system-l3slowpath&#39;, u&#39;copp-system-arp&#39;, u&#39;copp-system-lacp&#39;, u&#39;copp-system-arpresolver&#39;, u&#39;copp-system-tc3to5&#39;, u&#39;copp-system-default&#39;, u&#39;copp-system-bpdu&#39;, u&#39;copp-system-pim&#39;, u&#39;copp-system-vxlan-vtep-learn&#39;, u&#39;copp-system-urm&#39;, u&#39;copp-system-bfd&#39;, u&#39;copp-system-vxlan-encapsulation&#39;, u&#39;copp-system-ipmcrsvd&#39;, u&#39;copp-system-mlag&#39;, u&#39;copp-system-igmp&#39;, u&#39;copp-system-lldp&#39;, u&#39;copp-system-ptp&#39;, u&#39;copp-system-vrrp&#39;, u&#39;copp-system-l3ttl1&#39;, u&#39;copp-system-selfip-tc6to7&#39;, u&#39;copp-system-acllog&#39;, u&#39;copp-system-cvx&#39;, u&#39;copp-system-l3destmiss&#39;, u&#39;copp-system-OspfIsis&#39;, u&#39;copp-system-cvx-heartbeat&#39;, u&#39;copp-system-sflow&#39;, u&#39;copp-system-ipmcmiss&#39;, u&#39;copp-system-glean&#39;, u&#39;copp-system-bgp&#39;]</span>
+</pre></div>
+</div>
+<p><strong>Step 2:</strong> Add logic to discover Non Zero Counters and print the result</p>
+<p>Since we know what counters to look, we will use if statement to verify for non zero counters. If we find a non zero counter, we will print the host name, copp policy name and drop packets counter.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">### Section 4</span>
+
+<span class="n">copp_drops</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Define API Connection String</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+        <span class="c1"># Execute the desired command</span>
+        <span class="n">copp_counters</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show policy-map interface control-plane copp-system-policy&quot;</span><span class="p">])</span>
+        <span class="n">copp_counters_clean</span> <span class="o">=</span> <span class="n">copp_counters</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;policyMaps&quot;</span><span class="p">][</span><span class="s2">&quot;copp-system-policy&quot;</span><span class="p">][</span><span class="s2">&quot;classMaps&quot;</span><span class="p">]</span>
+
+        <span class="c1"># parse through each copp system class map and discover non drop counters</span>
+<span class="hll">        <span class="k">for</span> <span class="n">each_copp_class</span> <span class="ow">in</span> <span class="n">copp_counters_clean</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+</span><span class="hll">            <span class="k">if</span> <span class="n">copp_counters_clean</span><span class="p">[</span><span class="n">each_copp_class</span><span class="p">][</span><span class="s2">&quot;intfPacketCounters&quot;</span><span class="p">][</span><span class="s2">&quot;dropPackets&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class="hll">                <span class="k">print</span> <span class="n">host_name_clean</span><span class="p">,</span> <span class="n">each_copp_class</span><span class="p">,</span> <span class="n">copp_counters_clean</span><span class="p">[</span><span class="n">each_copp_class</span><span class="p">][</span><span class="s2">&quot;intfPacketCounters&quot;</span><span class="p">][</span><span class="s2">&quot;dropPackets&quot;</span><span class="p">]</span>
+</span>
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+
+<span class="c1">### Section 5</span>
+
+<span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">errors</span><span class="p">):</span>
+    <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Save and run the script.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">Enter your username: admin</span>
+<span class="go">22sw2 copp-system-glean 1033427</span>
+<span class="go">22sw4 copp-system-glean 2228369</span>
+<span class="go">22sw37 copp-system-default 1225931</span>
+<span class="go">22sw37 copp-system-glean 10606</span>
+</pre></div>
+</div>
+<p><strong>Step 3:</strong> Store the result in a dictionary</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">### Section 4</span>
+
+<span class="n">copp_drops</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Define API Connection String</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+        <span class="c1"># Find the host name of the switch for reporting</span>
+<span class="hll">        <span class="n">host_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show hostname&quot;</span><span class="p">])</span>
+</span><span class="hll">        <span class="n">host_name_clean</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">host_name</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;hostname&quot;</span><span class="p">])</span>
+</span><span class="hll">        <span class="n">copp_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</span>
+        <span class="c1"># Execute the desired command</span>
+        <span class="n">copp_counters</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show policy-map interface control-plane copp-system-policy&quot;</span><span class="p">])</span>
+        <span class="n">copp_counters_clean</span> <span class="o">=</span> <span class="n">copp_counters</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;policyMaps&quot;</span><span class="p">][</span><span class="s2">&quot;copp-system-policy&quot;</span><span class="p">][</span><span class="s2">&quot;classMaps&quot;</span><span class="p">]</span>
+
+        <span class="c1"># parse through each copp system class map and discover non drop counters</span>
+        <span class="k">for</span> <span class="n">each_copp_class</span> <span class="ow">in</span> <span class="n">copp_counters_clean</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">copp_counters_clean</span><span class="p">[</span><span class="n">each_copp_class</span><span class="p">][</span><span class="s2">&quot;intfPacketCounters&quot;</span><span class="p">][</span><span class="s2">&quot;dropPackets&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+<span class="hll">                <span class="n">copp_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">each_copp_class</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class="hll">                <span class="n">copp_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">each_copp_class</span><span class="p">][</span><span class="s2">&quot;Drop Packets&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">copp_counters_clean</span><span class="p">[</span><span class="n">each_copp_class</span><span class="p">][</span><span class="s2">&quot;intfPacketCounters&quot;</span><span class="p">][</span><span class="s2">&quot;dropPackets&quot;</span><span class="p">]</span>
+</span>
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+
+<span class="hll">    <span class="k">if</span> <span class="ow">not</span> <span class="n">copp_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]:</span>
+</span><span class="hll">        <span class="k">del</span> <span class="n">copp_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]</span>
+</span>
+<span class="c1">### Section 5</span>
+
+<span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">errors</span><span class="p">):</span>
+    <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+
+<span class="hll"><span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">copp_drops</span><span class="p">):</span>
+</span><span class="hll">    <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">copp_drops</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>Save and run the script.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">================================</span> <span class="n">RESTART</span> <span class="o">================================</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">Enter your username: admin</span>
+<span class="go">{&#39;22sw2&#39;: {u&#39;copp-system-glean&#39;: {&#39;Drop Packets&#39;: 1033427}},</span>
+<span class="go"> &#39;22sw37&#39;: {u&#39;copp-system-default&#39;: {&#39;Drop Packets&#39;: 1225931},</span>
+<span class="go">            u&#39;copp-system-glean&#39;: {&#39;Drop Packets&#39;: 10606}},</span>
+<span class="go"> &#39;22sw4&#39;: {u&#39;copp-system-glean&#39;: {&#39;Drop Packets&#39;: 2228369}}}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3><a class="toc-backref" href="#id11">Final Script:</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>Here is the final script that shows if there are any control plane packet drops in the network.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Discover if there is any control plane drops in the network</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">### Section 1</span>
+
+<span class="kn">import</span> <span class="nn">pyeapi</span>
+<span class="kn">import</span> <span class="nn">getpass</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+
+
+<span class="c1">### Section 2</span>
+
+<span class="c1"># Define file path and file names</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Google Drive/my-scripts/&quot;</span>
+<span class="n">file_name_switches</span> <span class="o">=</span> <span class="s2">&quot;switches.txt&quot;</span>
+<span class="n">file_switches</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name_switches</span>
+
+<span class="c1"># Read the content of the file and save it in a List</span>
+
+<span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_switches</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1">### Section 3</span>
+
+<span class="c1"># Input Username and Password</span>
+
+<span class="n">my_username</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(</span><span class="s2">&quot;Enter your username: &quot;</span><span class="p">)</span>
+<span class="n">my_password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">&quot;Enter your password: &quot;</span><span class="p">)</span>
+
+<span class="c1">### Section 4</span>
+
+<span class="n">copp_drops</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Define API Connection String</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">my_username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">my_password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Find the host name of the switch for reporting</span>
+        <span class="n">host_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show hostname&quot;</span><span class="p">])</span>
+        <span class="n">host_name_clean</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">host_name</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;hostname&quot;</span><span class="p">])</span>
+        <span class="n">copp_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Execute the desired command</span>
+        <span class="n">copp_counters</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show policy-map interface control-plane copp-system-policy&quot;</span><span class="p">])</span>
+        <span class="n">copp_counters_clean</span> <span class="o">=</span> <span class="n">copp_counters</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;policyMaps&quot;</span><span class="p">][</span><span class="s2">&quot;copp-system-policy&quot;</span><span class="p">][</span><span class="s2">&quot;classMaps&quot;</span><span class="p">]</span>
+
+        <span class="c1"># parse through each copp system class map and discover non drop counters</span>
+        <span class="k">for</span> <span class="n">each_copp_class</span> <span class="ow">in</span> <span class="n">copp_counters_clean</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">copp_counters_clean</span><span class="p">[</span><span class="n">each_copp_class</span><span class="p">][</span><span class="s2">&quot;intfPacketCounters&quot;</span><span class="p">][</span><span class="s2">&quot;dropPackets&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">copp_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">each_copp_class</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">copp_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">each_copp_class</span><span class="p">][</span><span class="s2">&quot;Drop Packets&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">copp_counters_clean</span><span class="p">[</span><span class="n">each_copp_class</span><span class="p">][</span><span class="s2">&quot;intfPacketCounters&quot;</span><span class="p">][</span><span class="s2">&quot;dropPackets&quot;</span><span class="p">]</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+    <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+        <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">copp_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]:</span>
+        <span class="k">del</span> <span class="n">copp_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]</span>
+
+<span class="c1">### Section 5</span>
+
+
+<span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">errors</span><span class="p">):</span>
+    <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">copp_drops</span><span class="p">):</span>
+    <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">copp_drops</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="core-concepts.html" class="btn btn-neutral" title="Chapter 2: Script Framework for Use Cases" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Anees Mohamed.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

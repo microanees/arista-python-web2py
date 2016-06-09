@@ -5,15 +5,15 @@ Chapter 2: Script Framework for Use Cases
 
 This chapter is going to help you to build a Python script framework using some of the core concepts learned in the previous chapter. By using this framework you build some of the common network operational use cases such as inventory, capacity planning and troubleshooting network issues later in this book.
 
-First Program - Show version
-----------------------------
+First Script - Show version
+---------------------------
 
 In this section, we will write a Python script using pyeapi and connect to one of the Arista switches and collect “show version” from the switch.
 
 Make sure you enable management api on the Arista switch.  Below is the sample configuration to enable management api when the management interface is configured under default vrf.
 
 
-.. code-block:: console
+.. code-block:: bash
 
  configure
  !
@@ -26,7 +26,7 @@ Make sure you enable management api on the Arista switch.  Below is the sample c
 
 Below is the sample configuration to enable management api when the management interface is configured under non default vrf.
 
-.. code-block:: console
+.. code-block:: bash
 
  configure
  !
@@ -41,7 +41,7 @@ Below is the sample configuration to enable management api when the management i
 
 Launch the Python interpreter from your system and connect to Arista switch using pyeapi.
 
-::
+.. code-block:: bash
 
   anees:~ anees$ python
   Python 2.7.10 (default, Aug 22 2015, 20:33:39)
@@ -59,7 +59,7 @@ Launch the Python interpreter from your system and connect to Arista switch usin
 
 Response of the output is stored as dictionary in the variable “version”.  Dictionary is a Python data structure represented in { } bracket and the data is represented as key:<value> pair.
 
-::
+.. code-block:: bash
 
   >>> type(version)
   <type 'dict'>
@@ -72,7 +72,7 @@ Response of the output is stored as dictionary in the variable “version”.  D
 
 Value of the key “result” is a list which is another Python data structure represents in square [ ] brackets.
 
-::
+.. code-block:: bash
 
   >>> type(version["result"])
   <type 'list'>
@@ -84,7 +84,7 @@ Value of the key “result” is a list which is another Python data structure r
 
 Finally the desired data is accessible in the output of version[“result”][0]. As you see the curly bracket, it is a Python dictionary data structure.  You can access the desired data using the keys “version”, “modelName” or “serialNumber”.
 
-::
+.. code-block:: bash
 
   >>> version["result"][0]["version"]
   u'4.15.2F'
@@ -102,7 +102,7 @@ Finally the desired data is accessible in the output of version[“result”][0]
 
 As you have seen, the actual output of show version is stored as dictionary under List which is a value within a parent dictionary. If it is confusing, Python’s pprint module provides a good view of the nested data structure.
 
-::
+.. code-block:: bash
 
   >>> import pprint
 
@@ -124,12 +124,12 @@ As you have seen, the actual output of show version is stored as dictionary unde
   >>> version["result"][0]["serialNumber"]
   u'JPE14080457'
 
-Second Program - Running Show Version on Multiple Switches
-----------------------------------------------------------
+Second Script - Running Show Version on Multiple Switches
+---------------------------------------------------------
 
-Power of programming language is repeatability. Since you have already created a program to collect show version, let us use this code to collect show version from multiple switches in the network.
+Power of scriptming language is repeatability. Since you have already created a script to collect show version, let us use this code to collect show version from multiple switches in the network.
 
-Since we will be creating several python programs, let us create a folder in our systems. In this example I have created a folder called my-scripts under /Users/anees/Google Drive/.
+Since we will be creating several python scripts, let us create a folder in our systems. In this example I have created a folder called my-scripts under /Users/anees/Google Drive/.
 
 Using IDLE
 ^^^^^^^^^^
@@ -148,7 +148,7 @@ It opens a new untitled IDLE file. Save this file using File → Save As under t
 
 .. image:: images/ch02-pic3.png
 
-Write your program and save from File → Save (or Command + S).
+Write your script and save from File → Save (or Command + S).
 
 ::
 
@@ -158,16 +158,16 @@ Write your program and save from File → Save (or Command + S).
 
   version = node.execute(["show version"])
 
-Test your program from Run → Run Module (or F5).
+Test your script from Run → Run Module (or F5).
 
 .. image:: images/ch02-pic4.png
 
-The program runs in the IDLE shell, which you can see, in the right side of the following screenshot. You can also access the variables from the IDLE shell.
+The script runs in the IDLE shell, which you can see, in the right side of the following screenshot. You can also access the variables from the IDLE shell.
 
 for loop
 ^^^^^^^^
 
-Now let us create a program to collect the Model Name, Serial Number and EOS versions on multiple Arista switches in your network.
+Now let us create a script to collect the Model Name, Serial Number and EOS versions on multiple Arista switches in your network.
 
 ::
 
@@ -195,7 +195,7 @@ Now let us create a program to collect the Model Name, Serial Number and EOS ver
 
 Save and run the command. You will see the output in the IDLE shell similar to the following output.
 
-::
+.. code-block:: bash
 
   >>> ================================ RESTART ================================
   >>>
@@ -223,10 +223,10 @@ Save and run the command. You will see the output in the IDLE shell similar to t
   EOS Version: 4.15.2F
   *******************************************************
 
-Third Program - Using External Input
-------------------------------------
+Third Script - Using External Input
+-----------------------------------
 
-In the second program, we have listed the switch IP addresses, username and password in the script. In this program, we will enter the IPs in a text file and enforce the program to prompt for username and password when the script is executed.
+In the second script, we have listed the switch IP addresses, username and password in the script. In this script, we will enter the IPs in a text file and enforce the script to prompt for username and password when the script is executed.
 
 Create a file named “switches” in the same directory as you are saving the Python scripts using any text editor of your choice. And add the list of IP addresses of the switches. Format the file as plain text (Format → Make Plain Text).
 
@@ -236,7 +236,7 @@ Open the IDLE and create a new python script named inventory_version_input.py.
 
   '''
 
-  Third Program - Inventory - show version - Using External Input
+  Third script - Inventory - show version - Using External Input
 
   '''
 
@@ -258,7 +258,7 @@ Let us update the script to read the content of the file “switches”.
 
   '''
 
-  Third Program - Inventory - show version - Using External Input
+  Third script - Inventory - show version - Using External Input
 
   '''
 
@@ -278,7 +278,7 @@ Let us update the script to read the content of the file “switches”.
 
 Run the script and verify the result.
 
-::
+.. code-block:: bash
 
   >>> ================================ RESTART ================================
   >>>
@@ -294,7 +294,7 @@ We will store the IP addresses read from the file into a list.
 
   '''
 
-  Third Program - Inventory - show version - Using External Input
+  Third script - Inventory - show version - Using External Input
 
   '''
 
@@ -315,9 +315,9 @@ We will store the IP addresses read from the file into a list.
       for line in readfile:
           switches.append(line)
 
-Run this program.
+Run this script.
 
-::
+.. code-block:: bash
 
   >>> ================================ RESTART ================================
   >>>
@@ -351,7 +351,7 @@ Let us fix the script to strip the new line character.
 
   '''
 
-  Third Program - Inventory - show version - Using External Input
+  Third script - Inventory - show version - Using External Input
 
   '''
 
@@ -372,9 +372,9 @@ Let us fix the script to strip the new line character.
       for line in readfile:
           switches.append(line.strip())
 
-Save and run the program.
+Save and run the script.
 
-::
+.. code-block:: bash
 
   >>> ================================ RESTART ================================
   >>>
@@ -389,7 +389,7 @@ Now let us get the username and password interactively instead of hard coding in
 
   '''
 
-  Third Program - Inventory - show version - Using External Input
+  Third script - Inventory - show version - Using External Input
 
   '''
 
@@ -414,9 +414,9 @@ Now let us get the username and password interactively instead of hard coding in
   my_username = raw_input("Enter your username: ")
   my_password = raw_input("Enter your password: ")
 
-Save and run the program.
+Save and run the script.
 
-::
+.. code-block:: bash
 
   >>> ================================ RESTART ================================
   >>>
@@ -430,7 +430,7 @@ Obviously we don’t want to display the password on the screen when we type. We
 
   '''
 
-  Third Program - Inventory - show version - Using External Input
+  Third script - Inventory - show version - Using External Input
 
   '''
 
@@ -459,13 +459,13 @@ Obviously we don’t want to display the password on the screen when we type. We
   my_username = raw_input("Enter your username: ")
   my_password = getpass.getpass("Enter your password: ")
 
-When you run this program from IDLE (on Apple Mac), the password prompt will not be prompted in the IDLE shell. It will be shown in the Apple Mac terminal where you have started the IDLE.
+When you run this script from IDLE (on Apple Mac), the password prompt will not be prompted in the IDLE shell. It will be shown in the Apple Mac terminal where you have started the IDLE.
 
 .. image:: images/ch02-pic6.png
 
 You can also run your Python script from terminal.
 
-.. code-block:: console
+.. code-block:: bash
 
   anees:my-scripts anees$ pwd
   /Users/anees/Google Drive/my-scripts
@@ -479,13 +479,13 @@ You can also run your Python script from terminal.
   Enter your password:
   anees:my-scripts anees$
 
-Now we have achieved our requirements of inputting switch IP addresses, username and password from outside the python script. Let us complete the program with the inventory.
+Now we have achieved our requirements of inputting switch IP addresses, username and password from outside the python script. Let us complete the script with the inventory.
 
 ::
 
   '''
 
-  Third Program - Inventory - show version - Using External Input
+  Third script - Inventory - show version - Using External Input
 
   '''
 
@@ -535,7 +535,7 @@ Now we have achieved our requirements of inputting switch IP addresses, username
 
 Run the script.
 
-::
+.. code-block:: bash
 
   ================================ RESTART ================================
   >>>
@@ -564,14 +564,14 @@ Run the script.
   EOS Version: 4.15.3F
   *******************************************************
 
-Fourth Program – Storing Result in Dictionary
----------------------------------------------
+Fourth Script – Storing Result in a Dictionary
+----------------------------------------------
 
-So far we output the data within the “for loop” as and when we parse the required data using the print statement. In this program we are going to save the output in a Python dictionary instead of printing within the “for loop”. At the end of the program we will print the dictionary using pprint.
+So far we output the data within the “for loop” as and when we parse the required data using the print statement. In this script we are going to save the output in a Python dictionary instead of printing within the “for loop”. At the end of the script we will print the dictionary using pprint.
 
-Before writing the program, we need to come up with the structure of the dictionary. Structure of the dictionary depends on what data we want to collect and report. Our goal is to collect Model Name, Serial Number and EOS version of each of the switches. Hence the proposed dictionary structure is shown below:
+Before writing the script, we need to come up with the structure of the dictionary. Structure of the dictionary depends on what data we want to collect and report. Our goal is to collect Model Name, Serial Number and EOS version of each of the switches. Hence the proposed dictionary structure is shown below:
 
-::
+.. code-block:: bash
 
   {
   IP Address:
@@ -595,7 +595,7 @@ Now, the algorithm is going to look like this
 
 Launch Python interpreter from your terminal.
 
-::
+.. code-block:: bash
 
   anees:~ anees$ python
   Python 2.7.10 (default, Aug 22 2015, 20:33:39)
@@ -626,13 +626,13 @@ Launch Python interpreter from your terminal.
                    'Model Name:': '7050SX',
                    'Serial Number:': 'srx123456'}}
 
-Let us go back and update our original inventory_version program. Create a new python program with the name inventory_version_output.py and save it in your folder.
+Let us go back and update our original inventory_version script. Create a new python script with the name inventory_version_output.py and save it in your folder.
 
 ::
 
   '''
 
-  Fourth Program - Inventory - show version - Store Result in a Dictionary
+  Fourth script - Inventory - show version - Store Result in a Dictionary
 
   '''
 
@@ -687,9 +687,9 @@ Let us go back and update our original inventory_version program. Create a new p
   pprint.pprint(inventory)
 
 
-Run this program and verify the result.
+Run this script and verify the result.
 
-::
+.. code-block:: bash
 
   >>> ================================ RESTART ================================
   >>>
@@ -704,8 +704,8 @@ Run this program and verify the result.
                      'Model Name:': u'DCS-7280SE-64-F',
                      'Serial Number:': u'JPE14443170'}}
 
-Fifth Program – Handling Exceptions
------------------------------------
+Fifth Script – Handling Exceptions
+----------------------------------
 
 On the switches.txt file, add an IP address of a switch that does not exist in the network or that does not have eAPI enabled. For example, the below list has the IP address 172.28.170.143 which does not exist in the network.
 
@@ -714,9 +714,9 @@ On the switches.txt file, add an IP address of a switch that does not exist in t
 * 172.28.132.40
 * 172.28.132.45
 
-Create a new program inventory_version_exception.py in your folder. Copy the program from inventory_version_output.py and run the program.
+Create a new script inventory_version_exception.py in your folder. Copy the script from inventory_version_output.py and run the script.
 
-::
+.. code-block:: bash
 
   >>> ================================ RESTART ================================
   >>>
@@ -732,9 +732,9 @@ Create a new program inventory_version_exception.py in your folder. Copy the pro
       raise ConnectionError(str(self), 'unable to connect to eAPI')
   ConnectionError: unable to connect to eAPI
 
-Because of that one incorrect IP address, the entire program fails. This will be annoying in real world where you may be managing hundreds of devices and any one device that is not available at the moment you are running the script make the entire program fail. Software programming languages have a process called Exception Handling which should be used to react to any errors or exceptions that impacts the normal flow of your program.
+Because of that one incorrect IP address, the entire script fails. This will be annoying in real world where you may be managing hundreds of devices and any one device that is not available at the moment you are running the script make the entire script fail. Software scriptming languages have a process called Exception Handling which should be used to react to any errors or exceptions that impacts the normal flow of your script.
 
-Python has ``try/except`` keywords to handle exceptions so that you can run the scripts without exiting the program and reacts to the errors the way you wanted. The below example is used to explain ``try/except`` keywords.
+Python has ``try/except`` keywords to handle exceptions so that you can run the scripts without exiting the script and reacts to the errors the way you wanted. The below example is used to explain ``try/except`` keywords.
 
 ::
 
@@ -760,7 +760,7 @@ Python has ``try/except`` keywords to handle exceptions so that you can run the 
   except:
       errors[switch] = "ConnectionError: unable to connect to eAPI"
 
-The commands under the ``try:`` section called as try clause and the commands under ``except:`` section called as except clause. If there is any exception occurs while executing try clause, except clause will be executed and then the program execution continues. If there are no exceptions in the try clause, except clause is skipped.
+The commands under the ``try:`` section called as try clause and the commands under ``except:`` section called as except clause. If there is any exception occurs while executing try clause, except clause will be executed and then the script execution continues. If there are no exceptions in the try clause, except clause is skipped.
 
 We will update our script inventory_version_exception.py with try/except clause. In this script, we will create a separate dictionary called “errors” in which we will store the IP addresses of the switch that fails the pyeapi call and the corresponding error messages.
 
@@ -768,7 +768,7 @@ We will update our script inventory_version_exception.py with try/except clause.
 
   '''
 
-  Fifth Program - Inventory - show version - Handling Exceptions
+  Fifth script - Inventory - show version - Handling Exceptions
 
   '''
 
@@ -831,7 +831,7 @@ We will update our script inventory_version_exception.py with try/except clause.
 
 Save and run the script.
 
-::
+.. code-block:: bash
 
   >>> ================================ RESTART ================================
   >>>
@@ -848,11 +848,11 @@ Save and run the script.
                      'Model Name:': u'DCS-7280SE-64-F',
                      'Serial Number:': u'JPE14443170'}}
 
-Exception can happen due to variety of reasons. For example, it could be because of the switch is not reachable or the switch is reachable but the EOS command entered in the script is incorrect. In that case, we are expecting the module (Pyeapi) that is used to facilitate the connection should differentiate the errors and allow the programmer to handle it in the script. Pyeapi module has few types of exceptions. For more information about the exceptions supported by pyeapi module, refer the pyeapi module documentation `Python Client for eAPI <http://pyeapi.readthedocs.io/en/master/client_modules/eapilib.html>`_.
+Exception can happen due to variety of reasons. For example, it could be because of the switch is not reachable or the switch is reachable but the EOS command entered in the script is incorrect. In that case, we are expecting the module (Pyeapi) that is used to facilitate the connection should differentiate the errors and allow the scriptmer to handle it in the script. Pyeapi module has few types of exceptions. For more information about the exceptions supported by pyeapi module, refer the pyeapi module documentation `Python Client for eAPI <http://pyeapi.readthedocs.io/en/master/client_modules/eapilib.html>`_.
 
 You can also explore the modules from Python interpreter.
 
-::
+.. code-block:: bash
 
   >>> dir(pyeapi)
   ['__all__', '__author__', '__builtins__', '__doc__', '__file__', '__name__', '__package__', '__path__', '__version__', 'client', 'config_for', 'connect', 'connect_to', 'eapilib', 'load_config', 'utils']
@@ -866,7 +866,7 @@ We can update our script inventory_version_exception.py to differentiate the typ
 
   '''
 
-  Fifth Program - Inventory - show version - Handling Exceptions
+  Fifth script - Inventory - show version - Handling Exceptions
 
   '''
 
@@ -933,7 +933,7 @@ We can update our script inventory_version_exception.py to differentiate the typ
 
 Verify the error messages.
 
-::
+.. code-block:: bash
 
   >>> ================================ RESTART ================================
   >>>
@@ -952,7 +952,7 @@ Verify the error messages.
 
 Change the command syntax “show version” to “show ver” and run the command.
 
-::
+.. code-block:: bash
 
   >>> ================================ RESTART ================================
   >>>
@@ -966,7 +966,7 @@ Change the command syntax “show version” to “show ver” and run the comma
 Summary – Script Framework
 --------------------------
 
-We have learned various Python concepts step by step using the inventory use case and finally we got a structure for our network use case Python script if you have observed closely all the five programs. The structure of code is shown below:
+We have learned various Python concepts step by step using the inventory use case and finally we got a structure for our network use case Python script if you have observed closely all the five scripts. The structure of code is shown below:
 
 **Section 1:** Import Modules
 

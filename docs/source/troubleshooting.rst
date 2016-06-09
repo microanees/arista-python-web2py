@@ -3,21 +3,21 @@ Chapter 3: Troubleshooting Use Cases
 
 .. contents:: :local:
 
-This chapter shows how to build Python scripts for a couple of network troubleshooting use cases. There are no new Python concepts introduced in this chapter but it gives a good practice to use the framework and Python concepts you learned so far in this book. For all the use cases, first we are going to write a high level algorithm, then we start writing the script step bt step based on the algorithm.
+This chapter shows how to build Python scripts for a couple of network troubleshooting use cases. There are no new Python concepts introduced in this chapter but it gives a good practice to use the framework and Python concepts you learned so far in this book. For all the use cases, first we are going to write a high level troubleshooting steps, then we will start writing the script step by step based on the troubleshooting steps.
 
 Monitor Data Plane Drops
 ------------------------
 
-The goal of this script is to discover if there are any packet drops in any of the switches in the network. First we will write down the algorithm (or troubleshooting steps) and then we will build the script.
+The goal of this script is to discover if there are any packet drops in any of the switches in the network. First we will write down the troubleshooting steps and then we will build the script.
 
-Algorithm:
-^^^^^^^^^^
+Arista EOS Show Commands
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 Our requirement is to list out the name of the switches, interface numbers and the corresponding drop counters. You can collect all the information using “show interfaces” command.  In this example, we are going to use “show interfaces counters discards”  to find the interfaces that see drops and then collect the “show interface” for that particular interface and get the detailed drop counters.
 
 **Step 1:** Identify if there are any drops in the switch and obtain the interface numbers.
 
-::
+.. code-block:: bash
 
   Arista-switch# show interfaces counters discards | json
   {
@@ -50,7 +50,7 @@ Our requirement is to list out the name of the switches, interface numbers and t
 
 **Step 2:** If any of the interfaces has non-zero counter in inDiscards or outDiscards, collect the show interface and print the detailed output or input error counters.
 
-.. code-block:: python
+.. code-block:: bash
   :emphasize-lines: 31,32,33,34,35,36,38,41,42,43,44,45,46,47,48,52
 
   Arista-switch# show interfaces ethernet 21 | json
@@ -114,11 +114,11 @@ Our requirement is to list out the name of the switches, interface numbers and t
       }
   }
 
-Develop Program:
-^^^^^^^^^^^^^^^^
+Develop Script
+^^^^^^^^^^^^^^
 
-Open the IDLE and create a new program and save as interface_drops.py in your folder.
-Copy the code from section 1, 2, 3 from our framework and paste it in this new program.
+Open the IDLE and create a new script and save as interface_drops.py in your folder.
+Copy the code from section 1, 2, 3 from our framework and paste it in this new script.
 
 ::
 
@@ -157,7 +157,7 @@ Copy the code from section 1, 2, 3 from our framework and paste it in this new p
 
 **Step 1:** Identify interfaces having packet drops
 
-Start section 4 with the usual ``for`` loop and pyeapi command. Collect “show interfaces counters discards” output from the switches. Later in the program we will store the result in the dictionary we name as interface_drops.
+Start section 4 with the usual ``for`` loop and pyeapi command. Collect “show interfaces counters discards” output from the switches. Later in this script we will store the result in a dictionary we will name as interface_drops.
 
 .. code-block:: python
   :emphasize-lines: 12
@@ -185,9 +185,9 @@ Start section 4 with the usual ``for`` loop and pyeapi command. Collect “show 
 
   pprint.pprint(errors)
 
-Save and run the program. We are going to explore the dictionary to find the exact key to see the the packet drops.
+Save and run the script. We are going to explore the dictionary to find the exact key to see the the packet drops.
 
-::
+.. code-block:: bash
 
   ================================ RESTART ================================
   >>>
@@ -309,7 +309,7 @@ Save and run the script. Now we are going to explore within the “show interfac
 
 .. image:: images/ch03-pic1.png
 
-::
+.. code-block:: bash
 
   >>> show_interface["result"][0]["interfaces"]["Ethernet21"]["interfaceCounters"]["inputErrorsDetail"]
 
@@ -363,7 +363,7 @@ Now we know the key for the input and output error details. What we need to know
 
 Save and run the script.
 
-::
+.. code-block:: bash
 
   >>> ================================ RESTART ================================
   >>>
@@ -423,7 +423,7 @@ We are going to do the interface check using “if ‘Port-Channel’ not in int
 
 Save and run the script.
 
-::
+.. code-block:: bash
 
   >>> ================================ RESTART ================================
   >>>
@@ -436,9 +436,9 @@ Save and run the script.
 
 Let us store the result in a nice format in a dictionary.
 
-::
+.. code-block:: bash
 
-  Interface_drops =
+  interface_drops =
   {
 
   Switch_host_name: {
@@ -577,7 +577,7 @@ Now let us look at the section 4 of the script we have developed so far.
 
 Save and run the script.
 
-::
+.. code-block:: bash
 
   >>> ================================ RESTART ================================
   >>>
@@ -598,7 +598,7 @@ As you see, we are seeing some of the empty dictionaries printed in the output. 
 
 The following is one of the methods to check whether a dictionary is empty or not:
 
-::
+.. code-block:: bash
 
   anees:~ anees$ python
   Python 2.7.10 (default, Aug 22 2015, 20:33:39)
@@ -704,7 +704,7 @@ With these additional checks, we will print errors only if the errors dictionary
 
 Save and run the script. You will no longer see the empty dictionaries.
 
-::
+.. code-block:: bash
 
   ================================ RESTART ================================
   >>>
@@ -763,8 +763,8 @@ Now we will add the if statement to verify if there is any difference in the pac
           interface_drops[host_name_clean][interface]["outDiscards"]["Total Discards"] = interface_counters_new_clean[interface]["outDiscards"]
           interface_drops[host_name_clean][interface]["outDiscards"]["Output Errors"] = show_interface_clean["outputErrorsDetail"]
 
-Final Script:
-^^^^^^^^^^^^^
+Final Script
+^^^^^^^^^^^^
 
 Here is the final script that shows if there are any continuous packet drops in the network.
 
@@ -885,14 +885,14 @@ Change the troubleshooting steps and modify the script as per your troubleshooti
 Monitor Control Plane Drops
 ---------------------------
 
-The goal of this script is to discover if there are any control plane drops in any of the switches in the network. First we will write down the algorithm (or troubleshooting steps) and then we will build the script.
+The goal of this script is to discover if there are any control plane drops in any of the switches in the network. First we will write down the troubleshooting steps and then we will build the script.
 
-Algorithm:
-^^^^^^^^^^
+Arista EOS Show Commands
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 **Step 1:** Identify if there are any control plane drops in the switch
 
-.. code-block:: console
+.. code-block:: bash
   :emphasize-lines: 3,4,6,26,34,36
 
   Arista-switch#show policy-map interface control-plane copp-system-policy | json
@@ -942,7 +942,7 @@ Algorithm:
 
 **Step 2:** If we find any of the copp classes have drops, we will save the result in a directory.
 
-.. code-block:: console
+.. code-block:: bash
 
   Copp_drops = {
                  “switch_host_name”: {
@@ -953,13 +953,13 @@ Algorithm:
 
 **Step 3:** We will add the logic to show the control plane drops only if the counters are incrementing.
 
-Develop Program:
-^^^^^^^^^^^^^^^^
+Develop Script
+^^^^^^^^^^^^^^
 
-**Step 1:** Initial Program and explore output counters
+**Step 1:** Initial script and explore output counters
 
-Open the IDLE and create a new program and save as copp_drops.py in your folder.
-Copy the code from section 1, 2, 3 from our framework and paste it in this new program.
+Open the IDLE and create a new script and save as copp_drops.py in your folder.
+Copy the code from section 1, 2, 3 from our framework and paste it in this new script.
 
 ::
 
@@ -1024,9 +1024,9 @@ Start section 4 with the usual “for loop” and pyeapi command. Collect “sho
   if bool(errors):
       pprint.pprint(errors)
 
-Save and run the program.
+Save and run the script.
 
-::
+.. code-block:: bash
 
   >>> ================================ RESTART ================================
   >>>
@@ -1105,7 +1105,7 @@ Since we know what counters to look, we will use if statement to verify for non 
 
 Save and run the script.
 
-::
+.. code-block:: bash
 
   >>> ================================ RESTART ================================
   >>>
@@ -1164,7 +1164,7 @@ Save and run the script.
 
 Save and run the script.
 
-::
+.. code-block:: bash
 
   >>> ================================ RESTART ================================
   >>>
@@ -1174,8 +1174,8 @@ Save and run the script.
               u'copp-system-glean': {'Drop Packets': 10606}},
    '22sw4': {u'copp-system-glean': {'Drop Packets': 2228369}}}
 
-Final Script:
-^^^^^^^^^^^^^
+Final Script
+^^^^^^^^^^^^
 
 Here is the final script that shows if there are any control plane packet drops in the network.
 

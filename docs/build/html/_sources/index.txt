@@ -15,3 +15,4 @@ Contents:
     introduction
     core-concepts
     troubleshooting
+    capacity-planning

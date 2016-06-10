@@ -49,8 +49,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'arista-python-web2py'
-copyright = u'2016, Anees Mohamed'
-author = u'Anees Mohamed'
+copyright = u'2016, Anees Mohammed'
+author = u'Anees Mohammed'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -138,7 +138,7 @@ if not on_rtd:  # only import and set the theme if we're building docs locally
     import sphinx_rtd_theme
     html_theme = 'sphinx_rtd_theme'
     html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-    
+
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
 #html_logo = None

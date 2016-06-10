@@ -1,0 +1,345 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Chapter 5: Web2Py Introduction &mdash; Python for Network Engineers</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Python for Network Engineers" href="index.html"/>
+        <link rel="prev" title="Chapter 4: Capacity Planning Use Cases" href="capacity-planning.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> arista-python-web2py
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Chapter 1: Introducing Python Core Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core-concepts.html">Chapter 2: Script Framework for Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Chapter 3: Troubleshooting Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capacity-planning.html">Chapter 4: Capacity Planning Use Cases</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chapter 5: Web2Py Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#understanding-the-functionality-of-the-tool">Understanding the functionality of the Tool</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prepare-the-tool">Prepare the Tool</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#add-switches">Add Switches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#categorize-switches">Categorize Switches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#view-switches">View Switches</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#capacity-planning">Capacity Planning</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#port-capacity">Port Capacity</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#network-wide-troubleshooting">Network-wide Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#packet-drops">Packet Drops</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#web2py-framework-for-the-tool">Web2Py Framework for the Tool</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#web2py-framework">Web2Py Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#controller">Controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#views">Views</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">arista-python-web2py</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Chapter 5: Web2Py Introduction</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/web2py-introduction.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="chapter-5-web2py-introduction">
+<h1>Chapter 5: Web2Py Introduction<a class="headerlink" href="#chapter-5-web2py-introduction" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#understanding-the-functionality-of-the-tool" id="id1">Understanding the functionality of the Tool</a><ul>
+<li><a class="reference internal" href="#prepare-the-tool" id="id2">Prepare the Tool</a><ul>
+<li><a class="reference internal" href="#add-switches" id="id3">Add Switches</a></li>
+<li><a class="reference internal" href="#categorize-switches" id="id4">Categorize Switches</a></li>
+<li><a class="reference internal" href="#view-switches" id="id5">View Switches</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#capacity-planning" id="id6">Capacity Planning</a><ul>
+<li><a class="reference internal" href="#port-capacity" id="id7">Port Capacity</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#network-wide-troubleshooting" id="id8">Network-wide Troubleshooting</a><ul>
+<li><a class="reference internal" href="#packet-drops" id="id9">Packet Drops</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#web2py-framework-for-the-tool" id="id10">Web2Py Framework for the Tool</a><ul>
+<li><a class="reference internal" href="#web2py-framework" id="id11">Web2Py Framework</a></li>
+<li><a class="reference internal" href="#controller" id="id12">Controller</a></li>
+<li><a class="reference internal" href="#views" id="id13">Views</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>I hope that you are comfortable in writing Python scripts to automate some of the network operational tasks by now. So far we are writing the code and storing in a Python (.py) file and run the script from terminal or from any Python development environment. Next step is to improve the usability of the scripts you have written so far. How about if you can host all the Python scripts you have written so far in a web based tool? This way you can access the tool anywhere from the network using your browser. And you can share the tool with your team.</p>
+<p>As you start learning Python, you will start to consume lot of Python modules written by the community. With the web based tool, you have to install those modules only on the servers where you are hosting your Python scripts. All the users who are consuming the tool does not have to install any of these modules and they don’t even need to have Python installed on their systems.</p>
+<p>What do we need to do to build a web based tool and host the Python scripts?. We need a web framework such as Web2Py or Django. In this book, we are going to use Web2Py as our web framework. Since the fundamental principal of this book is to teach you Python and web2py by using the networking use cases, we are going to explain the web2py framework by using the tool we are going to build.</p>
+<p>We are going to build a tool like this:</p>
+<img alt="_images/ch05-pic1.png" src="_images/ch05-pic1.png" />
+<p>We will first understand the tool and then we will review how it is implemented using web2py framework. Primary purpose of the tool is to host your Python scripts. As you can see that some of the scripts we created in the previous chapters were listed under network-wide troubleshooting and capacity planning sections. We are going to add a provision in the tool where you can manually add the IP addresses of the switches in the network. Prepare the tool section allows you to add IP addresses of the switches to the tool.</p>
+<p>Once you added the list of switches in the tool, you can run your tasks under capacity planning and network-wide troubleshooting against those switches. We will walk through the tool to better understand what we are going to build using web2py framework.</p>
+<div class="section" id="understanding-the-functionality-of-the-tool">
+<h2><a class="toc-backref" href="#id1">Understanding the functionality of the Tool</a><a class="headerlink" href="#understanding-the-functionality-of-the-tool" title="Permalink to this headline">¶</a></h2>
+<p>The purpose of the tool is to run common network operational tasks across multiple Arista switches in the network.</p>
+<div class="section" id="prepare-the-tool">
+<h3><a class="toc-backref" href="#id2">Prepare the Tool</a><a class="headerlink" href="#prepare-the-tool" title="Permalink to this headline">¶</a></h3>
+<p>Users should be able to add switches to the tool as and when they roll out new Arista switches in the network. We are also going to add an option to categorize switches based on site and role. This gives an option to run the operational tasks selectively on the switches belong to specific site and role.</p>
+<div class="section" id="add-switches">
+<h4><a class="toc-backref" href="#id3">Add Switches</a><a class="headerlink" href="#add-switches" title="Permalink to this headline">¶</a></h4>
+<p>Add switches will allow you to add the list of IP addresses of the Arista switches. It requires username and password as well.</p>
+<img alt="_images/ch05-pic2.png" src="_images/ch05-pic2.png" />
+<p>After you provide all information and hit submit, the script will collect switch name, model and software version from the switches and then it stores the data in a file locally in the server. We will show you the file name and the path when we show you how to build this tool later in this book. The add switches task also displays the inventory of the switches we are adding in the output as below.</p>
+<img alt="_images/ch05-pic3.png" src="_images/ch05-pic3.png" />
+</div>
+<div class="section" id="categorize-switches">
+<h4><a class="toc-backref" href="#id4">Categorize Switches</a><a class="headerlink" href="#categorize-switches" title="Permalink to this headline">¶</a></h4>
+<p>When you click &#8220;Categorize Switches&#8221;, the script will pull the inventory information of the switches we added in the &#8220;Add Switches&#8221; task from the file stored in the server.</p>
+<img alt="_images/ch05-pic4.png" src="_images/ch05-pic4.png" />
+<p>For each switch, it will show the configured site and role. For the switches added through &#8220;Add Switches&#8221; task, these two fields will be configured as none. You can manually update each switch with corresponding site and role as per your network design.</p>
+</div>
+<div class="section" id="view-switches">
+<h4><a class="toc-backref" href="#id5">View Switches</a><a class="headerlink" href="#view-switches" title="Permalink to this headline">¶</a></h4>
+<p>You can view the current inventory of the switches using &#8220;View Switches&#8221; task.</p>
+<img alt="_images/ch05-pic5.png" src="_images/ch05-pic5.png" />
+</div>
+</div>
+<div class="section" id="capacity-planning">
+<h3><a class="toc-backref" href="#id6">Capacity Planning</a><a class="headerlink" href="#capacity-planning" title="Permalink to this headline">¶</a></h3>
+<p>We will just see how to run one of the tasks in this category to understand how the tool works.</p>
+<div class="section" id="port-capacity">
+<h4><a class="toc-backref" href="#id7">Port Capacity</a><a class="headerlink" href="#port-capacity" title="Permalink to this headline">¶</a></h4>
+<p>When you click &#8220;Port Capacity&#8221; task, it will prompt you for username, password, site and role. If you want to run the task on all the switches, select All for both site and role fields. Basically site and role fields give you the flexibility to select the list of switches to which you want to run the task.</p>
+<img alt="_images/ch05-pic6.png" src="_images/ch05-pic6.png" />
+<p>After you enter username, password, site and role, the script will run against the switches based on your selection and displays the inventory of unused ports.</p>
+<img alt="_images/ch05-pic7.png" src="_images/ch05-pic7.png" />
+</div>
+</div>
+<div class="section" id="network-wide-troubleshooting">
+<h3><a class="toc-backref" href="#id8">Network-wide Troubleshooting</a><a class="headerlink" href="#network-wide-troubleshooting" title="Permalink to this headline">¶</a></h3>
+<p>We will just see how to run one of the tasks in this category to understand how the tool works.</p>
+<div class="section" id="packet-drops">
+<h4><a class="toc-backref" href="#id9">Packet Drops</a><a class="headerlink" href="#packet-drops" title="Permalink to this headline">¶</a></h4>
+<p>Almost all the use cases will prompt you the same form. The data you need to provide is the username and password of the switches and then select the site and role.</p>
+<img alt="_images/ch05-pic8.png" src="_images/ch05-pic8.png" />
+<p>After you enter username, password, site and role, the script will run against the switches based on your selection. It displays the switch name and the interfaces where the packet drops are observed in the network.</p>
+<img alt="_images/ch05-pic9.png" src="_images/ch05-pic9.png" />
+</div>
+</div>
+</div>
+<div class="section" id="web2py-framework-for-the-tool">
+<h2><a class="toc-backref" href="#id10">Web2Py Framework for the Tool</a><a class="headerlink" href="#web2py-framework-for-the-tool" title="Permalink to this headline">¶</a></h2>
+<p>Web2Py can be downloaded from <a class="reference external" href="http://www.web2py.com">www.web2py.com</a> and installed on most of the desktop and server operating systems. Web2Py can be considered as server side application systems and you need a web tier to serve the applications to clients. You can either use the Rocket WSGI web server that installed with Web2Py or you can leverage other web servers such as Apache. In our example, we will use Apache web server running on top of Ubuntu Linux operating systems to host our tool.</p>
+<div class="section" id="web2py-framework">
+<h3><a class="toc-backref" href="#id11">Web2Py Framework</a><a class="headerlink" href="#web2py-framework" title="Permalink to this headline">¶</a></h3>
+<p>The web2py instance can server multiple applications. Each application has a controller (default.py) where you write your Python scripts and a view which generates html page to interact with end users.</p>
+<img alt="_images/ch05-pic10.png" src="_images/ch05-pic10.png" />
+<p>We are going to explore the web2py components of our specific application in this section. Then we will show you how to build the entire application from scratch in this book. Let us explore the web2py components from the front page of our tool.</p>
+<img alt="_images/ch05-pic11.png" src="_images/ch05-pic11.png" />
+<p>As you can see from the URL, our application name is “eostool”, controller name is “default” and the function name is “index”.</p>
+<p>Once web2py is installed, you can create multiple applications. In our example, we created an application called “eostool”. The below screenshot shows the list of applications created in our web2py instance.</p>
+<img alt="_images/ch05-pic12.png" src="_images/ch05-pic12.png" />
+<p>Using Web2Py&#8217;s web administrative interface, you can create applications. Each application follows MVC (Model, View and Controller) framework.</p>
+<img alt="_images/ch05-pic13.png" src="_images/ch05-pic13.png" />
+</div>
+<div class="section" id="controller">
+<h3><a class="toc-backref" href="#id12">Controller</a><a class="headerlink" href="#controller" title="Permalink to this headline">¶</a></h3>
+<p>Default controller name for any web2py application is default.py. This is where we write all our Python scripts. You can edit default.py using web2py administrative interface.</p>
+<img alt="_images/ch05-pic14.png" src="_images/ch05-pic14.png" />
+<p>In the previous chapters, we created separate files for each of our use cases. In web2py, each of the use cases corresponds to a function in the default controller. Port capacity, hardware scalability assessment, data plane and control plane drops are all separate functions in the default controller.</p>
+<p>For example, Add Switches in our tool is a function called add_inventory() which is in the controller default.py.</p>
+<img alt="_images/ch05-pic15.png" src="_images/ch05-pic15.png" />
+<p>Home page of the application &#8220;eostool&#8221; is also a function called index() in the controller default.py.</p>
+<img alt="_images/ch05-pic16.png" src="_images/ch05-pic16.png" />
+</div>
+<div class="section" id="views">
+<h3><a class="toc-backref" href="#id13">Views</a><a class="headerlink" href="#views" title="Permalink to this headline">¶</a></h3>
+<p>The tool has to interact with the end users to collect the input and also to display the result of your Python script. As we know that each function in the default controller is your Python script performs specific network operations task. Each task requires user interface to collect the input from users and to display result. We will create &#8220;web2py view&#8221; for each function to facilitate the user interface. View is nothing but a html file and the name of the html file is same as the name of the function in the default controller. For example view of the function add_inventory() is add_inventory.html.</p>
+<img alt="_images/ch05-pic17.png" src="_images/ch05-pic17.png" />
+<p>Whenever you need to create a new network operations task (Python script), you will create a separate function in this default.py controller and a separate view for your function. Then you can add a link in the home page (index.html).</p>
+<img alt="_images/ch05-pic18.png" src="_images/ch05-pic18.png" />
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="capacity-planning.html" class="btn btn-neutral" title="Chapter 4: Capacity Planning Use Cases" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Anees Mohammed.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

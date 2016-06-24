@@ -17,3 +17,4 @@ Contents:
     troubleshooting
     capacity-planning
     web2py-introduction
+    web2py-installation

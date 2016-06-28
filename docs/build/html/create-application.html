@@ -1,0 +1,318 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Chapter 7: Creating a New Web2Py Application &mdash; Python for Network Engineers</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Python for Network Engineers" href="index.html"/>
+        <link rel="prev" title="Chapter 6: Web2Py Installation" href="web2py-installation.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> arista-python-web2py
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Chapter 1: Introducing Python Core Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core-concepts.html">Chapter 2: Script Framework for Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Chapter 3: Troubleshooting Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capacity-planning.html">Chapter 4: Capacity Planning Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web2py-introduction.html">Chapter 5: Web2Py Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web2py-installation.html">Chapter 6: Web2Py Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chapter 7: Creating a New Web2Py Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#default-admin-page">Default Admin Page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-a-new-application">Create a New Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edit-the-application">Edit the Application</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">arista-python-web2py</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Chapter 7: Creating a New Web2Py Application</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/create-application.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="chapter-7-creating-a-new-web2py-application">
+<h1>Chapter 7: Creating a New Web2Py Application<a class="headerlink" href="#chapter-7-creating-a-new-web2py-application" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#default-admin-page" id="id1">Default Admin Page</a></li>
+<li><a class="reference internal" href="#create-a-new-application" id="id2">Create a New Application</a></li>
+<li><a class="reference internal" href="#edit-the-application" id="id3">Edit the Application</a></li>
+</ul>
+</div>
+<p>We are going to create a new application and launch all our use cases through that application. You can create many applications and host it from single web2py instance. For example, you can build separate applications for your network operations, engineering and architecture groups. The application which we are going to create is more suitable for network operations team.</p>
+<div class="section" id="default-admin-page">
+<h2><a class="toc-backref" href="#id1">Default Admin Page</a><a class="headerlink" href="#default-admin-page" title="Permalink to this headline">¶</a></h2>
+<p>When you install Web2Py, it installs few applications by default. One of them is an admin application which provides the administrative interface to create, modify, develop and delete applications. You can access the admin application from your browser by using the url <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/admin/default/index. It will prompt you for the admin password. Use the password you set when you brought the web2py service up.</p>
+<img alt="_images/ch07-pic1.png" src="_images/ch07-pic1.png" />
+<p>You will see the default applications created as part of the web2py installation.</p>
+</div>
+<div class="section" id="create-a-new-application">
+<h2><a class="toc-backref" href="#id2">Create a New Application</a><a class="headerlink" href="#create-a-new-application" title="Permalink to this headline">¶</a></h2>
+<p>You can create new applications from the admin interface. Simply provide a name for your new application under &#8220;New simple application&#8221; section and click create. In our example, we use the application name as &#8220;Arista_EOS_Tool&#8221;.</p>
+<img alt="_images/ch07-pic2.png" src="_images/ch07-pic2.png" />
+<p>It will create the new application with default models, controllers and views.</p>
+<img alt="_images/ch07-pic3.png" src="_images/ch07-pic3.png" />
+<p>You can view the newly created application by directly launching from your browser using the url <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/Arista_EOS_Tool/default/index. You can also launch your application from admin interface. Right click your application and click &#8220;open Link in New Tab&#8221;.</p>
+<img alt="_images/ch07-pic4.png" src="_images/ch07-pic4.png" />
+<p>This is the default web site created by web2py for your application.</p>
+<img alt="_images/ch07-pic5.png" src="_images/ch07-pic5.png" />
+<p>You can verify the folders and files created by web2py for your new application in the Ubuntu server. You can see the default applications and your application in the &#8220;&#8221;/home/www-data/web2py/applications&#8221; folder.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees@ubuntu-web2py:/home/www-data/web2py/applications$ <span class="nb">pwd</span>
+/home/www-data/web2py/applications
+
+anees@ubuntu-web2py:/home/www-data/web2py/applications$ ll
+drwxr-xr-x  <span class="m">8</span> www-data www-data <span class="m">4096</span> Mar <span class="m">14</span> 16:17 ./
+drwxr-xr-x <span class="m">11</span> www-data www-data <span class="m">4096</span> Mar <span class="m">14</span> 16:17 ../
+drwxrwxr-x <span class="m">14</span> www-data www-data <span class="m">4096</span> Dec <span class="m">29</span> 12:18 admin/
+drwxrwxr-x <span class="m">15</span> www-data www-data <span class="m">4096</span> Dec <span class="m">29</span> 12:20 Arista_EOS_Tool/
+drwxrwxr-x <span class="m">14</span> www-data www-data <span class="m">4096</span> Jan <span class="m">29</span> 21:21 examples/
+-rw-rw-r--  <span class="m">1</span> www-data www-data    <span class="m">1</span> Dec <span class="m">26</span> 04:58 __init__.py
+-rw-r--r--  <span class="m">1</span> www-data www-data  <span class="m">111</span> Dec <span class="m">29</span> 12:18 __init__.pyc
+drwxrwxr-x <span class="m">14</span> www-data www-data <span class="m">4096</span> Dec <span class="m">29</span> 12:18 welcome/
+</pre></div>
+</div>
+<p>Within each application, you can see the folders for model, controllers and views.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees@ubuntu-web2py:/home/www-data/web2py/applications$ <span class="nb">cd</span> Arista_EOS_Tool/
+anees@ubuntu-web2py:/home/www-data/web2py/applications/Arista_EOS_Tool$ ll
+drwxrwxr-x <span class="m">15</span> www-data www-data  <span class="m">4096</span> Dec <span class="m">29</span> 12:20 ./
+drwxr-xr-x  <span class="m">8</span> www-data www-data  <span class="m">4096</span> Mar <span class="m">14</span> 16:17 ../
+-rw-rw-r--  <span class="m">1</span> www-data www-data    <span class="m">55</span> Dec <span class="m">26</span> 04:58 ABOUT
+drwxr-xr-x  <span class="m">2</span> www-data www-data  <span class="m">4096</span> Dec <span class="m">29</span> 12:19 cache/
+drwxrwxr-x  <span class="m">2</span> www-data www-data  <span class="m">4096</span> Dec <span class="m">29</span> 12:21 controllers/
+drwxrwxr-x  <span class="m">2</span> www-data www-data  <span class="m">4096</span> Dec <span class="m">26</span> 04:58 cron/
+drwxr-xr-x  <span class="m">2</span> www-data www-data  <span class="m">4096</span> May <span class="m">19</span> 09:22 databases/
+drwxr-xr-x  <span class="m">2</span> www-data www-data <span class="m">16384</span> May <span class="m">19</span> 09:40 errors/
+-rw-rw-r--  <span class="m">1</span> www-data www-data     <span class="m">1</span> Dec <span class="m">26</span> 04:58 __init__.py
+-rw-r--r--  <span class="m">1</span> www-data www-data   <span class="m">127</span> Dec <span class="m">29</span> 12:20 __init__.pyc
+drwxrwxr-x  <span class="m">2</span> www-data www-data  <span class="m">4096</span> Dec <span class="m">26</span> 04:58 languages/
+-rw-rw-r--  <span class="m">1</span> www-data www-data   <span class="m">208</span> Dec <span class="m">26</span> 04:58 LICENSE
+drwxrwxr-x  <span class="m">2</span> www-data www-data  <span class="m">4096</span> Jan <span class="m">29</span> 17:42 models/
+drwxrwxr-x  <span class="m">2</span> www-data www-data  <span class="m">4096</span> Dec <span class="m">29</span> 12:20 modules/
+drwxrwxr-x  <span class="m">2</span> www-data www-data  <span class="m">4096</span> Dec <span class="m">26</span> 04:58 private/
+-rw-r--r--  <span class="m">1</span> www-data www-data <span class="m">45009</span> Jun  <span class="m">9</span> 10:08 progress.log
+-rw-rw-r--  <span class="m">1</span> www-data www-data  <span class="m">1510</span> Dec <span class="m">26</span> 04:58 routes.example.py
+drwxr-xr-x <span class="m">20</span> www-data www-data  <span class="m">4096</span> Jun  <span class="m">6</span> 08:17 sessions/
+drwxrwxr-x  <span class="m">6</span> www-data www-data  <span class="m">4096</span> Jun  <span class="m">9</span> 10:07 static/
+drwxr-xr-x  <span class="m">2</span> www-data www-data  <span class="m">4096</span> Dec <span class="m">29</span> 12:19 uploads/
+drwxrwxr-x  <span class="m">3</span> www-data www-data  <span class="m">4096</span> Jan <span class="m">29</span> 19:44 views/
+</pre></div>
+</div>
+<p>You can find the default controller default.py under the controllers folder.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees@ubuntu-web2py:/home/www-data/web2py/applications/Arista_EOS_Tool$ <span class="nb">cd</span> controllers/
+
+anees@ubuntu-web2py:/home/www-data/web2py/applications/Arista_EOS_Tool/controllers$ ll
+drwxrwxr-x  <span class="m">2</span> www-data www-data  <span class="m">4096</span> Dec <span class="m">29</span> 12:21 ./
+drwxrwxr-x <span class="m">15</span> www-data www-data  <span class="m">4096</span> Dec <span class="m">29</span> 12:20 ../
+-rw-rw-r--  <span class="m">1</span> www-data www-data <span class="m">25689</span> Dec <span class="m">26</span> 04:58 appadmin.py
+-rw-rw-r--  <span class="m">1</span> www-data www-data <span class="m">33650</span> May <span class="m">19</span> 09:45 default.py
+</pre></div>
+</div>
+<p>You can find the views under the &#8220;views/default&#8221; folder.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees@ubuntu-web2py:/home/www-data/web2py/applications/Arista_EOS_Tool/controllers$ <span class="nb">cd</span> ../views/default
+anees@ubuntu-web2py:/home/www-data/web2py/applications/Arista_EOS_Tool/views/default$ ll
+-rw-rw-r-- <span class="m">1</span> www-data www-data <span class="m">1660</span> Jun  <span class="m">9</span> 10:08 index.html
+</pre></div>
+</div>
+</div>
+<div class="section" id="edit-the-application">
+<h2><a class="toc-backref" href="#id3">Edit the Application</a><a class="headerlink" href="#edit-the-application" title="Permalink to this headline">¶</a></h2>
+<p>We will remove the default scripts from the default controller and the view to start a clean empty application. Then from next chapter onwards, we will start populating our network use cases in this application.</p>
+<p>Go to admin interface using the url <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/admin/default/index. Click the &#8220;Manage&#8221; button and select Edit.</p>
+<img alt="_images/ch07-pic6.png" src="_images/ch07-pic6.png" />
+<p>Click Edit which is right next to default.py controller.</p>
+<img alt="_images/ch07-pic7.png" src="_images/ch07-pic7.png" />
+<p>You will see the default functions created by web2py. You should be able to see views (html files) for each of the function in this controller.</p>
+<img alt="_images/ch07-pic8.png" src="_images/ch07-pic8.png" />
+<p>Remove all the scripts in the default.py and just enter the below Python script.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>We have just created a function index() which does not have any logic and it just returns empty dictionary to the view. Save the script.</p>
+<img alt="_images/ch07-pic9.png" src="_images/ch07-pic9.png" />
+<p>Now we will cleanup the view (Arista_EOS_Tool/views/default/index.html) for the index() function. Open the default view for index() function from administrative interface. On the left top, you will see files toggle &#8211;&gt; Views &#8211;&gt; default/index.html.</p>
+<img alt="_images/ch07-pic10.png" src="_images/ch07-pic10.png" />
+<p>Delete the existing html scripts and just include the web2py&#8217;s default layout. layout.html is hosted for every application you create through web2py. You can find this file inside the views folder of your application (Arista_EOS_Tool/views/).</p>
+<img alt="_images/ch07-pic11.png" src="_images/ch07-pic11.png" />
+<p>Save the view and verify your blank application from browser <a class="reference external" href="http:/">http:/</a>/&lt;web-server&gt;/Arista_EOS_Tool/default/index. The web page displays only the default layout (layout.html) which we included in the view.</p>
+<img alt="_images/ch07-pic12.png" src="_images/ch07-pic12.png" />
+<p>We have successfully created a blank application. Let us move forward in hosting network operations use cases.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="web2py-installation.html" class="btn btn-neutral" title="Chapter 6: Web2Py Installation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Anees Mohammed.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

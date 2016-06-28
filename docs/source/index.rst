@@ -6,6 +6,8 @@
 Learn Python through Arista Network Use Cases
 =============================================
 
+.. image:: images/title.png
+
 Contents:
 
 .. toctree::

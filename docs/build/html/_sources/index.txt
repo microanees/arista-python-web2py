@@ -21,3 +21,4 @@ Contents:
     web2py-introduction
     web2py-installation
     create-application
+    web2py-prepare

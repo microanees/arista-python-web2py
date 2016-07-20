@@ -12,7 +12,6 @@ In this section, we will write a Python script using pyeapi and connect to one o
 
 Make sure you enable management api on the Arista switch.  Below is the sample configuration to enable management api when the management interface is configured under default vrf.
 
-
 .. code-block:: bash
 
  configure
@@ -39,7 +38,7 @@ Below is the sample configuration to enable management api when the management i
     vrf mgmt
        no shutdown
 
-Launch the Python interpreter from your system and connect to Arista switch using pyeapi.
+Launch the Python interpreter from your system and connect to Arista switch using pyeapi. If you have not installed pyeapi module, refer :ref:`Installing-Python-Modules`.
 
 .. code-block:: bash
 

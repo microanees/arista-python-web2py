@@ -91,12 +91,55 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#python-package-manager-pip">Python Package Manager (pip)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-python-modules">Installing Python Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyeapi">Pyeapi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jsonrpc">jsonrpc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#python-core-concepts">Python Core Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#data-type">Data Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-structure">Data Structure</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#list">List</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#set">Set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dictionary">Dictionary</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#control-flow-statements">Control Flow Statements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#if">if</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#for">for</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#data-operations">Data Operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#string">String</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#integer">Integer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#simple-use-cases">Simple Use Cases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#script-file">Script File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pprint">pprint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sys">sys</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#re-regular-expression">re - Regular Expression</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#handling-structured-data">Handling Structured Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#text">Text</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#json">JSON</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#yaml">YAML</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="core-concepts.html">Chapter 2: Script Framework for Use Cases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Chapter 3: Troubleshooting Use Cases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="capacity-planning.html">Chapter 4: Capacity Planning Use Cases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web2py-introduction.html">Chapter 5: Web2Py Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web2py-installation.html">Chapter 6: Web2Py Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create-application.html">Chapter 7: Creating a New Web2Py Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web2py-prepare.html">Chapter 8: Web2Py - Prepare the Tool</a></li>
 </ul>
 
             
@@ -145,21 +188,61 @@
 <h1>Chapter 1: Introducing Python Core Concepts<a class="headerlink" href="#chapter-1-introducing-python-core-concepts" title="Permalink to this headline">¶</a></h1>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#python-implementation-on-various-operating-systems" id="id6">Python Implementation on Various Operating Systems</a><ul>
-<li><a class="reference internal" href="#microsoft-windows" id="id7">Microsoft Windows</a></li>
-<li><a class="reference internal" href="#apple-mac-os-x" id="id8">Apple Mac OS X</a></li>
-<li><a class="reference internal" href="#ubuntu" id="id9">Ubuntu</a></li>
+<li><a class="reference internal" href="#python-implementation-on-various-operating-systems" id="id8">Python Implementation on Various Operating Systems</a><ul>
+<li><a class="reference internal" href="#microsoft-windows" id="id9">Microsoft Windows</a></li>
+<li><a class="reference internal" href="#apple-mac-os-x" id="id10">Apple Mac OS X</a></li>
+<li><a class="reference internal" href="#ubuntu" id="id11">Ubuntu</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#python-package-manager-pip" id="id10">Python Package Manager (pip)</a></li>
+<li><a class="reference internal" href="#python-package-manager-pip" id="id12">Python Package Manager (pip)</a></li>
+<li><a class="reference internal" href="#installing-python-modules" id="id13">Installing Python Modules</a><ul>
+<li><a class="reference internal" href="#pyeapi" id="id14">Pyeapi</a></li>
+<li><a class="reference internal" href="#jsonrpc" id="id15">jsonrpc</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#python-core-concepts" id="id16">Python Core Concepts</a><ul>
+<li><a class="reference internal" href="#data-type" id="id17">Data Type</a></li>
+<li><a class="reference internal" href="#data-structure" id="id18">Data Structure</a><ul>
+<li><a class="reference internal" href="#list" id="id19">List</a></li>
+<li><a class="reference internal" href="#set" id="id20">Set</a></li>
+<li><a class="reference internal" href="#dictionary" id="id21">Dictionary</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#control-flow-statements" id="id22">Control Flow Statements</a><ul>
+<li><a class="reference internal" href="#if" id="id23">if</a></li>
+<li><a class="reference internal" href="#for" id="id24">for</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#data-operations" id="id25">Data Operations</a><ul>
+<li><a class="reference internal" href="#string" id="id26">String</a></li>
+<li><a class="reference internal" href="#integer" id="id27">Integer</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#simple-use-cases" id="id28">Simple Use Cases</a></li>
+<li><a class="reference internal" href="#script-file" id="id29">Script File</a></li>
+<li><a class="reference internal" href="#modules" id="id30">Modules</a><ul>
+<li><a class="reference internal" href="#pprint" id="id31">pprint</a></li>
+<li><a class="reference internal" href="#sys" id="id32">sys</a></li>
+<li><a class="reference internal" href="#re-regular-expression" id="id33">re - Regular Expression</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#handling-structured-data" id="id34">Handling Structured Data</a><ul>
+<li><a class="reference internal" href="#text" id="id35">Text</a></li>
+<li><a class="reference internal" href="#json" id="id36">JSON</a></li>
+<li><a class="reference internal" href="#yaml" id="id37">YAML</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#summary" id="id38">Summary</a></li>
 </ul>
 </div>
 <p>Network engineers require to connect to network devices, collect data using network OS commands and parse through the data to discover the required information. With that in mind, Python’s core concepts such as data types, operations, data structures, control flow statements and modules are discussed in this chapter.  Before discussing the core concepts, Python implementation on various operating systems need to be discussed.</p>
 <div class="section" id="python-implementation-on-various-operating-systems">
-<h2><a class="toc-backref" href="#id6">Python Implementation on Various Operating Systems</a><a class="headerlink" href="#python-implementation-on-various-operating-systems" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">Python Implementation on Various Operating Systems</a><a class="headerlink" href="#python-implementation-on-various-operating-systems" title="Permalink to this headline">¶</a></h2>
 <p>Python implementation on Microsoft Windows, Apple Mac’s OS X, Ubuntu Linux distribution and Arista Extensible Operation System (EOS) is discussed in this section. There are two tracks of Python versions available today 2.x and 3.x. Python version 2.x is widely deployed and the industry will eventually move to 3.x. Python programs in this book are written using the version 2.7.x.</p>
 <div class="section" id="microsoft-windows">
-<h3><a class="toc-backref" href="#id7">Microsoft Windows</a><a class="headerlink" href="#microsoft-windows" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id9">Microsoft Windows</a><a class="headerlink" href="#microsoft-windows" title="Permalink to this headline">¶</a></h3>
 <p>Python is not installed by default on Microsoft Windows operating systems. You can download and install python from <a class="reference external" href="http://www.python.org">www.python.org</a> website.  For this book, It is recommended to download and install Python version 2.7.x. By default, Python will be installed in the c:Python27 folder. After installing Python, PATH variable needs to be updated with the path to the Python installation folder.</p>
 <img alt="_images/ch01-pic1.png" src="_images/ch01-pic1.png" />
 <p>After changing the PATH variable, launch the Windows command prompt and verify you can invoke the Python interpreter.</p>
@@ -168,8 +251,8 @@
 <img alt="_images/ch01-pic3.png" src="_images/ch01-pic3.png" />
 </div>
 <div class="section" id="apple-mac-os-x">
-<h3><a class="toc-backref" href="#id8">Apple Mac OS X</a><a class="headerlink" href="#apple-mac-os-x" title="Permalink to this headline">¶</a></h3>
-<p>Apple Mac OS X comes with Python 2.7.x. You can verify by invoking the interpretor from the terminal. If your OS X version does not have Python installed by default, you can download and install python from <a class="reference external" href="http://www.python.org">www.python.org</a> website.</p>
+<h3><a class="toc-backref" href="#id10">Apple Mac OS X</a><a class="headerlink" href="#apple-mac-os-x" title="Permalink to this headline">¶</a></h3>
+<p>Apple Mac OS X comes with Python 2.7.x. You can verify by invoking the interpreter from the terminal. If your OS X version does not have Python installed by default, you can download and install python from <a class="reference external" href="http://www.python.org">www.python.org</a> website.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>anees:~ anees$ python
 Python 2.7.10 (default, Aug 22 2015, 20:33:39)
 [GCC 4.2.1 Compatible Apple LLVM 7.0.0 (clang-700.0.59.1)] on darwin
@@ -206,7 +289,7 @@ anees:~ anees$ ls -l /usr/lib/python2.7/
 </div>
 </div>
 <div class="section" id="ubuntu">
-<h3><a class="toc-backref" href="#id9">Ubuntu</a><a class="headerlink" href="#ubuntu" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id11">Ubuntu</a><a class="headerlink" href="#ubuntu" title="Permalink to this headline">¶</a></h3>
 <p>Linux distributions come with default Python 2.7.x. Some of the newer distributions come with Python 3.x. Most of the linux software modules are built on top of this default Python version. So upgrading the default Python version on Linux will break those modules. It is recommended to install the desired version using Python virtua environment. For the use cases in this book, the default Python version should be sufficient.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>anees@ubuntu-web2py:~$ which python
 /usr/bin/python
@@ -238,7 +321,7 @@ total 8228
 </div>
 </div>
 <div class="section" id="python-package-manager-pip">
-<h2><a class="toc-backref" href="#id10">Python Package Manager (pip)</a><a class="headerlink" href="#python-package-manager-pip" title="Permalink to this headline">¶</a></h2>
+<span id="python-package-manager"></span><h2><a class="toc-backref" href="#id12">Python Package Manager (pip)</a><a class="headerlink" href="#python-package-manager-pip" title="Permalink to this headline">¶</a></h2>
 <p>When Python is installed from the source, it has come with library of standard modules. When a Python interpreter is invoked, very limited number of modules were imported by default into your program’s main namespace. Other standard modules in the library can be imported into your program when you need them. There are many vendors, developer community create Python modules and deliver them through pip. pip is a Python package installer which is used to install Python packages from a repository called PyPI (Python Package Index). If you download Python versions 2.7.9 (or 3.4) and above from <a class="reference external" href="http://www.python.org">www.python.org</a>, pip installer is installed by default.</p>
 <p>If pip is not installed on your Windows or Mac OS X, you can download the Python program <a class="reference external" href="https://bootstrap.pypa.io/get-pip.py">get-pip.py</a> and install it on your system.</p>
 <div class="literal-block-wrapper container" id="microsoft-windows-or-mac-os-x">
@@ -306,6 +389,1236 @@ total 8228
 </div>
 </div>
 <p>Later in this book, there are few Python packages installed using pip as and when needed by the use cases. Some of the packages may not be delivered through pip and you can download through your system packet manager or manually download it to the library.  For more information to learn about pip, visit <a class="reference external" href="https://pip.pypa.io/en/stable/">https://pip.pypa.io/en/stable/</a>.</p>
+</div>
+<div class="section" id="installing-python-modules">
+<span id="id6"></span><h2><a class="toc-backref" href="#id13">Installing Python Modules</a><a class="headerlink" href="#installing-python-modules" title="Permalink to this headline">¶</a></h2>
+<p>As mentioned before, there are many vendor and community developed modules available and can be installed using pip. In this book, we primarily use Arista&#8217;s pyeapi module. We will also use jsonrpc module in some of the use cases in this book. In this section, we will install those modules using pip. If you have not installed pip, refer <a class="reference internal" href="#python-package-manager"><span class="std std-ref">Python Package Manager (pip)</span></a>.</p>
+<div class="section" id="pyeapi">
+<h3><a class="toc-backref" href="#id14">Pyeapi</a><a class="headerlink" href="#pyeapi" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="hll"><span class="gp">[admin@ubuntu ~]$</span> sudo pip install pyeapi
+</span><span class="go">Downloading/unpacking pyeapi</span>
+<span class="go">  Downloading pyeapi-0.6.1.tar.gz (115kB): 115kB downloaded</span>
+<span class="go">  Running setup.py (path:/tmp/pip_build_root/pyeapi/setup.py) egg_info for package pyeapi</span>
+
+<span class="go">Downloading/unpacking netaddr (from pyeapi)</span>
+<span class="go">  Downloading netaddr-0.7.18-py2.py3-none-any.whl (1.5MB): 1.5MB downloaded</span>
+<span class="go">Installing collected packages: pyeapi, netaddr</span>
+<span class="go">  Running setup.py install for pyeapi</span>
+
+<span class="go">Successfully installed pyeapi netaddr</span>
+<span class="go">Cleaning up...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jsonrpc">
+<h3><a class="toc-backref" href="#id15">jsonrpc</a><a class="headerlink" href="#jsonrpc" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="hll"><span class="gp">anees:~ anees$</span> sudo pip install jsonrpc
+</span><span class="go">Collecting jsonrpc</span>
+<span class="go">  Downloading jsonrpc-1.2.tar.gz</span>
+<span class="go">Installing collected packages: jsonrpc</span>
+<span class="go">  Running setup.py install for jsonrpc ... done</span>
+<span class="go">Successfully installed jsonrpc-1.2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="python-core-concepts">
+<h2><a class="toc-backref" href="#id16">Python Core Concepts</a><a class="headerlink" href="#python-core-concepts" title="Permalink to this headline">¶</a></h2>
+<p>In this section, we are going to discuss the core Python concepts by using simple network use cases. There are six Python core concepts discussed and it is strongly recommended to practice these concepts as you read. You will be surprised how much you can achieve by using these simple concepts as you read through this book.</p>
+<ol class="arabic simple">
+<li>Data Type</li>
+<li>Data Structure</li>
+<li>Control Flow Statements</li>
+<li>Data Operations</li>
+<li>Modules</li>
+<li>Handling Structured Data</li>
+</ol>
+<p>The approach of this book is to learn by practice. This is one of the reason we chose to teach Python using networking use cases. When you practice using the use cases you know, we don’t necessarily explain every concepts textually. We recommend you to practice these concepts multiple times. You also don’t restrict yourselves to the use cases discussed in this book. Expand the practice with your own networking use cases.</p>
+<div class="section" id="data-type">
+<h3><a class="toc-backref" href="#id17">Data Type</a><a class="headerlink" href="#data-type" title="Permalink to this headline">¶</a></h3>
+<p>A couple of data types important to us is strings and integers. Launch the Python interpreter from your terminal.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees:~ anees$ python
+Python 2.7.10 <span class="o">(</span>default, Aug <span class="m">22</span> 2015, 20:33:39<span class="o">)</span>
+<span class="o">[</span>GCC 4.2.1 Compatible Apple LLVM 7.0.0 <span class="o">(</span>clang-700.0.59.1<span class="o">)]</span> on darwin
+Type <span class="s2">&quot;help&quot;</span>, <span class="s2">&quot;copyright&quot;</span>, <span class="s2">&quot;credits&quot;</span> or <span class="s2">&quot;license&quot;</span> <span class="k">for</span> more information.
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<p>Below are the examples for three data formats string, integer and floating point.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">switch</span> <span class="o">=</span> <span class="s2">&quot;10.10.10.11&quot;</span>
+&gt;&gt;&gt; type<span class="o">(</span>switch<span class="o">)</span>
+&lt;<span class="nb">type</span> <span class="s1">&#39;str&#39;</span>&gt;
+
+&gt;&gt;&gt; <span class="nv">last_octet</span> <span class="o">=</span> 11
+&gt;&gt;&gt; type<span class="o">(</span>last_octet<span class="o">)</span>
+&lt;<span class="nb">type</span> <span class="s1">&#39;int&#39;</span>&gt;
+
+&gt;&gt;&gt; <span class="nv">temperature</span> <span class="o">=</span> 39.2
+&gt;&gt;&gt; type<span class="o">(</span>temperature<span class="o">)</span>
+&lt;<span class="nb">type</span> <span class="s1">&#39;float&#39;</span>&gt;
+</pre></div>
+</div>
+<p>The line &#8216;switch = &#8220;10.10.10.11&#8221;&#8217; is called as <strong>assignment statement</strong>. The &#8220;switch&#8221; is called as <strong>variable</strong> and the &#8220;10.10.10.11&#8221; is called as <strong>value</strong>. Observe the spaces between variables and values. Refer <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/#whitespace-in-expressions-and-statements">Python Style Guide for whitespace in expressions</a> for more information.</p>
+<p>Strings are represented within quotes. There are multiple ways to represent strings. Below are the examples of representing strings using single, double and triple quotes. If you need to type the text in multiple lines as you see in the variable switch3, you have to use triple quotes.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">switch1</span> <span class="o">=</span> <span class="s1">&#39;description &quot;CORE&quot; switch&#39;</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; <span class="nv">switch2</span> <span class="o">=</span> <span class="s2">&quot;interface ethernet1&quot;</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; <span class="nv">switch3</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;interface ethernet1</span>
+<span class="s2">...  ip address 10.10.20.2/24</span>
+<span class="s2">...  no shutdown</span>
+<span class="s2">... &quot;&quot;&quot;</span>
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<p>You can view the content of the variable directly typing the variable name.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; switch3
+<span class="s1">&#39;interface ethernet1\n ip address 10.10.20.2/24\n no shutdown\n&#39;</span>
+</pre></div>
+</div>
+<p>&#8220;\n&#8221; is an escape character in Python to represent new line. If you need to type the multi line text in single line as you see above, you have to use escape characters within single or double quotes.</p>
+<p>When you print the content of this string using &#8220;print&#8221; module, the data is presented in readable format instead of displaying in the string internal format using escape characters.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; print switch3
+interface ethernet1
+ ip address 10.10.20.2/24
+ no shutdown
+</pre></div>
+</div>
+<p>When the data is stored in the system, it has to be encoded in a specific format. Unicode is an industry standard encoding format. We will be often converting unicode to string when we display the data to the end user.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">switch4</span> <span class="o">=</span> u<span class="s2">&quot;router bgp 100&quot;</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; switch4
+u<span class="s1">&#39;router bgp 100&#39;</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; str<span class="o">(</span>switch4<span class="o">)</span>
+<span class="s1">&#39;router bgp 100&#39;</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; <span class="nv">switch5</span> <span class="o">=</span> str<span class="o">(</span>switch4<span class="o">)</span>
+&gt;&gt;&gt; switch5
+<span class="s1">&#39;router bgp 100&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="data-structure">
+<h3><a class="toc-backref" href="#id18">Data Structure</a><a class="headerlink" href="#data-structure" title="Permalink to this headline">¶</a></h3>
+<p>Data structure is a way of organizing the data in a system. String can be considered as a data structure as well. Data structure helps us to access the data efficiently. We are going to see three Python data structures in this section. Those are list, set and dictionary. We will use list and dictionary extensively throughout this book.</p>
+<div class="section" id="list">
+<h4><a class="toc-backref" href="#id19">List</a><a class="headerlink" href="#list" title="Permalink to this headline">¶</a></h4>
+<p>List is a Python data structure to store a list of values. List is represented using comma-separated values inside a square [ ] bracket.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">device_list</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;10.10.10.13&quot;</span>, <span class="s2">&quot;10.10.10.11&quot;</span>, <span class="s2">&quot;10.10.10.14&quot;</span>, <span class="s2">&quot;10.10.10.12&quot;</span><span class="o">]</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; type<span class="o">(</span>device_list<span class="o">)</span>
+&lt;<span class="nb">type</span> <span class="s1">&#39;list&#39;</span>&gt;
+&gt;&gt;&gt;
+&gt;&gt;&gt; device_list
+<span class="o">[</span><span class="s1">&#39;10.10.10.13&#39;</span>, <span class="s1">&#39;10.10.10.11&#39;</span>, <span class="s1">&#39;10.10.10.14&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span><span class="o">]</span>
+</pre></div>
+</div>
+<p>How do you access a specific value in the list? You can access the value by using the index within the square bracket.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; device_list<span class="o">[</span>0<span class="o">]</span>
+<span class="s1">&#39;10.10.10.13&#39;</span>
+&gt;&gt;&gt; device_list<span class="o">[</span>1<span class="o">]</span>
+<span class="s1">&#39;10.10.10.11&#39;</span>
+&gt;&gt;&gt; device_list<span class="o">[</span>3<span class="o">]</span>
+<span class="s1">&#39;10.10.10.12&#39;</span>
+</pre></div>
+</div>
+<p>How can we modify the list? You can add the items using append() method and you can update the existing item using assignment statement.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; device_list
+<span class="o">[</span><span class="s1">&#39;10.10.10.11&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span>, <span class="s1">&#39;10.10.10.13&#39;</span><span class="o">]</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; device_list.append<span class="o">(</span><span class="s2">&quot;10.10.10.12&quot;</span><span class="o">)</span>
+&gt;&gt;&gt; device_list
+<span class="o">[</span><span class="s1">&#39;10.10.10.11&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span>, <span class="s1">&#39;10.10.10.13&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span><span class="o">]</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; <span class="nv">new_ip</span> <span class="o">=</span> <span class="s2">&quot;10.10.10.15&quot;</span>
+&gt;&gt;&gt; device_list.append<span class="o">(</span>new_ip<span class="o">)</span>
+&gt;&gt;&gt; device_list
+<span class="o">[</span><span class="s1">&#39;10.10.10.11&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span>, <span class="s1">&#39;10.10.10.13&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span>, <span class="s1">&#39;10.10.10.15&#39;</span><span class="o">]</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; device_list<span class="o">[</span>0<span class="o">]</span> <span class="o">=</span> new_ip
+&gt;&gt;&gt; device_list
+<span class="o">[</span><span class="s1">&#39;10.10.10.15&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span>, <span class="s1">&#39;10.10.10.13&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span>, <span class="s1">&#39;10.10.10.15&#39;</span><span class="o">]</span>
+</pre></div>
+</div>
+<p>As you can see, list can have duplicate values. Where can I find the list of operations (methods) that can be performed on the list?</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; dir<span class="o">(</span>device_list<span class="o">)</span>
+<span class="o">[</span><span class="s1">&#39;__add__&#39;</span>, <span class="s1">&#39;__class__&#39;</span>, <span class="s1">&#39;__contains__&#39;</span>, <span class="s1">&#39;__delattr__&#39;</span>, <span class="s1">&#39;__delitem__&#39;</span>, <span class="s1">&#39;__delslice__&#39;</span>, <span class="s1">&#39;__doc__&#39;</span>, <span class="s1">&#39;__eq__&#39;</span>, <span class="s1">&#39;__format__&#39;</span>, <span class="s1">&#39;__ge__&#39;</span>, <span class="s1">&#39;__getattribute__&#39;</span>, <span class="s1">&#39;__getitem__&#39;</span>, <span class="s1">&#39;__getslice__&#39;</span>, <span class="s1">&#39;__gt__&#39;</span>, <span class="s1">&#39;__hash__&#39;</span>, <span class="s1">&#39;__iadd__&#39;</span>, <span class="s1">&#39;__imul__&#39;</span>, <span class="s1">&#39;__init__&#39;</span>, <span class="s1">&#39;__iter__&#39;</span>, <span class="s1">&#39;__le__&#39;</span>, <span class="s1">&#39;__len__&#39;</span>, <span class="s1">&#39;__lt__&#39;</span>, <span class="s1">&#39;__mul__&#39;</span>, <span class="s1">&#39;__ne__&#39;</span>, <span class="s1">&#39;__new__&#39;</span>, <span class="s1">&#39;__reduce__&#39;</span>, <span class="s1">&#39;__reduce_ex__&#39;</span>, <span class="s1">&#39;__repr__&#39;</span>, <span class="s1">&#39;__reversed__&#39;</span>, <span class="s1">&#39;__rmul__&#39;</span>, <span class="s1">&#39;__setattr__&#39;</span>, <span class="s1">&#39;__setitem__&#39;</span>, <span class="s1">&#39;__setslice__&#39;</span>, <span class="s1">&#39;__sizeof__&#39;</span>, <span class="s1">&#39;__str__&#39;</span>, <span class="s1">&#39;__subclasshook__&#39;</span>,
+<span class="s1">&#39;append&#39;</span>, <span class="s1">&#39;count&#39;</span>, <span class="s1">&#39;extend&#39;</span>, <span class="s1">&#39;index&#39;</span>, <span class="s1">&#39;insert&#39;</span>, <span class="s1">&#39;pop&#39;</span>, <span class="s1">&#39;remove&#39;</span>, <span class="s1">&#39;reverse&#39;</span>, <span class="s1">&#39;sort&#39;</span><span class="o">]</span>
+
+&gt;&gt;&gt; help<span class="o">(</span>device_list<span class="o">)</span>
+<span class="p">|</span>
+<span class="p">|</span>  append<span class="o">(</span>...<span class="o">)</span>
+<span class="p">|</span>      L.append<span class="o">(</span>object<span class="o">)</span> -- append object to end
+<span class="p">|</span>
+<span class="p">|</span>  count<span class="o">(</span>...<span class="o">)</span>
+<span class="p">|</span>      L.count<span class="o">(</span>value<span class="o">)</span> -&gt; integer -- <span class="k">return</span> number of occurrences of value
+<span class="p">|</span>
+<span class="p">|</span>  extend<span class="o">(</span>...<span class="o">)</span>
+<span class="p">|</span>      L.extend<span class="o">(</span>iterable<span class="o">)</span> -- extend list by appending elements from the iterable
+<span class="p">|</span>
+<span class="p">|</span>  index<span class="o">(</span>...<span class="o">)</span>
+<span class="p">|</span>      L.index<span class="o">(</span>value, <span class="o">[</span>start, <span class="o">[</span>stop<span class="o">]])</span> -&gt; integer -- <span class="k">return</span> first index of value.
+<span class="p">|</span>      Raises ValueError <span class="k">if</span> the value is not present.
+<span class="p">|</span>
+<span class="p">|</span>  insert<span class="o">(</span>...<span class="o">)</span>
+<span class="p">|</span>      L.insert<span class="o">(</span>index, object<span class="o">)</span> -- insert object before index
+<span class="p">|</span>
+<span class="p">|</span>  pop<span class="o">(</span>...<span class="o">)</span>
+<span class="p">|</span>      L.pop<span class="o">([</span>index<span class="o">])</span> -&gt; item -- remove and <span class="k">return</span> item at index <span class="o">(</span>default last<span class="o">)</span>.
+<span class="p">|</span>      Raises IndexError <span class="k">if</span> list is empty or index is out of range.
+<span class="p">|</span>
+<span class="p">|</span>  remove<span class="o">(</span>...<span class="o">)</span>
+<span class="p">|</span>      L.remove<span class="o">(</span>value<span class="o">)</span> -- remove first occurrence of value.
+<span class="p">|</span>      Raises ValueError <span class="k">if</span> the value is not present.
+<span class="p">|</span>
+<span class="p">|</span>  reverse<span class="o">(</span>...<span class="o">)</span>
+<span class="p">|</span>      L.reverse<span class="o">()</span> -- reverse *IN PLACE*
+<span class="p">|</span>
+<span class="p">|</span>  sort<span class="o">(</span>...<span class="o">)</span>
+<span class="p">|</span>      L.sort<span class="o">(</span><span class="nv">cmp</span><span class="o">=</span>None, <span class="nv">key</span><span class="o">=</span>None, <span class="nv">reverse</span><span class="o">=</span>False<span class="o">)</span> -- stable sort *IN PLACE*<span class="p">;</span>
+<span class="p">|</span>      cmp<span class="o">(</span>x, y<span class="o">)</span> -&gt; -1, 0, 1
+:
+&lt;Type q to exit&gt;
+</pre></div>
+</div>
+<p>Let us explore few more methods over the list.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">device_list</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;10.10.10.11&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span>, <span class="s1">&#39;10.10.10.13&#39;</span>, <span class="s1">&#39;10.10.10.14&#39;</span>, <span class="s1">&#39;10.10.10.15&#39;</span><span class="o">]</span>
+
+&gt;&gt;&gt; device_list.reverse<span class="o">()</span>
+&gt;&gt;&gt; device_list
+<span class="o">[</span><span class="s1">&#39;10.10.10.15&#39;</span>, <span class="s1">&#39;10.10.10.14&#39;</span>, <span class="s1">&#39;10.10.10.13&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span>, <span class="s1">&#39;10.10.10.11&#39;</span><span class="o">]</span>
+
+&gt;&gt;&gt; device_list.sort<span class="o">()</span>
+&gt;&gt;&gt; device_list
+<span class="o">[</span><span class="s1">&#39;10.10.10.11&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span>, <span class="s1">&#39;10.10.10.13&#39;</span>, <span class="s1">&#39;10.10.10.14&#39;</span>, <span class="s1">&#39;10.10.10.15&#39;</span><span class="o">]</span>
+
+&gt;&gt;&gt; device_list.pop<span class="o">()</span>
+<span class="s1">&#39;10.10.10.15&#39;</span>
+&gt;&gt;&gt; device_list
+<span class="o">[</span><span class="s1">&#39;10.10.10.11&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span>, <span class="s1">&#39;10.10.10.13&#39;</span>, <span class="s1">&#39;10.10.10.14&#39;</span><span class="o">]</span>
+
+&gt;&gt;&gt; device_list.remove<span class="o">(</span><span class="s2">&quot;10.10.10.12&quot;</span><span class="o">)</span>
+&gt;&gt;&gt; device_list
+<span class="o">[</span><span class="s1">&#39;10.10.10.11&#39;</span>, <span class="s1">&#39;10.10.10.13&#39;</span>, <span class="s1">&#39;10.10.10.14&#39;</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="set">
+<h4><a class="toc-backref" href="#id20">Set</a><a class="headerlink" href="#set" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt>Set is similar to list with few differences:</dt>
+<dd><ul class="first last simple">
+<li>Items in set are unique. It eliminates duplicate entries.</li>
+<li>Unordered list of items.</li>
+<li>Supports powerful operations such as difference, union and intersection between sets.</li>
+</ul>
+</dd>
+</dl>
+<p>Let us create a set and practice some of the basic operations related to set.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">device_set</span> <span class="o">=</span> set<span class="o">([</span><span class="s2">&quot;10.10.10.11&quot;</span>, <span class="s2">&quot;10.10.10.12&quot;</span><span class="o">])</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; device_set
+set<span class="o">([</span><span class="s1">&#39;10.10.10.11&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span><span class="o">])</span>
+
+&gt;&gt;&gt; type<span class="o">(</span>device_set<span class="o">)</span>
+&lt;<span class="nb">type</span> <span class="s1">&#39;set&#39;</span>&gt;
+
+&gt;&gt;&gt; device_set.add<span class="o">(</span><span class="s2">&quot;10.10.10.13&quot;</span><span class="o">)</span>
+&gt;&gt;&gt; device_set
+set<span class="o">([</span><span class="s1">&#39;10.10.10.11&#39;</span>, <span class="s1">&#39;10.10.10.13&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span><span class="o">])</span>
+
+&gt;&gt;&gt; device_set.remove<span class="o">(</span><span class="s2">&quot;10.10.10.12&quot;</span><span class="o">)</span>
+&gt;&gt;&gt; device_set
+set<span class="o">([</span><span class="s1">&#39;10.10.10.11&#39;</span>, <span class="s1">&#39;10.10.10.13&#39;</span><span class="o">])</span>
+
+&gt;&gt;&gt; <span class="nv">new_ip</span> <span class="o">=</span> <span class="s2">&quot;10.10.10.13&quot;</span>
+&gt;&gt;&gt; device_set.add<span class="o">(</span>new_ip<span class="o">)</span>
+&gt;&gt;&gt; device_set
+set<span class="o">([</span><span class="s1">&#39;10.10.10.11&#39;</span>, <span class="s1">&#39;10.10.10.13&#39;</span><span class="o">])</span>
+</pre></div>
+</div>
+<p>You can convert a list to set. If the list has duplicate entries, converting to set will eliminate the duplicate entries.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; device_list
+<span class="o">[</span><span class="s1">&#39;10.10.10.15&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span>, <span class="s1">&#39;10.10.10.13&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span>, <span class="s1">&#39;10.10.10.15&#39;</span><span class="o">]</span>
+
+&gt;&gt;&gt; <span class="nv">device_list_to_set</span> <span class="o">=</span> set<span class="o">(</span>device_list<span class="o">)</span>
+&gt;&gt;&gt; device_list_to_set
+set<span class="o">([</span><span class="s1">&#39;10.10.10.15&#39;</span>, <span class="s1">&#39;10.10.10.13&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span><span class="o">])</span>
+</pre></div>
+</div>
+<p>Let us explore the methods specific to set.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; dir<span class="o">(</span>device_set<span class="o">)</span>
+<span class="o">[</span><span class="s1">&#39;__and__&#39;</span>, <span class="s1">&#39;__class__&#39;</span>, <span class="s1">&#39;__cmp__&#39;</span>, <span class="s1">&#39;__contains__&#39;</span>, <span class="s1">&#39;__delattr__&#39;</span>, <span class="s1">&#39;__doc__&#39;</span>, <span class="s1">&#39;__eq__&#39;</span>, <span class="s1">&#39;__format__&#39;</span>, <span class="s1">&#39;__ge__&#39;</span>, <span class="s1">&#39;__getattribute__&#39;</span>, <span class="s1">&#39;__gt__&#39;</span>, <span class="s1">&#39;__hash__&#39;</span>, <span class="s1">&#39;__iand__&#39;</span>, <span class="s1">&#39;__init__&#39;</span>, <span class="s1">&#39;__ior__&#39;</span>, <span class="s1">&#39;__isub__&#39;</span>, <span class="s1">&#39;__iter__&#39;</span>, <span class="s1">&#39;__ixor__&#39;</span>, <span class="s1">&#39;__le__&#39;</span>, <span class="s1">&#39;__len__&#39;</span>, <span class="s1">&#39;__lt__&#39;</span>, <span class="s1">&#39;__ne__&#39;</span>, <span class="s1">&#39;__new__&#39;</span>, <span class="s1">&#39;__or__&#39;</span>, <span class="s1">&#39;__rand__&#39;</span>, <span class="s1">&#39;__reduce__&#39;</span>, <span class="s1">&#39;__reduce_ex__&#39;</span>, <span class="s1">&#39;__repr__&#39;</span>, <span class="s1">&#39;__ror__&#39;</span>, <span class="s1">&#39;__rsub__&#39;</span>, <span class="s1">&#39;__rxor__&#39;</span>, <span class="s1">&#39;__setattr__&#39;</span>, <span class="s1">&#39;__sizeof__&#39;</span>, <span class="s1">&#39;__str__&#39;</span>, <span class="s1">&#39;__sub__&#39;</span>, <span class="s1">&#39;__subclasshook__&#39;</span>, <span class="s1">&#39;__xor__&#39;</span>,
+<span class="s1">&#39;add&#39;</span>, <span class="s1">&#39;clear&#39;</span>, <span class="s1">&#39;copy&#39;</span>, <span class="s1">&#39;difference&#39;</span>, <span class="s1">&#39;difference_update&#39;</span>, <span class="s1">&#39;discard&#39;</span>, <span class="s1">&#39;intersection&#39;</span>, <span class="s1">&#39;intersection_update&#39;</span>, <span class="s1">&#39;isdisjoint&#39;</span>, <span class="s1">&#39;issubset&#39;</span>, <span class="s1">&#39;issuperset&#39;</span>, <span class="s1">&#39;pop&#39;</span>, <span class="s1">&#39;remove&#39;</span>, <span class="s1">&#39;symmetric_difference&#39;</span>, <span class="s1">&#39;symmetric_difference_update&#39;</span>, <span class="s1">&#39;union&#39;</span>, <span class="s1">&#39;update&#39;</span><span class="o">]</span>
+
+&gt;&gt;&gt; <span class="nv">switch1_neighbors</span> <span class="o">=</span> set<span class="o">([</span><span class="s2">&quot;switch2&quot;</span>, <span class="s2">&quot;switch3&quot;</span>, <span class="s2">&quot;switch4&quot;</span><span class="o">])</span>
+&gt;&gt;&gt; <span class="nv">switch2_neighbors</span> <span class="o">=</span> set<span class="o">([</span><span class="s2">&quot;switch1&quot;</span>, <span class="s2">&quot;switch3&quot;</span>, <span class="s2">&quot;switch5&quot;</span><span class="o">])</span>
+
+&gt;&gt;&gt; switch1_neighbors.intersection<span class="o">(</span>switch2_neighbors<span class="o">)</span>
+set<span class="o">([</span><span class="s1">&#39;switch3&#39;</span><span class="o">])</span>
+
+&gt;&gt;&gt; switch1_neighbors.union<span class="o">(</span>switch2_neighbors<span class="o">)</span>
+set<span class="o">([</span><span class="s1">&#39;switch3&#39;</span>, <span class="s1">&#39;switch2&#39;</span>, <span class="s1">&#39;switch1&#39;</span>, <span class="s1">&#39;switch5&#39;</span>, <span class="s1">&#39;switch4&#39;</span><span class="o">])</span>
+
+&gt;&gt;&gt; switch2_neighbors.difference<span class="o">(</span>switch1_neighbors<span class="o">)</span>
+set<span class="o">([</span><span class="s1">&#39;switch1&#39;</span>, <span class="s1">&#39;switch5&#39;</span><span class="o">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dictionary">
+<h4><a class="toc-backref" href="#id21">Dictionary</a><a class="headerlink" href="#dictionary" title="Permalink to this headline">¶</a></h4>
+<p>Dictionary is a list of {key: value} items and defined using curly brackets. Let us look at the basic operations using dictionary.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">inventory</span> <span class="o">=</span> <span class="o">{</span><span class="s2">&quot;10.10.10.11&quot;</span>: <span class="s2">&quot;spine-1&quot;</span>, <span class="s2">&quot;10.10.10.12&quot;</span>: <span class="s2">&quot;spine-2&quot;</span><span class="o">}</span>
+&gt;&gt;&gt; type<span class="o">(</span>inventory<span class="o">)</span>
+&lt;<span class="nb">type</span> <span class="s1">&#39;dict&#39;</span>&gt;
+
+&gt;&gt;&gt; inventory<span class="o">[</span><span class="s2">&quot;10.10.10.11&quot;</span><span class="o">]</span>
+<span class="s1">&#39;spine-1&#39;</span>
+
+&gt;&gt;&gt; inventory<span class="o">[</span><span class="s2">&quot;10.10.10.13&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;tor-1&quot;</span>
+&gt;&gt;&gt; inventory
+<span class="o">{</span><span class="s1">&#39;10.10.10.11&#39;</span>: <span class="s1">&#39;spine-1&#39;</span>, <span class="s1">&#39;10.10.10.13&#39;</span>: <span class="s1">&#39;tor-1&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span>: <span class="s1">&#39;spine-2&#39;</span><span class="o">}</span>
+
+&gt;&gt;&gt; inventory.keys<span class="o">()</span>
+<span class="o">[</span><span class="s1">&#39;10.10.10.11&#39;</span>, <span class="s1">&#39;10.10.10.13&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span><span class="o">]</span>
+</pre></div>
+</div>
+<p>The values of the dictionary can be a simple string, a list or another dictionary. Below is an example that shows a value of a key which is another dictionary.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; inventory<span class="o">[</span><span class="s2">&quot;10.10.10.11&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="o">{</span><span class="s2">&quot;hostname&quot;</span>: <span class="s2">&quot;spine-1&quot;</span>, <span class="s2">&quot;version&quot;</span>: <span class="s2">&quot;4.15.4F&quot;</span>, <span class="s2">&quot;model&quot;</span>: <span class="s2">&quot;7050SX-128&quot;</span><span class="o">}</span>
+&gt;&gt;&gt; inventory
+<span class="o">{</span><span class="s1">&#39;10.10.10.11&#39;</span>: <span class="o">{</span><span class="s1">&#39;model&#39;</span>: <span class="s1">&#39;7050SX-128&#39;</span>, <span class="s1">&#39;hostname&#39;</span>: <span class="s1">&#39;spine-1&#39;</span>, <span class="s1">&#39;version&#39;</span>: <span class="s1">&#39;4.15.4F&#39;</span><span class="o">}</span>, <span class="s1">&#39;10.10.10.13&#39;</span>: <span class="s1">&#39;tor-1-a&#39;</span>, <span class="s1">&#39;10.10.10.12&#39;</span>: <span class="s1">&#39;spine-2&#39;</span><span class="o">}</span>
+
+&gt;&gt;&gt; inventory<span class="o">[</span><span class="s2">&quot;10.10.10.11&quot;</span><span class="o">]</span>
+<span class="o">{</span><span class="s1">&#39;model&#39;</span>: <span class="s1">&#39;7050SX-128&#39;</span>, <span class="s1">&#39;hostname&#39;</span>: <span class="s1">&#39;spine-1&#39;</span>, <span class="s1">&#39;version&#39;</span>: <span class="s1">&#39;4.15.4F&#39;</span><span class="o">}</span>
+
+&gt;&gt;&gt; inventory<span class="o">[</span><span class="s2">&quot;10.10.10.11&quot;</span><span class="o">][</span><span class="s2">&quot;version&quot;</span><span class="o">]</span>
+<span class="s1">&#39;4.15.4F&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="control-flow-statements">
+<h3><a class="toc-backref" href="#id22">Control Flow Statements</a><a class="headerlink" href="#control-flow-statements" title="Permalink to this headline">¶</a></h3>
+<p>The flow of the script can be changed by conditional and loop statements. We are going to take a look at &#8220;if clause&#8221; and &#8220;for loop&#8221; in this section.</p>
+<div class="section" id="if">
+<h4><a class="toc-backref" href="#id23">if</a><a class="headerlink" href="#if" title="Permalink to this headline">¶</a></h4>
+<p>Here is an example of using simple if clause. We are also using the operators == (Equal to) and != (Not Equal to).</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">interface</span> <span class="o">=</span> <span class="s2">&quot;management1&quot;</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; <span class="k">if</span> <span class="nv">interface</span> <span class="o">==</span> <span class="s2">&quot;management1&quot;</span>:
+...     print <span class="s2">&quot;It is the management interface&quot;</span>
+...
+It is the management interface
+
+&gt;&gt;&gt; <span class="k">if</span> interface !<span class="o">=</span> <span class="s2">&quot;management1&quot;</span>:
+...     print <span class="s2">&quot;It is NOT the management interface&quot;</span>
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<p>The statements following if statement are indented by 4 spaces. Refer <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/#indentation">Python Style Guide for Indentation</a> for more information. Here is an example of using if and else clause. We are using the operator &lt;= (Less than equal to).</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">max_interfaces</span> <span class="o">=</span> 36
+
+&gt;&gt;&gt; <span class="nv">n</span> <span class="o">=</span> 10
+
+&gt;&gt;&gt; <span class="k">if</span> n &lt;<span class="o">=</span> max_interfaces:
+...     print <span class="s2">&quot;Interface number is within the range&quot;</span>
+... <span class="k">else</span>:
+...     print <span class="s2">&quot;Interface number is not within the range&quot;</span>
+...
+Interface number is within the range
+</pre></div>
+</div>
+<p>Here is an example of using if, elif and else clause. We are using the operator &#8220;not in&#8221; against the list.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">device_list</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;10.10.10.11&quot;</span>, <span class="s2">&quot;10.10.10.12&quot;</span>, <span class="s2">&quot;10.10.10.13&quot;</span><span class="o">]</span>
+
+&gt;&gt;&gt; <span class="k">if</span> <span class="s2">&quot;10.10.10.11&quot;</span> not in device_list:
+...     print <span class="s2">&quot;10.10.10.11 is not in  the list&quot;</span>
+... <span class="k">elif</span> <span class="s2">&quot;10.10.10.12&quot;</span> not in device_list:
+...     print <span class="s2">&quot;10.10.10.12 is not in the list&quot;</span>
+... <span class="k">elif</span> <span class="s2">&quot;10.10.10.13&quot;</span> not in device_list:
+...     print <span class="s2">&quot;10.10.10.13 not in device_list&quot;</span>
+... <span class="k">else</span>:
+...     print <span class="s2">&quot;all the IPs are in the device_list&quot;</span>
+...
+all the IPs are in the device_list
+</pre></div>
+</div>
+<p>Here is an example to find whether a list is empty or not using if clause.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">device_list</span> <span class="o">=</span> <span class="o">[]</span>
+&gt;&gt;&gt; <span class="k">if</span> not device_list:
+...     print <span class="s2">&quot;Empty List&quot;</span>
+...
+Empty List
+
+&gt;&gt;&gt; <span class="nv">device_list</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;10.10.10.11&quot;</span><span class="o">]</span>
+&gt;&gt;&gt; <span class="k">if</span> not device_list:
+...     print <span class="s2">&quot;Empty List&quot;</span>
+... <span class="k">else</span>:
+...     print <span class="s2">&quot;Not Empty&quot;</span>
+...
+Not Empty
+</pre></div>
+</div>
+<p>Here is an example to find whether a dictionary is empty or not using if clause.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">inventory</span> <span class="o">=</span> <span class="o">{</span><span class="s2">&quot;10.10.10.11&quot;</span>: <span class="s2">&quot;host1&quot;</span><span class="o">}</span>
+
+&gt;&gt;&gt; not inventory
+False
+&gt;&gt;&gt;
+&gt;&gt;&gt; bool<span class="o">(</span>inventory<span class="o">)</span>
+True
+
+&gt;&gt;&gt; <span class="k">if</span> bool<span class="o">(</span>inventory<span class="o">)</span>:
+...     print inventory
+...
+<span class="o">{</span><span class="s1">&#39;10.10.10.11&#39;</span>: <span class="s1">&#39;host1&#39;</span><span class="o">}</span>
+
+&gt;&gt;&gt; <span class="k">if</span> not inventory:
+...     print <span class="s2">&quot;Empty dictionary&quot;</span>
+... <span class="k">else</span>:
+...     print inventory
+...
+<span class="o">{</span><span class="s1">&#39;10.10.10.11&#39;</span>: <span class="s1">&#39;host1&#39;</span><span class="o">}</span>
+
+*** With Empty Dictionary ***
+
+&gt;&gt;&gt; <span class="nv">inventory</span> <span class="o">=</span> <span class="o">{}</span>
+
+&gt;&gt;&gt; not inventory
+True
+&gt;&gt;&gt; bool<span class="o">(</span>inventory<span class="o">)</span>
+False
+
+&gt;&gt;&gt; <span class="k">if</span> not inventory:
+...     print <span class="s2">&quot;Empty dictionary&quot;</span>
+...
+Empty dictionary
+
+&gt;&gt;&gt; <span class="k">if</span> bool<span class="o">(</span>inventory<span class="o">)</span>:
+...     print <span class="s2">&quot;NOT EMPTY&quot;</span>
+... <span class="k">else</span>:
+...     print <span class="s2">&quot;Empty Dictionary&quot;</span>
+...
+Empty Dictionary
+</pre></div>
+</div>
+</div>
+<div class="section" id="for">
+<h4><a class="toc-backref" href="#id24">for</a><a class="headerlink" href="#for" title="Permalink to this headline">¶</a></h4>
+<p>for loop is used to iterate over a sequence of items. Below is an example of iterating list and dictionary.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">device_list</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;10.10.10.11&quot;</span>, <span class="s2">&quot;10.10.10.12&quot;</span>, <span class="s2">&quot;10.10.10.13&quot;</span><span class="o">]</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; <span class="k">for</span> each_ip in device_list:
+...     print each_ip
+...
+10.10.10.11
+10.10.10.12
+10.10.10.13
+
+&gt;&gt;&gt; <span class="nv">inventory</span> <span class="o">=</span> <span class="o">{</span><span class="s1">&#39;10.10.10.11&#39;</span>: <span class="o">{</span><span class="s1">&#39;model&#39;</span>: <span class="s1">&#39;7050SX-128&#39;</span>, <span class="s1">&#39;hostname&#39;</span>: <span class="s1">&#39;spine-1&#39;</span>, <span class="s1">&#39;version&#39;</span>: <span class="s1">&#39;4.15.4F&#39;</span><span class="o">}</span>,  <span class="s1">&#39;10.10.10.12&#39;</span>: <span class="o">{</span><span class="s1">&#39;model&#39;</span>: <span class="s1">&#39;7050SX-128&#39;</span>, <span class="s1">&#39;hostname&#39;</span>: <span class="s1">&#39;spine-2&#39;</span>, <span class="s1">&#39;version&#39;</span>: <span class="s1">&#39;4.15.4F&#39;</span><span class="o">}</span>, <span class="s1">&#39;10.10.10.13&#39;</span>: <span class="o">{</span><span class="s1">&#39;model&#39;</span>: <span class="s1">&#39;7050SX-128&#39;</span>, <span class="s1">&#39;hostname&#39;</span>: <span class="s1">&#39;leaf-1&#39;</span>, <span class="s1">&#39;version&#39;</span>: <span class="s1">&#39;4.15.6M&#39;</span><span class="o">}}</span>
+
+&gt;&gt;&gt; <span class="k">for</span> each_ip in inventory:
+...     print each_ip
+...
+10.10.10.11
+10.10.10.13
+10.10.10.12
+
+&gt;&gt;&gt; <span class="k">for</span> each_ip in inventory:
+...     print inventory<span class="o">[</span>each_ip<span class="o">][</span><span class="s2">&quot;hostname&quot;</span><span class="o">]</span>
+...
+spine-1
+leaf-1
+spine-2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="data-operations">
+<h3><a class="toc-backref" href="#id25">Data Operations</a><a class="headerlink" href="#data-operations" title="Permalink to this headline">¶</a></h3>
+<p>In this section we are going to discuss about the various in built methods for strings and integers.</p>
+<div class="section" id="string">
+<h4><a class="toc-backref" href="#id26">String</a><a class="headerlink" href="#string" title="Permalink to this headline">¶</a></h4>
+<p>By now you know how to find the supported methods (dir()) for various types of data structures and data types. Let us practice some basic methods on strings.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">ip_address</span> <span class="o">=</span> <span class="s2">&quot;ip address 10.10.10.11/24&quot;</span>
+&gt;&gt;&gt; ip_address.split<span class="o">()</span>
+<span class="o">[</span><span class="s1">&#39;ip&#39;</span>, <span class="s1">&#39;address&#39;</span>, <span class="s1">&#39;10.10.10.11/24&#39;</span><span class="o">]</span>
+
+&gt;&gt;&gt; ip_address.split<span class="o">()[</span>2<span class="o">]</span>
+<span class="s1">&#39;10.10.10.11/24&#39;</span>
+
+&gt;&gt;&gt; ip_address.split<span class="o">()[</span>2<span class="o">]</span>.split<span class="o">(</span><span class="s2">&quot;/&quot;</span><span class="o">)</span>
+<span class="o">[</span><span class="s1">&#39;10.10.10.11&#39;</span>, <span class="s1">&#39;24&#39;</span><span class="o">]</span>
+
+&gt;&gt;&gt; ip_address.split<span class="o">()[</span>2<span class="o">]</span>.split<span class="o">(</span><span class="s2">&quot;/&quot;</span><span class="o">)[</span>0<span class="o">]</span>
+<span class="s1">&#39;10.10.10.11&#39;</span>
+</pre></div>
+</div>
+<p>split() splits the string into list. The default delimiter is empty space.</p>
+<p>Now let us practice how we can combine strings.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">ip</span> <span class="o">=</span> <span class="s2">&quot;10.10.10.100&quot;</span>
+&gt;&gt;&gt; <span class="nv">subnet_mask</span> <span class="o">=</span> 24
+
+&gt;&gt;&gt; <span class="nv">ip_addr</span> <span class="o">=</span> <span class="s2">&quot;ip address&quot;</span> + ip
+&gt;&gt;&gt; ip_addr
+<span class="s1">&#39;ip address10.10.10.100&#39;</span>
+
+&gt;&gt;&gt; <span class="nv">ip_addr</span> <span class="o">=</span> <span class="s2">&quot;ip address &quot;</span> + ip
+&gt;&gt;&gt; ip_addr
+<span class="s1">&#39;ip address 10.10.10.100&#39;</span>
+
+&gt;&gt;&gt; <span class="nv">ip_statement</span> <span class="o">=</span> ip_addr + <span class="s2">&quot;/&quot;</span> + subnet_mask
+Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
+  File <span class="s2">&quot;&lt;stdin&gt;&quot;</span>, line 1, in &lt;module&gt;
+TypeError: cannot concatenate <span class="s1">&#39;str&#39;</span> and <span class="s1">&#39;int&#39;</span> objects
+
+&gt;&gt;&gt; type<span class="o">(</span>subnet_mask<span class="o">)</span>
+&lt;<span class="nb">type</span> <span class="s1">&#39;int&#39;</span>&gt;
+
+&gt;&gt;&gt; <span class="nv">ip_statement</span> <span class="o">=</span> ip_addr + <span class="s2">&quot;/&quot;</span> + str<span class="o">(</span>subnet_mask<span class="o">)</span>
+&gt;&gt;&gt; ip_statement
+<span class="s1">&#39;ip address 10.10.10.100/24&#39;</span>
+</pre></div>
+</div>
+<p>As you see when we try to add a string and integer, Python reports <strong>TypeError: cannot concatenate &#8216;str&#8217; and &#8216;int&#8217; objects</strong>. So we converted the integer to string using str(subnet_mask) method and concatenated to ip_addr string variable.</p>
+</div>
+<div class="section" id="integer">
+<h4><a class="toc-backref" href="#id27">Integer</a><a class="headerlink" href="#integer" title="Permalink to this headline">¶</a></h4>
+<p>Here are the some of the examples of methods over integers and floating point.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">number_of_line_cards</span> <span class="o">=</span> 8
+&gt;&gt;&gt; <span class="nv">ports_per_line_card</span> <span class="o">=</span> 36
+
+&gt;&gt;&gt; <span class="nv">total_number_of_ports</span> <span class="o">=</span> number_of_line_cards * ports_per_line_card
+&gt;&gt;&gt; total_number_of_ports
+288
+
+&gt;&gt;&gt; <span class="nv">used_ports</span> <span class="o">=</span> 120
+&gt;&gt;&gt; <span class="nv">free_ports</span> <span class="o">=</span> total_number_of_ports - used_ports
+&gt;&gt;&gt; free_ports
+168
+
+&gt;&gt;&gt; <span class="nv">ports_usage_in_percentage</span> <span class="o">=</span> <span class="o">(</span>used_ports/total_number_of_ports<span class="o">)</span> * 100
+&gt;&gt;&gt; ports_usage_in_percentage
+0
+
+&gt;&gt;&gt; 120/288
+0
+&gt;&gt;&gt; float<span class="o">(</span>120/288<span class="o">)</span>
+0.0
+&gt;&gt;&gt; 120.0/288.0
+0.4166666666666667
+
+&gt;&gt;&gt; <span class="nv">ports_usage_in_percentage</span> <span class="o">=</span> <span class="o">(</span>float<span class="o">(</span>used_ports<span class="o">)</span>/float<span class="o">(</span>total_number_of_ports<span class="o">)</span> * 100<span class="o">)</span>
+&gt;&gt;&gt; ports_usage_in_percentage
+41.66666666666667
+</pre></div>
+</div>
+<p>&#8220;free_ports = total_number_of_ports - used_ports&#8221; is called as <strong>statement</strong>. In that, &#8220;total_number_of_ports - used_ports&#8221; is called as <strong>expression</strong>. Within the expression, total_number_of_ports, used_ports are variables and &#8220;-&#8221; is called as operator.</p>
+</div>
+</div>
+<div class="section" id="simple-use-cases">
+<h3><a class="toc-backref" href="#id28">Simple Use Cases</a><a class="headerlink" href="#simple-use-cases" title="Permalink to this headline">¶</a></h3>
+<p>We will practice few simple use cases based on the concepts we have learned so far. Here is an example of using for loop and string methods. In this example, we will extract the IP addresses from the &#8220;show ip interface brief&#8221; output.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">ip_int_br</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot; Interface              IP Address         Status     Protocol         MTU</span>
+<span class="s2">... Ethernet1/1.101        192.168.121.0/31   up         up              1500</span>
+<span class="s2">... Ethernet2/1.101        192.168.221.0/31   down       lowerlayerdown  1500</span>
+<span class="s2">... Ethernet3/1.301        10.12.1.0/31       up         up              1500</span>
+<span class="s2">... Ethernet3/1.317        10.12.1.32/31      up         up              1500</span>
+<span class="s2">... Ethernet3/1.333        10.12.1.64/31      up         up              1500</span>
+<span class="s2">... Ethernet3/1.349        10.12.1.96/31      up         up              1500 &quot;&quot;&quot;</span>
+
+&gt;&gt;&gt; ip_int_br
+<span class="s1">&#39; Interface              IP Address         Status     Protocol         MTU\nEthernet1/1.101        192.168.121.0/31   up         up              1500\nEthernet2/1.101        192.168.221.0/31   down       lowerlayerdown  1500\nEthernet3/1.301        10.12.1.0/31       up         up              1500\nEthernet3/1.317        10.12.1.32/31      up         up              1500\nEthernet3/1.333        10.12.1.64/31      up         up              1500\nEthernet3/1.349        10.12.1.96/31      up         up              1500&#39;</span>
+
+&gt;&gt;&gt; ip_int_br.split<span class="o">(</span><span class="s2">&quot;\n&quot;</span><span class="o">)</span>
+<span class="o">[</span><span class="s1">&#39; Interface              IP Address         Status     Protocol         MTU&#39;</span>, <span class="s1">&#39;Ethernet1/1.101        192.168.121.0/31   up         up              1500&#39;</span>, <span class="s1">&#39;Ethernet2/1.101        192.168.221.0/31   down       lowerlayerdown  1500&#39;</span>, <span class="s1">&#39;Ethernet3/1.301        10.12.1.0/31       up         up              1500&#39;</span>, <span class="s1">&#39;Ethernet3/1.317        10.12.1.32/31      up         up              1500&#39;</span>, <span class="s1">&#39;Ethernet3/1.333        10.12.1.64/31      up         up              1500&#39;</span>, <span class="s1">&#39;Ethernet3/1.349        10.12.1.96/31      up         up              1500&#39;</span><span class="o">]</span>
+
+&gt;&gt;&gt; <span class="k">for</span> each_line in ip_int_br.split<span class="o">(</span><span class="s2">&quot;\n&quot;</span><span class="o">)</span>:
+...     print each_line
+...
+ Interface              IP Address         Status     Protocol         MTU
+Ethernet1/1.101        192.168.121.0/31   up         up              1500
+Ethernet2/1.101        192.168.221.0/31   down       lowerlayerdown  1500
+Ethernet3/1.301        10.12.1.0/31       up         up              1500
+Ethernet3/1.317        10.12.1.32/31      up         up              1500
+Ethernet3/1.333        10.12.1.64/31      up         up              1500
+Ethernet3/1.349        10.12.1.96/31      up         up              1500
+
+&gt;&gt;&gt; <span class="k">for</span> each_line in ip_int_br.split<span class="o">(</span><span class="s2">&quot;\n&quot;</span><span class="o">)</span>:
+...     print each_line.split<span class="o">()[</span>1<span class="o">]</span>
+...
+IP
+192.168.121.0/31
+192.168.221.0/31
+10.12.1.0/31
+10.12.1.32/31
+10.12.1.64/31
+10.12.1.96/31
+</pre></div>
+</div>
+<p>Here is another example of using for loop, string and integer methods. We will calculate the number of subnets and IP addresses (including network and broadcast IP addresses) from the given network address and subnet mask.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">network_block</span> <span class="o">=</span> <span class="s2">&quot;192.168.1.0/24&quot;</span>
+&gt;&gt;&gt; <span class="nv">subnet_mask</span> <span class="o">=</span> 30
+
+*** Identify the number of bits used <span class="k">for</span> network. <span class="s2">&quot;subnet_mask - network_mask&quot;</span> *****
+&gt;&gt;&gt; network_block.split<span class="o">(</span><span class="s2">&quot;/&quot;</span><span class="o">)</span>
+<span class="o">[</span><span class="s1">&#39;192.168.1.0&#39;</span>, <span class="s1">&#39;24&#39;</span><span class="o">]</span>
+&gt;&gt;&gt; network_block.split<span class="o">(</span><span class="s2">&quot;/&quot;</span><span class="o">)[</span>1<span class="o">]</span>
+<span class="s1">&#39;24&#39;</span>
+&gt;&gt;&gt; subnet_mask - int<span class="o">(</span>network_block.split<span class="o">(</span><span class="s2">&quot;/&quot;</span><span class="o">)[</span>1<span class="o">])</span>
+6
+
+*** Number of <span class="nv">subnets</span> <span class="o">=</span> <span class="m">2</span> to the power of <span class="o">(</span>subnet_mask - network_mask<span class="o">)</span> ***
+&gt;&gt;&gt; <span class="nv">number_of_subnets</span> <span class="o">=</span> <span class="m">2</span> ** <span class="o">(</span>subnet_mask - int<span class="o">(</span>network_block.split<span class="o">(</span><span class="s2">&quot;/&quot;</span><span class="o">)[</span>1<span class="o">]))</span>
+&gt;&gt;&gt; number_of_subnets
+64
+
+*** Number of IPs per <span class="nv">subnet</span> <span class="o">=</span> <span class="m">2</span> to the power of number of host bits ***
+&gt;&gt;&gt; <span class="nv">number_of_ips_per_subnet</span> <span class="o">=</span> <span class="m">2</span> ** <span class="o">(</span><span class="m">32</span> - subnet_mask<span class="o">)</span>
+&gt;&gt;&gt; number_of_ips_per_subnet
+4
+</pre></div>
+</div>
+<p>If you look at some of the statements, we have more than one operators in the expression. When you have more than one operators in an expression, Python follows the conventional method called as PEMDAS (Parenthesis, Exponents, Multiplication, Division, Addition, Subtraction) to calculate the result.</p>
+<p>Now, we will continue to update our script to calculate the subnet addresses for the given network block and subnet mask.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt;&gt;&gt; <span class="nv">subnet_octets</span> <span class="o">=</span> network_block.split<span class="o">(</span><span class="s2">&quot;/&quot;</span><span class="o">)[</span>0<span class="o">]</span>.split<span class="o">(</span><span class="s2">&quot;.&quot;</span><span class="o">)</span>
+&gt;&gt;&gt; subnet_octets
+<span class="o">[</span><span class="s1">&#39;192&#39;</span>, <span class="s1">&#39;168&#39;</span>, <span class="s1">&#39;1&#39;</span>, <span class="s1">&#39;0&#39;</span><span class="o">]</span>
+
+&gt;&gt;&gt; <span class="s2">&quot;.&quot;</span>.join<span class="o">(</span>subnet_octets<span class="o">)</span>
+<span class="s1">&#39;192.168.1.0&#39;</span>
+
+&gt;&gt;&gt; <span class="nv">subnetwork_address</span> <span class="o">=</span> int<span class="o">(</span>subnet_octets<span class="o">[</span>3<span class="o">])</span>
+&gt;&gt;&gt; <span class="k">for</span> each_subnet in range<span class="o">(</span>0, number_of_subnets<span class="o">)</span>:
+...     subnet_octets<span class="o">[</span>3<span class="o">]</span> <span class="o">=</span> str<span class="o">(</span>subnetwork_address<span class="o">)</span>
+...     <span class="nv">subnets</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>.join<span class="o">(</span>subnet_octets<span class="o">)</span> + <span class="s2">&quot;/&quot;</span> + str<span class="o">(</span>subnet_mask<span class="o">)</span>
+...     print subnets
+...     subnetwork_address +<span class="o">=</span> number_of_ips_per_subnet
+...
+192.168.1.0/30
+192.168.1.4/30
+192.168.1.8/30
+192.168.1.12/30
+192.168.1.16/30
+!!!! Output Omitted <span class="k">for</span> brevity
+192.168.1.228/30
+192.168.1.232/30
+192.168.1.236/30
+192.168.1.240/30
+192.168.1.244/30
+192.168.1.248/30
+192.168.1.252/30
+</pre></div>
+</div>
+<p>Within the for loop, we are just updating the fourth octet of the IP addresses and appending the string to list the subnet addresses.</p>
+</div>
+<div class="section" id="script-file">
+<h3><a class="toc-backref" href="#id29">Script File</a><a class="headerlink" href="#script-file" title="Permalink to this headline">¶</a></h3>
+<p>So far, We have been practicing the core concepts using Python interpreter. This approach of using interpreter is called as interactive mode. As you see in the previous use case, it is getting complicated to use the interpreter as the script gets complicated. It is time to start writing scripts in a file which will be saved as .py file in your system. Then the script file is executed directly from your terminal or from any development environment. Now, the question comes what editor should we use to create the .py file. One could use a simple text editor to write the scripts. Working with the text editor is something similar to writing script in the Python interpreter where you have to make sure you write the code with correct indentation and correct syntax.</p>
+<p>There are sophisticated advanced editors that can provide auto indentation and in some cases auto completing the statements. You can start writing the script using one of the advanced editors such as <a class="reference external" href="https://atom.io/">Atom</a> or <a class="reference external" href="https://www.sublimetext.com/">Sublime</a>.</p>
+<p>Later in this book, we use Python’s Integrated Development Environment (IDLE) to create scripts. IDLE is installed as part of the Python software package when you download and install from <a class="reference external" href="http://www.python.org">www.python.org</a>. There are several vendor developed integrated development environments (IDE) such as Wing IDE, PyCharm, Komodo, etc are available in the market.  In addition to the benefits provided by advanced editors, IDEs are great while developing, testing and debugging complex software applications.</p>
+<p>Create a folder in the home directory of your system and save the scripts you are writing in that folder.  Open your choice of editor and create a new script and save the file as subnet_calculator.py.</p>
+<p>We are going to take the script we built so far using interactive mode and paste it in this new script file. The script we have written so far is very specific to class C subnets. We are going to add a logic that automatically derive the class from the given network block and subnet mask.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">network_block</span> <span class="o">=</span> <span class="s2">&quot;10.32.10.0/24&quot;</span>
+<span class="n">subnet_mask</span> <span class="o">=</span> <span class="mi">26</span>
+
+<span class="c1"># split the network block into IP address and Network Mask</span>
+<span class="n">ip_address</span> <span class="o">=</span> <span class="n">network_block</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">network_mask</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">network_block</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">octets</span> <span class="o">=</span> <span class="n">ip_address</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Find the octet number for which subnet address needs to be calculated</span>
+<span class="c1"># class A = 1, Class B = 2, Class C = 3</span>
+<span class="n">subnet_octet</span> <span class="o">=</span> <span class="n">network_mask</span> <span class="o">/</span> <span class="mi">8</span>
+
+<span class="c1"># Find out how many subnets for a given network mask and subnet mask</span>
+<span class="n">number_of_subnets</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">subnet_mask</span> <span class="o">-</span> <span class="n">network_mask</span><span class="p">)</span>
+
+<span class="c1"># Total number of IPs within a subnet</span>
+<span class="c1"># host class for class A, B and C is 16, 24 and 32 respectively.</span>
+<span class="n">host_class</span> <span class="o">=</span> <span class="p">(</span><span class="n">subnet_octet</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span> <span class="o">+</span> <span class="mi">8</span>
+<span class="n">number_of_ips_per_subnet</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">host_class</span> <span class="o">-</span> <span class="n">subnet_mask</span><span class="p">)</span>
+
+<span class="c1"># Derive the subnet addresses</span>
+<span class="n">subnetwork_address</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">octets</span><span class="p">[</span><span class="n">subnet_octet</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">each_subnet</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">number_of_subnets</span><span class="p">):</span>
+  <span class="n">octets</span><span class="p">[</span><span class="n">subnet_octet</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">subnetwork_address</span><span class="p">)</span>
+  <span class="n">subnets</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">octets</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">subnet_mask</span><span class="p">)</span>
+  <span class="k">print</span> <span class="n">subnets</span>
+  <span class="n">subnetwork_address</span> <span class="o">+=</span> <span class="n">number_of_ips_per_subnet</span>
+</pre></div>
+</div>
+<p>It may take sometime to understand the logic of the script. Later in this book, we will learn to write an algorithm and we develop all the scripts step by step by following the algorithm. For now, just save and run the script from your system.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees:my-scripts anees$ ls subnet*
+subnet_calculator.py
+
+anees:my-scripts anees$ python subnet_calculator.py
+10.32.10.0/26
+10.32.10.64/26
+10.32.10.128/26
+10.32.10.192/26
+</pre></div>
+</div>
+</div>
+<div class="section" id="modules">
+<h3><a class="toc-backref" href="#id30">Modules</a><a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h3>
+<p>As you start learning to write scripts, you will end up in reusing some of your programs. You can write the reusable scripts as functions in Python.  You can also write all of your reusable use cases as multiple functions and save it in a .py file. Then for any new programs or scripts, you can import these functions in the .py file and use it. This .py file is called as module in Python.</p>
+<p>In some cases, you may end up in building multiple modules and you may need all these modules to build more sophisticated software applications. Collection of these modules can be called as packages in Python.</p>
+<p>There are several standard modules or packages installed as part of the Python installation. You can find those packages in the lib folder of Python installation in your system. For example in Windows, c:python2.7lib and in Linux &amp; MAC OS X, /usr/lib/python2.7/ have the standard Python modules.</p>
+<p>We will explore some of the standard modules (pprint, sys and re) in this section. Launch the Python interpreter from your terminal.</p>
+<div class="section" id="pprint">
+<h4><a class="toc-backref" href="#id31">pprint</a><a class="headerlink" href="#pprint" title="Permalink to this headline">¶</a></h4>
+<p>Pretty printer (pprint) is a very useful module especially when we handle dictionaries. In order to use the modules, you must import them into your script.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pprint</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">dir</span><span class="p">()</span>
+<span class="go">[&#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;pprint&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">dir</span><span class="p">(</span><span class="n">pprint</span><span class="p">)</span>
+<span class="go">[&#39;PrettyPrinter&#39;, &#39;_StringIO&#39;, &#39;__all__&#39;, &#39;__builtins__&#39;, &#39;__doc__&#39;, &#39;__file__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;_commajoin&#39;, &#39;_id&#39;, &#39;_len&#39;, &#39;_perfcheck&#39;, &#39;_recursion&#39;, &#39;_safe_repr&#39;, &#39;_sorted&#39;, &#39;_sys&#39;, &#39;_type&#39;,</span>
+<span class="go">&#39;isreadable&#39;, &#39;isrecursive&#39;, &#39;pformat&#39;, &#39;pprint&#39;, &#39;saferepr&#39;, &#39;warnings&#39;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inventory</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;10.10.10.11&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="s1">&#39;7050SX-128&#39;</span><span class="p">,</span> <span class="s1">&#39;hostname&#39;</span><span class="p">:</span> <span class="s1">&#39;spine-1&#39;</span><span class="p">,</span> <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="s1">&#39;4.15.4F&#39;</span><span class="p">},</span> <span class="s1">&#39;10.10.10.13&#39;</span><span class="p">:</span> <span class="s1">&#39;tor-1-a&#39;</span><span class="p">,</span> <span class="s1">&#39;10.10.10.12&#39;</span><span class="p">:</span> <span class="s1">&#39;spine-2&#39;</span><span class="p">}</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">inventory</span>
+<span class="go">{&#39;10.10.10.11&#39;: {&#39;model&#39;: &#39;7050SX-128&#39;, &#39;hostname&#39;: &#39;spine-1&#39;, &#39;version&#39;: &#39;4.15.4F&#39;}, &#39;10.10.10.13&#39;: &#39;tor-1-a&#39;, &#39;10.10.10.12&#39;: &#39;spine-2&#39;}</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">inventory</span><span class="p">)</span>
+<span class="go">{&#39;10.10.10.11&#39;: {&#39;hostname&#39;: &#39;spine-1&#39;,</span>
+<span class="go">                 &#39;model&#39;: &#39;7050SX-128&#39;,</span>
+<span class="go">                 &#39;version&#39;: &#39;4.15.4F&#39;},</span>
+<span class="go"> &#39;10.10.10.12&#39;: &#39;spine-2&#39;,</span>
+<span class="go"> &#39;10.10.10.13&#39;: &#39;tor-1-a&#39;}</span>
+</pre></div>
+</div>
+<p>Both print and pprint are inbuilt modules in Python. But print is loaded in your program namespace when you launch the Python program by default. You can see the difference between the outputs of the dictionary using print and pprint.</p>
+</div>
+<div class="section" id="sys">
+<h4><a class="toc-backref" href="#id32">sys</a><a class="headerlink" href="#sys" title="Permalink to this headline">¶</a></h4>
+<p>sys module provide system specific functions which can be used to interact with the systems (Microsoft Windows, Apple Mac, Linux, etc) objects and variables. In the subnet_calculator.py, we specify the network address and the subnet mask within the script. We are going to use sys module to input both of these values as arguments instead of hard coding into the script.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="hll"><span class="kn">import</span> <span class="nn">sys</span>
+</span>
+<span class="hll"><span class="n">network_block</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span><span class="hll"><span class="n">subnet_mask</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</span>
+<span class="c1"># split the network block into IP address and Network Mask</span>
+<span class="n">ip_address</span> <span class="o">=</span> <span class="n">network_block</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">network_mask</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">network_block</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">octets</span> <span class="o">=</span> <span class="n">ip_address</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Find the octet number for which subnet address needs to be calculated</span>
+<span class="n">subnet_octet</span> <span class="o">=</span> <span class="n">network_mask</span> <span class="o">/</span> <span class="mi">8</span>
+
+<span class="c1"># Find out how many subnets for a given network mask and subnet mask</span>
+<span class="n">number_of_subnets</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">subnet_mask</span> <span class="o">-</span> <span class="n">network_mask</span><span class="p">)</span>
+
+<span class="c1"># Total number of IPs within a subnet</span>
+<span class="n">host_class</span> <span class="o">=</span> <span class="p">(</span><span class="n">subnet_octet</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span> <span class="o">+</span> <span class="mi">8</span>
+<span class="n">number_of_ips_per_subnet</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">host_class</span> <span class="o">-</span> <span class="n">subnet_mask</span><span class="p">)</span>
+
+<span class="c1"># Derive the subnet addresses</span>
+<span class="n">subnetwork_address</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">octets</span><span class="p">[</span><span class="n">subnet_octet</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">each_subnet</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">number_of_subnets</span><span class="p">):</span>
+  <span class="n">octets</span><span class="p">[</span><span class="n">subnet_octet</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">subnetwork_address</span><span class="p">)</span>
+  <span class="n">subnets</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">octets</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">subnet_mask</span><span class="p">)</span>
+  <span class="k">print</span> <span class="n">subnets</span>
+  <span class="n">subnetwork_address</span> <span class="o">+=</span> <span class="n">number_of_ips_per_subnet</span>
+</pre></div>
+</div>
+<p>Save and run the script from your system.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees:my-scripts anees$ ls subnet*
+subnet_calculator.py
+
+anees:my-scripts anees$ python subnet_calculator.py 10.10.10.0/24 26
+10.10.10.0/26
+10.10.10.64/26
+10.10.10.128/26
+10.10.10.192/26
+</pre></div>
+</div>
+<p>What will happen if the user does not provide the arguments?</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees:my-scripts anees$ python subnet_calculator.py
+Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
+  File <span class="s2">&quot;subnet_calculator.py&quot;</span>, line 3, in &lt;module&gt;
+    <span class="nv">network_block</span> <span class="o">=</span> sys.argv<span class="o">[</span>1<span class="o">]</span>
+IndexError: list index out of range
+</pre></div>
+</div>
+<p>We can add a validation check in the script to make sure the user provides two arguments. If the user does not provide the arguments, the script should display a message that educates the user.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="hll"><span class="k">if</span> <span class="nb">len</span><span class="p">(</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
+</span><span class="hll">    <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Example Syntax </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;python subnet_calculator.py 192.168.1.0/24 28 </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span> <span class="mi">1</span> <span class="p">)</span>
+</span>
+<span class="n">network_block</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">subnet_mask</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="c1"># split the network block into IP address and Network Mask</span>
+<span class="n">ip_address</span> <span class="o">=</span> <span class="n">network_block</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">network_mask</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">network_block</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">octets</span> <span class="o">=</span> <span class="n">ip_address</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Find which octet for which subnet address needs to be calculated</span>
+<span class="c1"># class A = 1, Class B = 2, Class C = 3</span>
+<span class="n">subnet_octet</span> <span class="o">=</span> <span class="n">network_mask</span> <span class="o">/</span> <span class="mi">8</span>
+
+<span class="c1"># Find out how many subnets for a given network mask and subnet mask</span>
+<span class="n">number_of_subnets</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">subnet_mask</span> <span class="o">-</span> <span class="n">network_mask</span><span class="p">)</span>
+
+<span class="c1"># Total number of IPs within a subnet</span>
+<span class="c1"># host class for class A, B and C is 16, 24 and 32.</span>
+<span class="n">host_class</span> <span class="o">=</span> <span class="p">(</span><span class="n">subnet_octet</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span> <span class="o">+</span> <span class="mi">8</span>
+<span class="n">number_of_ips_per_subnet</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">host_class</span> <span class="o">-</span> <span class="n">subnet_mask</span><span class="p">)</span>
+
+<span class="c1"># Derive the subnet addresses</span>
+<span class="n">subnetwork_address</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">octets</span><span class="p">[</span><span class="n">subnet_octet</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">each_subnet</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">number_of_subnets</span><span class="p">):</span>
+    <span class="n">octets</span><span class="p">[</span><span class="n">subnet_octet</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">subnetwork_address</span><span class="p">)</span>
+    <span class="n">subnets</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">octets</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">subnet_mask</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">subnets</span>
+    <span class="n">subnetwork_address</span> <span class="o">+=</span> <span class="n">number_of_ips_per_subnet</span>
+</pre></div>
+</div>
+<p>Save and run the script from your system.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees:my-scripts anees$ python subnet_calculator.py
+Example Syntax
+python subnet_calculator.py 192.168.1.0/24 28
+</pre></div>
+</div>
+</div>
+<div class="section" id="re-regular-expression">
+<h4><a class="toc-backref" href="#id33">re - Regular Expression</a><a class="headerlink" href="#re-regular-expression" title="Permalink to this headline">¶</a></h4>
+<p>Regular expression is a powerful method when it comes to automation. We are going to practice a couple of use cases in this section using regular expression.</p>
+<p><strong>Best Practices Assessment</strong></p>
+<p>In this first use case, we are going to use re.search() method. We are going to practice a script to validate if the bgp best practices commands such as &#8220;update wait-for-convergence&#8221; and &#8220;update wait-install&#8221; are configured.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">re</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="gp">... </span><span class="s2">interface Loopback0</span>
+<span class="gp">... </span><span class="s2">   description loopback interface for BGP peering</span>
+<span class="gp">... </span><span class="s2">   ip address 192.168.100.2/32</span>
+<span class="gp">... </span><span class="s2">!</span>
+<span class="gp">... </span><span class="s2">router bgp 100</span>
+<span class="gp">... </span><span class="s2">   update wait-for-convergence</span>
+<span class="gp">... </span><span class="s2">   maximum-paths 4</span>
+<span class="gp">... </span><span class="s2">   neighbor 10.1.1.1 remote-as 1001</span>
+<span class="gp">... </span><span class="s2">   neighbor 10.1.1.1 maximum-routes 12000</span>
+<span class="gp">... </span><span class="s2">   neighbor 192.168.128.18 remote-as 201</span>
+<span class="gp">... </span><span class="s2">   neighbor 192.168.128.18 maximum-routes 12000</span>
+<span class="gp">... </span><span class="s2">   neighbor 192.168.128.22 remote-as 201</span>
+<span class="gp">... </span><span class="s2">   neighbor 192.168.128.22 maximum-routes 12000</span>
+<span class="gp">... </span><span class="s2">   network 10.10.10.0/24</span>
+<span class="gp">... </span><span class="s2">   network 192.168.100.2/32</span>
+<span class="gp">... </span><span class="s2">&quot;&quot;&quot;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">validate</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;update wait-for-convergence&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">validate</span>
+<span class="go">&lt;_sre.SRE_Match object at 0x100f5d9f0&gt;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">validate</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="s2">&quot;Match Found&quot;</span>
+<span class="gp">... </span><span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="s2">&quot;Match NOT Found&quot;</span>
+<span class="gp">...</span>
+<span class="go">Match Found</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">validate</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;update wait-install&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">validate</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">validate</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="s2">&quot;Match Found&quot;</span>
+<span class="gp">... </span><span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="s2">&quot;Match NOT Found&quot;</span>
+<span class="gp">...</span>
+<span class="go">Match NOT Found</span>
+</pre></div>
+</div>
+<p>If a match is found, re.search() will return a Match Object instance. If a match is not found, it returns None.</p>
+<p><strong>Configuration Generator - Collecting the variables from the configuration template</strong></p>
+<p>In this second use case, we are going to use re.findall() method. Network engineers can standardize network device configurations. Once they standardize network device configurations, they can create configuration template which can be used to generate configurations for any number of devices by filling up the variables such as hostname, IP addresses, etc. In this example, we will show how we can collect the variables from the configuration template. Later in this chapter, we will complete the script by replacing the variables with the actual values.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Import</span> <span class="n">re</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">config</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">... hostname $hostname</span>
+<span class="s2">... !</span>
+<span class="s2">... interface management1</span>
+<span class="s2">...  ip address $ip_mgmt/24</span>
+<span class="s2">... !</span>
+<span class="s2">... interface loopback0</span>
+<span class="s2">...  ip address $ip_lo0/32</span>
+<span class="s2">... !</span>
+<span class="s2">... &quot;&quot;&quot;</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;\$\w+&quot;</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="p">[</span><span class="s1">&#39;$hostname&#39;</span><span class="p">,</span> <span class="s1">&#39;$ip_mgmt&#39;</span><span class="p">,</span> <span class="s1">&#39;$ip_lo0&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="handling-structured-data">
+<h3><a class="toc-backref" href="#id34">Handling Structured Data</a><a class="headerlink" href="#handling-structured-data" title="Permalink to this headline">¶</a></h3>
+<p>In this section, we are going to complete the configuration generator script which we started in the regular expression section. We are going to save the configuration template in a text file and the variables will be stored in a json or yaml file.</p>
+<div class="section" id="text">
+<h4><a class="toc-backref" href="#id35">Text</a><a class="headerlink" href="#text" title="Permalink to this headline">¶</a></h4>
+<p>Create a configuration template and store it in a text file.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees:files anees$ <span class="nb">pwd</span>
+/Users/anees/Dropbox/my-scripts/files
+
+anees:files anees$ vi config_template.txt
+hostname <span class="nv">$hostname</span>
+!
+interface management1
+ ip address <span class="nv">$ip_mgmt</span>/24
+!
+interface loopback0
+ ip address <span class="nv">$ip_lo0</span>/32
+!
+interface ethernet49/1
+ speed forced 40gfull
+ ip address <span class="nv">$ip_to_spine1</span>/31
+!
+interface ethernet50/1
+ speed forced 40gfull
+ ip address <span class="nv">$ip_to_spine2</span>/31
+!
+router bgp <span class="nv">$bgp_as</span>
+ router-id <span class="nv">$ip_lo0</span>
+ neighbor <span class="nv">$ip_spine1</span> remote-as 65000
+ neighbor <span class="nv">$ip_spine2</span> remote-as 65000
+ network <span class="nv">$ip_lo0</span>/32
+</pre></div>
+</div>
+<p>We will write a Python script to read this file. Create a Python script file and call it as config_generator.py. with open(&#8220;file_name&#8221;) is used to open the file. It automatically closes the file after the indented code block is executed.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Dropbox/my-scripts/files/&quot;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s2">&quot;config_template.txt&quot;</span>
+
+<span class="n">config_file</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">read_file</span><span class="p">:</span>
+    <span class="n">config_template</span> <span class="o">=</span> <span class="n">read_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="n">config_template</span>
+</pre></div>
+</div>
+<p>Save and run the script.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees:my-scripts anees$ python config_generator.py
+hostname <span class="nv">$hostname</span>
+!
+interface management1
+ ip address <span class="nv">$ip_mgmt</span>/24
+!
+interface loopback0
+ ip address <span class="nv">$ip_lo0</span>/32
+!
+interface ethernet49/1
+ speed forced 40gfull
+ ip address <span class="nv">$ip_to_spine1</span>/31
+!
+interface ethernet50/1
+ speed forced 40gfull
+ ip address <span class="nv">$ip_to_spine2</span>/31
+!
+router bgp <span class="nv">$bgp_as</span>
+ router-id <span class="nv">$ip_lo0</span>
+ neighbor <span class="nv">$ip_spine1</span> remote-as 65000
+ neighbor <span class="nv">$ip_spine2</span> remote-as 65000
+ network <span class="nv">$ip_lo0</span>/32
+!
+</pre></div>
+</div>
+<p>Now, we are going to identify all the variables in the configuration template. We can use the regular expression module to identify all the variables starting with $. re.findall(&#8220;$w+&#8221;, config_template) creates a list of the words starting with $. Since the configuration template may use the same variable name in multiple places, there will be duplicate entries in the list created by re.findall. We will convert the list to set to eliminate the duplicate entries.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="hll"><span class="kn">import</span> <span class="nn">re</span>
+</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Dropbox/my-scripts/files/&quot;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s2">&quot;config_template.txt&quot;</span>
+
+<span class="n">config_file</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">read_file</span><span class="p">:</span>
+    <span class="n">config_template</span> <span class="o">=</span> <span class="n">read_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="hll"><span class="n">variables</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;\$\w+&quot;</span><span class="p">,</span> <span class="n">config_template</span><span class="p">))</span>
+</span>
+<span class="hll"><span class="k">print</span> <span class="n">variables</span>
+</span></pre></div>
+</div>
+<p>Save and run the script.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees:my-scripts anees$ python config_generator.py
+set<span class="o">([</span><span class="s1">&#39;$ip_mgmt&#39;</span>, <span class="s1">&#39;$ip_lo0&#39;</span>, <span class="s1">&#39;$hostname&#39;</span>, <span class="s1">&#39;$ip_spine2&#39;</span>, <span class="s1">&#39;$ip_spine1&#39;</span>, <span class="s1">&#39;$ip_to_spine2&#39;</span>, <span class="s1">&#39;$ip_to_spine1&#39;</span>, <span class="s1">&#39;$bgp_as&#39;</span><span class="o">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="json">
+<h4><a class="toc-backref" href="#id36">JSON</a><a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h4>
+<p>JSON provides a data structure which is easy to read by human as well as easy to parse the data using programming languages. The structure is very similar to what we learned in Python dictionary ({key: value}) earlier in this chapter. We will create a file using JSON format with the variables we have used in the configuration template as keys.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees:my-scripts anees$ vi variables.json
+<span class="o">{</span>
+  <span class="s2">&quot;</span><span class="nv">$ip_mgmt</span><span class="s2">&quot;</span>: <span class="s2">&quot;192.168.1.11&quot;</span>,
+  <span class="s2">&quot;</span><span class="nv">$ip_lo0</span><span class="s2">&quot;</span>: <span class="s2">&quot;10.10.10.10&quot;</span>,
+  <span class="s2">&quot;</span><span class="nv">$hostname</span><span class="s2">&quot;</span>: <span class="s2">&quot;sjcpod1tor1&quot;</span>,
+  <span class="s2">&quot;</span><span class="nv">$ip_spine2</span><span class="s2">&quot;</span>: <span class="s2">&quot;10.10.101.2&quot;</span>,
+  <span class="s2">&quot;</span><span class="nv">$ip_spine1</span><span class="s2">&quot;</span>: <span class="s2">&quot;10.10.102.2&quot;</span>,
+  <span class="s2">&quot;</span><span class="nv">$ip_to_spine2</span><span class="s2">&quot;</span>: <span class="s2">&quot;10.10.101.1&quot;</span>,
+  <span class="s2">&quot;</span><span class="nv">$ip_to_spine1</span><span class="s2">&quot;</span>: <span class="s2">&quot;10.10.102.1&quot;</span>,
+  <span class="s2">&quot;</span><span class="nv">$bgp_as</span><span class="s2">&quot;</span>: <span class="s2">&quot;65101&quot;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>We will update our config_generator.py to read this json file and replace the variables in the configuration template with the values in the variables.json file. In order to read the json file, we will use the Python json module.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="hll"><span class="kn">import</span> <span class="nn">json</span>
+</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Dropbox/my-scripts/files/&quot;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s2">&quot;config_template.txt&quot;</span>
+<span class="hll"><span class="n">variables_file_name</span> <span class="o">=</span> <span class="s2">&quot;variables.json&quot;</span>
+</span>
+<span class="n">config_file</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name</span>
+<span class="hll"><span class="n">variables_file</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">variables_file_name</span>
+</span>
+<span class="c1"># Read Config template file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">read_file</span><span class="p">:</span>
+    <span class="n">config_template</span> <span class="o">=</span> <span class="n">read_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># Read the variables from the config template</span>
+<span class="n">variables</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;\$\w+&quot;</span><span class="p">,</span> <span class="n">config_template</span><span class="p">))</span>
+
+<span class="c1"># Read the variables from the json file</span>
+<span class="hll"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">variables_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">read_file</span><span class="p">:</span>
+</span><span class="hll">    <span class="n">variables_dictionary</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_file</span><span class="p">)</span>
+</span>
+<span class="hll"><span class="k">print</span> <span class="n">variables_dictionary</span>
+</span></pre></div>
+</div>
+<p>Save and run the script.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees:my-scripts anees$ python config_generator.py
+<span class="o">{</span>u<span class="s1">&#39;$ip_mgmt&#39;</span>: u<span class="s1">&#39;192.168.1.11&#39;</span>, u<span class="s1">&#39;$ip_lo0&#39;</span>: u<span class="s1">&#39;10.10.10.10&#39;</span>, u<span class="s1">&#39;$hostname&#39;</span>: u<span class="s1">&#39;sjcpod1tor1&#39;</span>, u<span class="s1">&#39;$ip_spine2&#39;</span>: u<span class="s1">&#39;10.10.101.2&#39;</span>, u<span class="s1">&#39;$ip_spine1&#39;</span>: u<span class="s1">&#39;10.10.102.2&#39;</span>, u<span class="s1">&#39;$ip_to_spine2&#39;</span>: u<span class="s1">&#39;10.10.101.1&#39;</span>, u<span class="s1">&#39;$ip_to_spine1&#39;</span>: u<span class="s1">&#39;10.10.102.1&#39;</span>, u<span class="s1">&#39;$bgp_as&#39;</span>: u<span class="s1">&#39;65101&#39;</span><span class="o">}</span>
+</pre></div>
+</div>
+<p>As you can see, json.load(read_file) imports the content of the json file as dictionary. Now we will update our script which generates the configuration from the configuration template and the variables dictionary.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Dropbox/my-scripts/files/&quot;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s2">&quot;config_template.txt&quot;</span>
+<span class="n">variables_file_name</span> <span class="o">=</span> <span class="s2">&quot;variables.json&quot;</span>
+
+<span class="n">config_file</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name</span>
+<span class="n">variables_file</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">variables_file_name</span>
+
+<span class="c1"># Read Config template file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">read_file</span><span class="p">:</span>
+    <span class="n">config_template</span> <span class="o">=</span> <span class="n">read_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># Read the variables from the config template</span>
+<span class="n">variables</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;\$\w+&quot;</span><span class="p">,</span> <span class="n">config_template</span><span class="p">))</span>
+
+<span class="c1"># Read the variables from the json file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">variables_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">read_file</span><span class="p">:</span>
+    <span class="n">variables_dictionary</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_file</span><span class="p">)</span>
+
+<span class="hll"><span class="c1"># Generate Configuration from Config template and variables</span>
+</span><span class="hll"><span class="n">config</span> <span class="o">=</span> <span class="n">config_template</span>
+</span><span class="hll">
+</span><span class="hll"><span class="k">for</span> <span class="n">each_variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+</span><span class="hll">    <span class="n">config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">each_variable</span><span class="p">,</span> <span class="n">variables_dictionary</span><span class="p">[</span><span class="n">each_variable</span><span class="p">])</span>
+</span><span class="hll">
+</span><span class="hll"><span class="k">print</span> <span class="n">config</span>
+</span></pre></div>
+</div>
+<p>Save and run the script.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees:my-scripts anees$ python config_generator.py
+hostname sjcpod1tor1
+!
+interface management1
+ ip address 192.168.1.11/24
+!
+interface loopback0
+ ip address 10.10.10.10/32
+!
+interface ethernet49/1
+ speed forced 40gfull
+ ip address 10.10.102.1/31
+!
+interface ethernet50/1
+ speed forced 40gfull
+ ip address 10.10.101.1/31
+!
+router bgp 65101
+ router-id 10.10.10.10
+ neighbor 10.10.102.2 remote-as 65000
+ neighbor 10.10.101.2 remote-as 65000
+ network 10.10.10.10/32
+!
+</pre></div>
+</div>
+</div>
+<div class="section" id="yaml">
+<h4><a class="toc-backref" href="#id37">YAML</a><a class="headerlink" href="#yaml" title="Permalink to this headline">¶</a></h4>
+<p>YAML is a data serialization language which provides a human readable data structure that can be easily accessible by programming languages. YAML is a superset of JSON.</p>
+<p>In the previous section, we created the variables file in JSON format. In this section, we will create the variables in YAML format. We are going to create the variables for multiple devices.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees:my-scripts anees$ vi variables.yaml
+---
+  JPE14080457:
+    <span class="nv">$ip_mgmt</span>: 192.168.1.11
+    <span class="nv">$ip_lo0</span>: 10.10.10.11
+    <span class="nv">$hostname</span>: sjcpod1tor1
+    <span class="nv">$ip_spine2</span>: 10.10.101.1
+    <span class="nv">$ip_spine1</span>: 10.10.102.1
+    <span class="nv">$ip_to_spine2</span>: 10.10.101.0
+    <span class="nv">$ip_to_spine1</span>: 10.10.102.0
+    <span class="nv">$bgp_as</span>: 65101
+
+  JPE14421537:
+    <span class="nv">$ip_mgmt</span>: 192.168.1.12
+    <span class="nv">$ip_lo0</span>: 10.10.10.12
+    <span class="nv">$hostname</span>: sjcpod1tor2
+    <span class="nv">$ip_spine2</span>: 10.10.101.3
+    <span class="nv">$ip_spine1</span>: 10.10.102.3
+    <span class="nv">$ip_to_spine2</span>: 10.10.101.2
+    <span class="nv">$ip_to_spine1</span>: 10.10.102.2
+    <span class="nv">$bgp_as</span>: 65102
+</pre></div>
+</div>
+<p>We will update our config_generator.py script to read the yaml file and display the content. We will use pprint module to print the output.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="hll"><span class="kn">import</span> <span class="nn">yaml</span>
+</span><span class="kn">import</span> <span class="nn">pprint</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Dropbox/my-scripts/files/&quot;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s2">&quot;config_template.txt&quot;</span>
+<span class="hll"><span class="n">variables_file_name</span> <span class="o">=</span> <span class="s2">&quot;variables.yaml&quot;</span>
+</span>
+<span class="n">config_file</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name</span>
+<span class="hll"><span class="n">variables_file</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">variables_file_name</span>
+</span>
+<span class="c1"># Read Config template file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">read_file</span><span class="p">:</span>
+    <span class="n">config_template</span> <span class="o">=</span> <span class="n">read_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># Read the variables from the config template</span>
+<span class="n">variables</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;\$\w+&quot;</span><span class="p">,</span> <span class="n">config_template</span><span class="p">))</span>
+
+<span class="c1"># Read the variables from the json file</span>
+<span class="hll"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">variables_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">read_file</span><span class="p">:</span>
+</span><span class="hll">    <span class="n">variables_dictionary</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_file</span><span class="p">)</span>
+</span>
+<span class="hll"><span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">variables_dictionary</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>Save and run the script.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees:my-scripts anees$ python config_generator.py
+<span class="o">{</span><span class="s1">&#39;JPE14080457&#39;</span>: <span class="o">{</span><span class="s1">&#39;$bgp_as&#39;</span>: 65101,
+                 <span class="s1">&#39;$hostname&#39;</span>: <span class="s1">&#39;sjcpod1tor1&#39;</span>,
+                 <span class="s1">&#39;$ip_lo0&#39;</span>: <span class="s1">&#39;10.10.10.11&#39;</span>,
+                 <span class="s1">&#39;$ip_mgmt&#39;</span>: <span class="s1">&#39;192.168.1.11&#39;</span>,
+                 <span class="s1">&#39;$ip_spine1&#39;</span>: <span class="s1">&#39;10.10.102.1&#39;</span>,
+                 <span class="s1">&#39;$ip_spine2&#39;</span>: <span class="s1">&#39;10.10.101.1&#39;</span>,
+                 <span class="s1">&#39;$ip_to_spine1&#39;</span>: <span class="s1">&#39;10.10.102.0&#39;</span>,
+                 <span class="s1">&#39;$ip_to_spine2&#39;</span>: <span class="s1">&#39;10.10.101.0&#39;</span><span class="o">}</span>,
+ <span class="s1">&#39;JPE14421537&#39;</span>: <span class="o">{</span><span class="s1">&#39;$bgp_as&#39;</span>: 65102,
+                 <span class="s1">&#39;$hostname&#39;</span>: <span class="s1">&#39;sjcpod1tor2&#39;</span>,
+                 <span class="s1">&#39;$ip_lo0&#39;</span>: <span class="s1">&#39;10.10.10.12&#39;</span>,
+                 <span class="s1">&#39;$ip_mgmt&#39;</span>: <span class="s1">&#39;192.168.1.12&#39;</span>,
+                 <span class="s1">&#39;$ip_spine1&#39;</span>: <span class="s1">&#39;10.10.102.3&#39;</span>,
+                 <span class="s1">&#39;$ip_spine2&#39;</span>: <span class="s1">&#39;10.10.101.3&#39;</span>,
+                 <span class="s1">&#39;$ip_to_spine1&#39;</span>: <span class="s1">&#39;10.10.102.2&#39;</span>,
+                 <span class="s1">&#39;$ip_to_spine2&#39;</span>: <span class="s1">&#39;10.10.101.2&#39;</span><span class="o">}}</span>
+</pre></div>
+</div>
+<p>Now we will update our script which generates the configuration from the configuration template and the variables dictionary.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;/Users/anees/Dropbox/my-scripts/files/&quot;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s2">&quot;config_template.txt&quot;</span>
+<span class="n">variables_file_name</span> <span class="o">=</span> <span class="s2">&quot;variables.yaml&quot;</span>
+
+<span class="n">config_file</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">file_name</span>
+<span class="n">variables_file</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="n">variables_file_name</span>
+
+<span class="c1"># Read Config template file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">read_file</span><span class="p">:</span>
+    <span class="n">config_template</span> <span class="o">=</span> <span class="n">read_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># Read the variables from the config template</span>
+<span class="n">variables</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;\$\w+&quot;</span><span class="p">,</span> <span class="n">config_template</span><span class="p">))</span>
+
+<span class="c1"># Read the variables from the json file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">variables_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">read_file</span><span class="p">:</span>
+    <span class="n">variables_dictionary</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">read_file</span><span class="p">)</span>
+
+<span class="c1"># Generate Configuration from Config template and variables</span>
+<span class="hll"><span class="k">for</span> <span class="n">each_switch</span> <span class="ow">in</span> <span class="n">variables_dictionary</span><span class="p">:</span>
+</span><span class="hll">    <span class="n">config</span> <span class="o">=</span> <span class="n">config_template</span>
+</span><span class="hll">    <span class="k">for</span> <span class="n">each_variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+</span><span class="hll">        <span class="n">config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">each_variable</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">variables_dictionary</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="n">each_variable</span><span class="p">]))</span>
+</span>
+<span class="hll">    <span class="k">print</span> <span class="s2">&quot;#&quot;</span> <span class="o">*</span> <span class="mi">50</span>
+</span><span class="hll">    <span class="k">print</span> <span class="n">config</span>
+</span></pre></div>
+</div>
+<p>Save and run the script.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees:my-scripts anees$ python config_generator.py
+<span class="c1">##################################################</span>
+hostname sjcpod1tor2
+!
+interface management1
+ ip address 192.168.1.12/24
+!
+interface loopback0
+ ip address 10.10.10.12/32
+!
+interface ethernet49/1
+ speed forced 40gfull
+ ip address 10.10.102.2/31
+!
+interface ethernet50/1
+ speed forced 40gfull
+ ip address 10.10.101.2/31
+!
+router bgp 65102
+ router-id 10.10.10.12
+ neighbor 10.10.102.3 remote-as 65000
+ neighbor 10.10.101.3 remote-as 65000
+ network 10.10.10.12/32
+!
+<span class="c1">##################################################</span>
+hostname sjcpod1tor1
+!
+interface management1
+ ip address 192.168.1.11/24
+!
+interface loopback0
+ ip address 10.10.10.11/32
+!
+interface ethernet49/1
+ speed forced 40gfull
+ ip address 10.10.102.0/31
+!
+interface ethernet50/1
+ speed forced 40gfull
+ ip address 10.10.101.0/31
+!
+router bgp 65101
+ router-id 10.10.10.11
+ neighbor 10.10.102.1 remote-as 65000
+ neighbor 10.10.101.1 remote-as 65000
+ network 10.10.10.11/32
+!
+anees:my-scripts anees$
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="summary">
+<h2><a class="toc-backref" href="#id38">Summary</a><a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>Since we learned the core Python concepts, we will move forward to build scripts for Arista networking use cases. In the next chapter, we will build a framework which you can use to build Python scripts for networking use cases. We are going to use Arista&#8217;s Pyeapi module to interact with Arista switches. We have also used jsonrpc for some of the use cases. Before proceeding to next chapter, install pyeapi module using pip on your system.</p>
 </div>
 </div>
 

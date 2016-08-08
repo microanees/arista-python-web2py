@@ -103,7 +103,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#view-switches">View Switches</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#categorize-switches">Categorize Switches</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">Algorithm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Develop Script</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#step-1-create-a-new-function-and-view-for-this-task-categorize-switches">Step 1: Create a New Function and View for this task &#8220;Categorize Switches&#8221;</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#step-2-read-the-content-of-inventory-json-and-store-it-in-a-dictionary">Step 2: Read the content of inventory.json and store it in a dictionary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#step-3-build-a-web2py-form-from-the-dictionary">Step 3: Build a web2py form from the dictionary</a></li>
@@ -164,41 +165,42 @@
 <h1>Chapter 8: Web2Py - Prepare the Tool<a class="headerlink" href="#chapter-8-web2py-prepare-the-tool" title="Permalink to this headline">¶</a></h1>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#add-switches" id="id2">Add Switches</a><ul>
-<li><a class="reference internal" href="#algorithm" id="id3">Algorithm</a></li>
-<li><a class="reference internal" href="#develop-script" id="id4">Develop Script</a><ul>
-<li><a class="reference internal" href="#step-1-create-a-new-function-and-a-view-for-this-task-add-switches" id="id5">Step 1: Create a New Function and a View for this task &#8220;Add Switches&#8221;</a></li>
-<li><a class="reference internal" href="#step-2-display-a-form-to-receive-input-for-username-password-and-ip-addresses" id="id6">Step 2: Display a form to receive input for username, password and IP addresses</a></li>
-<li><a class="reference internal" href="#step-3-collect-inventory-and-store-it-in-a-dictionary" id="id7">Step 3:  Collect inventory and store it in a dictionary</a></li>
-<li><a class="reference internal" href="#step-4-store-the-dictionary-into-a-json-file" id="id8">Step 4: Store the dictionary into a JSON file</a></li>
+<li><a class="reference internal" href="#add-switches" id="id3">Add Switches</a><ul>
+<li><a class="reference internal" href="#algorithm" id="id4">Algorithm</a></li>
+<li><a class="reference internal" href="#develop-script" id="id5">Develop Script</a><ul>
+<li><a class="reference internal" href="#step-1-create-a-new-function-and-a-view-for-this-task-add-switches" id="id6">Step 1: Create a New Function and a View for this task &#8220;Add Switches&#8221;</a></li>
+<li><a class="reference internal" href="#step-2-display-a-form-to-receive-input-for-username-password-and-ip-addresses" id="id7">Step 2: Display a form to receive input for username, password and IP addresses</a></li>
+<li><a class="reference internal" href="#step-3-collect-inventory-and-store-it-in-a-dictionary" id="id8">Step 3:  Collect inventory and store it in a dictionary</a></li>
+<li><a class="reference internal" href="#step-4-store-the-dictionary-into-a-json-file" id="id9">Step 4: Store the dictionary into a JSON file</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#view-switches" id="id9">View Switches</a></li>
-<li><a class="reference internal" href="#categorize-switches" id="id10">Categorize Switches</a><ul>
-<li><a class="reference internal" href="#id1" id="id11">Algorithm</a><ul>
-<li><a class="reference internal" href="#step-1-create-a-new-function-and-view-for-this-task-categorize-switches" id="id12">Step 1: Create a New Function and View for this task &#8220;Categorize Switches&#8221;</a></li>
-<li><a class="reference internal" href="#step-2-read-the-content-of-inventory-json-and-store-it-in-a-dictionary" id="id13">Step 2: Read the content of inventory.json and store it in a dictionary</a></li>
-<li><a class="reference internal" href="#step-3-build-a-web2py-form-from-the-dictionary" id="id14">Step 3: Build a web2py form from the dictionary</a></li>
-<li><a class="reference internal" href="#step-4-update-site-and-role-field-in-the-dictionary" id="id15">Step 4: Update site and role field in the dictionary</a></li>
-<li><a class="reference internal" href="#step-5-write-the-dictionary-in-the-inventory-json-file" id="id16">Step 5: Write the dictionary in the inventory.json file</a></li>
+<li><a class="reference internal" href="#view-switches" id="id10">View Switches</a></li>
+<li><a class="reference internal" href="#categorize-switches" id="id11">Categorize Switches</a><ul>
+<li><a class="reference internal" href="#id1" id="id12">Algorithm</a></li>
+<li><a class="reference internal" href="#id2" id="id13">Develop Script</a><ul>
+<li><a class="reference internal" href="#step-1-create-a-new-function-and-view-for-this-task-categorize-switches" id="id14">Step 1: Create a New Function and View for this task &#8220;Categorize Switches&#8221;</a></li>
+<li><a class="reference internal" href="#step-2-read-the-content-of-inventory-json-and-store-it-in-a-dictionary" id="id15">Step 2: Read the content of inventory.json and store it in a dictionary</a></li>
+<li><a class="reference internal" href="#step-3-build-a-web2py-form-from-the-dictionary" id="id16">Step 3: Build a web2py form from the dictionary</a></li>
+<li><a class="reference internal" href="#step-4-update-site-and-role-field-in-the-dictionary" id="id17">Step 4: Update site and role field in the dictionary</a></li>
+<li><a class="reference internal" href="#step-5-write-the-dictionary-in-the-inventory-json-file" id="id18">Step 5: Write the dictionary in the inventory.json file</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#summary" id="id17">Summary</a></li>
+<li><a class="reference internal" href="#summary" id="id19">Summary</a></li>
 </ul>
 </div>
 <p>In this chapter, we will create functions and views for the tasks in  the &#8220;Prepare the Tool&#8221; category. The purpose of these tasks in &#8220;Prepare the Tool&#8221; category is to provide an option to add the switches in the network manually and maintain the inventory. We will also provide an option to let the users to categorize the switches based on the location and role. Once the users added the switches in the tool, then they can run any operational tasks against those switches. The user will be able to run the tasks on all the switches or on the switches that belong to a specific site and/or on the switches with a specific role.</p>
 <img alt="_images/ch08-pic1.png" src="_images/ch08-pic1.png" />
 <p>We are going to create three tasks (Add Switches, Categorize Switches and View Switches) in this section. Each task will have one or more functions in the default controller and a corresponding view (.html file).</p>
 <div class="section" id="add-switches">
-<h2><a class="toc-backref" href="#id2">Add Switches</a><a class="headerlink" href="#add-switches" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">Add Switches</a><a class="headerlink" href="#add-switches" title="Permalink to this headline">¶</a></h2>
 <p>&#8220;Add Switches&#8221; task allows the users to manually add the IP address of the switches into the tool. The tool is going to present a form to the end users where they can enter username, password and the IP address of the switches. Then the task is going to collect some of the basic information about the switches using pyeapi. Finally the task will store the inventory of these switches locally in the server. The task will not save the username and the password anywhere in the server.</p>
 <p>We are going to write a function add_inventory in the default controller of our application. Since this will be our first program using web2py, we are going to spend more time in understanding how web2py works. First we will write an algorithm for this task.</p>
 <div class="section" id="algorithm">
-<h3><a class="toc-backref" href="#id3">Algorithm</a><a class="headerlink" href="#algorithm" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id4">Algorithm</a><a class="headerlink" href="#algorithm" title="Permalink to this headline">¶</a></h3>
 <p>We are going to collect the information and report it in the following format.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">Inventory</span> <span class="o">=</span> <span class="o">{</span>“&lt;switch_IP_Address&gt;”: <span class="o">{</span>“Hostname”:  “&lt;switch_host_name&gt;”,
                                       “Model”:  “&lt;switch_model&gt;”,
@@ -243,9 +245,9 @@
 </ol>
 </div>
 <div class="section" id="develop-script">
-<h3><a class="toc-backref" href="#id4">Develop Script</a><a class="headerlink" href="#develop-script" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id5">Develop Script</a><a class="headerlink" href="#develop-script" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="step-1-create-a-new-function-and-a-view-for-this-task-add-switches">
-<h4><a class="toc-backref" href="#id5">Step 1: Create a New Function and a View for this task &#8220;Add Switches&#8221;</a><a class="headerlink" href="#step-1-create-a-new-function-and-a-view-for-this-task-add-switches" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id6">Step 1: Create a New Function and a View for this task &#8220;Add Switches&#8221;</a><a class="headerlink" href="#step-1-create-a-new-function-and-a-view-for-this-task-add-switches" title="Permalink to this headline">¶</a></h4>
 <p>Go to admin interface using the url <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/admin/default/index</p>
 <p>Arista_EOS_Tool: Manage &#8211;&gt; Edit</p>
 <img alt="_images/ch08-pic2.png" src="_images/ch08-pic2.png" />
@@ -263,7 +265,7 @@
 <p>You can verify the new function using the URL <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/Arista_EOS_Tool/default/add_inventory. Since the function add_inventory is blank and it returns empty dictionary to the view. The view shows the default layout which shows the default web2py menu bar in the top of the screen and the title &#8220;This is the default/add_inventory.html template&#8221;.</p>
 </div>
 <div class="section" id="step-2-display-a-form-to-receive-input-for-username-password-and-ip-addresses">
-<h4><a class="toc-backref" href="#id6">Step 2: Display a form to receive input for username, password and IP addresses</a><a class="headerlink" href="#step-2-display-a-form-to-receive-input-for-username-password-and-ip-addresses" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id7">Step 2: Display a form to receive input for username, password and IP addresses</a><a class="headerlink" href="#step-2-display-a-form-to-receive-input-for-username-password-and-ip-addresses" title="Permalink to this headline">¶</a></h4>
 <p>There are few different ways to build forms in web2py. We are going to create a form using web2py&#8217;s SQLFORM.factory. We will define a form using SQLFORM.factory and assign it to a variable called form. Then we will return this variable to view using &#8220;return dict(form=form)&#8221;.</p>
 <p>As you can see, there are three fields defined for our form. The first string inside each Field() entry is the name of the variable in which the values the user enters will be stored. This should be unique within the form. Rest of the strings within the Field() are optional.</p>
 <p>Edit the add_inventory function in the default controller.</p>
@@ -284,7 +286,7 @@
 <p>You can refer the &#8220;Forms and validators&#8221; chapter in the <a class="reference external" href="http://web2py.com/book">web2py documentation</a>  to learn more about web2py forms.</p>
 </div>
 <div class="section" id="step-3-collect-inventory-and-store-it-in-a-dictionary">
-<h4><a class="toc-backref" href="#id7">Step 3:  Collect inventory and store it in a dictionary</a><a class="headerlink" href="#step-3-collect-inventory-and-store-it-in-a-dictionary" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id8">Step 3:  Collect inventory and store it in a dictionary</a><a class="headerlink" href="#step-3-collect-inventory-and-store-it-in-a-dictionary" title="Permalink to this headline">¶</a></h4>
 <p>Once the user enters the username, password, IP addresses and submit the form, the script should initiate the pyeapi call and collect the inventory from the switches. The inventory will be stored in a dictionary and displayed to the end user by returning the dictionary to the view.</p>
 <p>First we will understand how to accept the values of the form variables from the default controller. So let us update our add_inventory() function to display the value of the IP addresses after the user clicks the submit button.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_inventory</span><span class="p">():</span>
@@ -388,7 +390,7 @@
 <img alt="_images/ch08-pic9.png" src="_images/ch08-pic9.png" />
 </div>
 <div class="section" id="step-4-store-the-dictionary-into-a-json-file">
-<h4><a class="toc-backref" href="#id8">Step 4: Store the dictionary into a JSON file</a><a class="headerlink" href="#step-4-store-the-dictionary-into-a-json-file" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id9">Step 4: Store the dictionary into a JSON file</a><a class="headerlink" href="#step-4-store-the-dictionary-into-a-json-file" title="Permalink to this headline">¶</a></h4>
 <p>Store the dictionary in JSON format and save under the folder /home/www-data/web2py/applications/Arista_EOS_Tool/databases/. The reason for storing the data in a file is that we will reuse this data (Switch IP addresses, site and role) by all the uses cases created in this tool.</p>
 <p>First create a blank inventory.json file in the server.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>anees@ubuntu-web2py:~$ <span class="nb">cd</span> /home/www-data/web2py/applications/Arista_EOS_Tool/databases/
@@ -482,7 +484,7 @@ anees@ubuntu-web2py:/home/www-data/web2py/applications/Arista_EOS_Tool/databases
 </div>
 </div>
 <div class="section" id="view-switches">
-<h2><a class="toc-backref" href="#id9">View Switches</a><a class="headerlink" href="#view-switches" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">View Switches</a><a class="headerlink" href="#view-switches" title="Permalink to this headline">¶</a></h2>
 <p>&#8220;View Switches&#8221; task allows the users to view the inventory of the switches stored in the tool. We will write a new function called view_inventory() in the default.py to show the content of the inventory.json file. The logic is very simple. Read the json file into a dictionary and return that dictionary to the view.</p>
 <p>Edit the default.py file of the web2py application Arista_EOS_Tool and add this view_inventory() function.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">view_inventory</span><span class="p">():</span>
@@ -501,10 +503,10 @@ anees@ubuntu-web2py:/home/www-data/web2py/applications/Arista_EOS_Tool/databases
 <img alt="_images/ch08-pic10.png" src="_images/ch08-pic10.png" />
 </div>
 <div class="section" id="categorize-switches">
-<h2><a class="toc-backref" href="#id10">Categorize Switches</a><a class="headerlink" href="#categorize-switches" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">Categorize Switches</a><a class="headerlink" href="#categorize-switches" title="Permalink to this headline">¶</a></h2>
 <p>After we added the switches manually, we are going to classify the switches with based on the location and role. This gives the user an option to run any scripts in this tool against specific set of switches. For example, we will be writing a script to find unused ports. The user may want to run this script only on all leaf switches from a specific data center. Let us write an algorithm for this task.</p>
 <div class="section" id="id1">
-<h3><a class="toc-backref" href="#id11">Algorithm</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id12">Algorithm</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>When a user adds switches using the add switches task, the script will save the inventory information in the inventory.json file. When it stores for the first time, it assigns the value &#8220;None&#8221; to the fields site and role.</p>
 <p>In this categorize switches task, we are going to read and display the switches and its corresponding site and role in a web2py form. This will allow the users to assign site and role for all the switches in the inventory.json file.</p>
 <ol class="arabic simple">
@@ -514,8 +516,11 @@ anees@ubuntu-web2py:/home/www-data/web2py/applications/Arista_EOS_Tool/databases
 <li>Once the user submit the form with the updated site and role fields, update the dictionary variable “inventory”</li>
 <li>Write the dictionary inventory to the inventory.json file.</li>
 </ol>
+</div>
+<div class="section" id="id2">
+<h3><a class="toc-backref" href="#id13">Develop Script</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="step-1-create-a-new-function-and-view-for-this-task-categorize-switches">
-<h4><a class="toc-backref" href="#id12">Step 1: Create a New Function and View for this task &#8220;Categorize Switches&#8221;</a><a class="headerlink" href="#step-1-create-a-new-function-and-view-for-this-task-categorize-switches" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id14">Step 1: Create a New Function and View for this task &#8220;Categorize Switches&#8221;</a><a class="headerlink" href="#step-1-create-a-new-function-and-view-for-this-task-categorize-switches" title="Permalink to this headline">¶</a></h4>
 <p>Edit the default.py file of the web2py application Arista_EOS_Tool and add this categorize_inventory() function.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">categorize_inventory</span><span class="p">():</span>
   <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
@@ -529,7 +534,7 @@ anees@ubuntu-web2py:/home/www-data/web2py/applications/Arista_EOS_Tool/databases
 </div>
 </div>
 <div class="section" id="step-2-read-the-content-of-inventory-json-and-store-it-in-a-dictionary">
-<h4><a class="toc-backref" href="#id13">Step 2: Read the content of inventory.json and store it in a dictionary</a><a class="headerlink" href="#step-2-read-the-content-of-inventory-json-and-store-it-in-a-dictionary" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id15">Step 2: Read the content of inventory.json and store it in a dictionary</a><a class="headerlink" href="#step-2-read-the-content-of-inventory-json-and-store-it-in-a-dictionary" title="Permalink to this headline">¶</a></h4>
 <p>Update the categorize_inventory() function to read the inventory.json file.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">categorize_inventory</span><span class="p">():</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
@@ -539,7 +544,7 @@ anees@ubuntu-web2py:/home/www-data/web2py/applications/Arista_EOS_Tool/databases
 </div>
 </div>
 <div class="section" id="step-3-build-a-web2py-form-from-the-dictionary">
-<h4><a class="toc-backref" href="#id14">Step 3: Build a web2py form from the dictionary</a><a class="headerlink" href="#step-3-build-a-web2py-form-from-the-dictionary" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id16">Step 3: Build a web2py form from the dictionary</a><a class="headerlink" href="#step-3-build-a-web2py-form-from-the-dictionary" title="Permalink to this headline">¶</a></h4>
 <p>This is an interesting step in this task. We have to build a form with the fields hostname, site and role from the content of inventory variable. First, how did we create a form previously in this chapter?</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">form</span> <span class="o">=</span> <span class="n">SQLFORM</span><span class="o">.</span><span class="n">factory</span><span class="p">(</span>
         <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_NOT_EMPTY</span><span class="p">()),</span>
@@ -621,7 +626,7 @@ anees@ubuntu-web2py:/home/www-data/web2py/applications/Arista_EOS_Tool/databases
 <img alt="_images/ch08-pic11.png" src="_images/ch08-pic11.png" />
 </div>
 <div class="section" id="step-4-update-site-and-role-field-in-the-dictionary">
-<h4><a class="toc-backref" href="#id15">Step 4: Update site and role field in the dictionary</a><a class="headerlink" href="#step-4-update-site-and-role-field-in-the-dictionary" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id17">Step 4: Update site and role field in the dictionary</a><a class="headerlink" href="#step-4-update-site-and-role-field-in-the-dictionary" title="Permalink to this headline">¶</a></h4>
 <p>As we have unique variable names for Site and Role for each switch in inventory.json file, we will use the similar &#8220;for loop&#8221; statement to update the dictionary &#8220;inventory.&#8221;</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">categorize_inventory</span><span class="p">():</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
@@ -666,7 +671,7 @@ anees@ubuntu-web2py:/home/www-data/web2py/applications/Arista_EOS_Tool/databases
 <img alt="_images/ch08-pic12.png" src="_images/ch08-pic12.png" />
 </div>
 <div class="section" id="step-5-write-the-dictionary-in-the-inventory-json-file">
-<h4><a class="toc-backref" href="#id16">Step 5: Write the dictionary in the inventory.json file</a><a class="headerlink" href="#step-5-write-the-dictionary-in-the-inventory-json-file" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id18">Step 5: Write the dictionary in the inventory.json file</a><a class="headerlink" href="#step-5-write-the-dictionary-in-the-inventory-json-file" title="Permalink to this headline">¶</a></h4>
 <p>We will update the script to write the dictionary into the inventory.json file.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">categorize_inventory</span><span class="p">():</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
@@ -719,7 +724,7 @@ anees@ubuntu-web2py:/home/www-data/web2py/applications/Arista_EOS_Tool/databases
 </div>
 </div>
 <div class="section" id="summary">
-<h2><a class="toc-backref" href="#id17">Summary</a><a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id19">Summary</a><a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <p>We have completed three use cases under “Preparing the Tools” section. You can add more use cases as per your requirement. For example, you can create a use case for update inventory. If any of the inventory data such as hostname, software version or serial number (RMA), is changed, and if you need to delete any of the switches from the inventory, you can accomplish those with this use case.</p>
 <p>Each use case is a separate function within the default controller &#8220;default.py&#8221; and we access each of these use cases with the URL <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/Arista_EOS_Tool/default/&lt;Name-of-the-function&gt;.</p>
 <p>Later in this book, we will create a home page with the links to all of these functions (use cases). The home page will be accessible using the URL <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/Arista_EOS_Tool/default/index.</p>

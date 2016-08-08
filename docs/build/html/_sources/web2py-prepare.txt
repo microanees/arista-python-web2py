@@ -400,6 +400,9 @@ In this categorize switches task, we are going to read and display the switches 
 #. Once the user submit the form with the updated site and role fields, update the dictionary variable “inventory”
 #. Write the dictionary inventory to the inventory.json file.
 
+Develop Script
+--------------
+
 Step 1: Create a New Function and View for this task "Categorize Switches"
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -636,4 +639,4 @@ We have completed three use cases under “Preparing the Tools” section. You c
 
 Each use case is a separate function within the default controller "default.py" and we access each of these use cases with the URL https://<web-server>/Arista_EOS_Tool/default/<Name-of-the-function>.
 
-Later in this book, we will create a home page with the links to all of these functions (use cases). The home page will be accessible using the URL https://<web-server>/Arista_EOS_Tool/default/index. 
+Later in this book, we will create a home page with the links to all of these functions (use cases). The home page will be accessible using the URL https://<web-server>/Arista_EOS_Tool/default/index.

@@ -1,0 +1,1278 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Chapter 9: Web2Py - Troubleshooting Use Cases &mdash; Python for Network Engineers</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Python for Network Engineers" href="index.html"/>
+        <link rel="prev" title="Chapter 8: Web2Py - Prepare the Tool" href="web2py-prepare.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> arista-python-web2py
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Chapter 1: Introducing Python Core Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core-concepts.html">Chapter 2: Script Framework for Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Chapter 3: Troubleshooting Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capacity-planning.html">Chapter 4: Capacity Planning Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web2py-introduction.html">Chapter 5: Web2Py Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web2py-installation.html">Chapter 6: Web2Py Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create-application.html">Chapter 7: Creating a New Web2Py Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web2py-prepare.html">Chapter 8: Web2Py - Prepare the Tool</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chapter 9: Web2Py - Troubleshooting Use Cases</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#data-plane-packet-drops">Data Plane Packet Drops</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#algorithm">Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#develop-script">Develop Script</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-create-a-new-function-and-a-view-for-this-task-packet-drops">Step 1: Create a New Function and a View for this task &#8220;Packet Drops&#8221;</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-2-display-a-form-to-get-username-password-site-and-role">Step 2: Display a form to get username, password, site and role</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-build-switch-ip-address-list">Step 3: Build Switch IP Address list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-4-reuse-the-packet-drops-python-script">Step 4: Reuse the packet drops Python script</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#script-enhancements">Script Enhancements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-create-a-function-to-create-a-web2py-form">Step 1: Create a function to create a web2py form</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-2-create-a-function-to-derive-the-list-of-switches">Step 2: Create a function to derive the list of switches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-create-a-function-for-discovering-interface-drops">Step 3: Create a function for discovering interface drops</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#final-script">Final Script</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#control-plane-drops">Control Plane Drops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#last-10-sev-1-3-log-messages">Last 10 Sev 1-3 Log Messages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Develop Script</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-create-a-new-function-and-a-view-for-this-task-show-logs">Step 1: Create a New Function and a View for this task “show logs&#8221;</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-2-use-the-eos-form-and-switches-list-function-to-display-form">Step 2: Use the eos_form() and switches_list() function to display form</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-write-the-core-logic-of-the-script">Step 3: Write the core logic of the script</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Final Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">arista-python-web2py</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Chapter 9: Web2Py - Troubleshooting Use Cases</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/web2py-tshoot.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="chapter-9-web2py-troubleshooting-use-cases">
+<h1>Chapter 9: Web2Py - Troubleshooting Use Cases<a class="headerlink" href="#chapter-9-web2py-troubleshooting-use-cases" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#data-plane-packet-drops" id="id4">Data Plane Packet Drops</a><ul>
+<li><a class="reference internal" href="#algorithm" id="id5">Algorithm</a></li>
+<li><a class="reference internal" href="#develop-script" id="id6">Develop Script</a><ul>
+<li><a class="reference internal" href="#step-1-create-a-new-function-and-a-view-for-this-task-packet-drops" id="id7">Step 1: Create a New Function and a View for this task &#8220;Packet Drops&#8221;</a></li>
+<li><a class="reference internal" href="#step-2-display-a-form-to-get-username-password-site-and-role" id="id8">Step 2: Display a form to get username, password, site and role</a></li>
+<li><a class="reference internal" href="#step-3-build-switch-ip-address-list" id="id9">Step 3: Build Switch IP Address list</a></li>
+<li><a class="reference internal" href="#step-4-reuse-the-packet-drops-python-script" id="id10">Step 4: Reuse the packet drops Python script</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#script-enhancements" id="id11">Script Enhancements</a><ul>
+<li><a class="reference internal" href="#step-1-create-a-function-to-create-a-web2py-form" id="id12">Step 1: Create a function to create a web2py form</a></li>
+<li><a class="reference internal" href="#step-2-create-a-function-to-derive-the-list-of-switches" id="id13">Step 2: Create a function to derive the list of switches</a></li>
+<li><a class="reference internal" href="#step-3-create-a-function-for-discovering-interface-drops" id="id14">Step 3: Create a function for discovering interface drops</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#final-script" id="id15">Final Script</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#control-plane-drops" id="id16">Control Plane Drops</a></li>
+<li><a class="reference internal" href="#last-10-sev-1-3-log-messages" id="id17">Last 10 Sev 1-3 Log Messages</a><ul>
+<li><a class="reference internal" href="#id1" id="id18">Algorithm</a></li>
+<li><a class="reference internal" href="#id2" id="id19">Develop Script</a><ul>
+<li><a class="reference internal" href="#step-1-create-a-new-function-and-a-view-for-this-task-show-logs" id="id20">Step 1: Create a New Function and a View for this task “show logs&#8221;</a></li>
+<li><a class="reference internal" href="#step-2-use-the-eos-form-and-switches-list-function-to-display-form" id="id21">Step 2: Use the eos_form() and switches_list() function to display form</a></li>
+<li><a class="reference internal" href="#step-3-write-the-core-logic-of-the-script" id="id22">Step 3: Write the core logic of the script</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3" id="id23">Final Script</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>In this chapter, we will create functions and views for the tasks in the &#8220;Network-wide Troubleshooting&#8221; category. The purpose of these tasks is to perform some of the common network troubleshooting steps across the network using the tool.</p>
+<img alt="_images/ch09-pic1.png" src="_images/ch09-pic1.png" />
+<p>We are going to create three tasks (Data Plane Packet Drops, Control Plane Drops and Last 10 Sev1-3 log messages) in this section. Each task will have one or more functions in the default controller and a corresponding view (.html file).</p>
+<div class="section" id="data-plane-packet-drops">
+<h2><a class="toc-backref" href="#id4">Data Plane Packet Drops</a><a class="headerlink" href="#data-plane-packet-drops" title="Permalink to this headline">¶</a></h2>
+<p>We are going to write a function packet_drops() in the default controller of our web2py application Arista_EOS_tool. We have already written a Python script to discover network-wide packet drops in the earlier chapter in this book. We are going to reuse that script here. The core logic is going to be the same. The only change here is to receive the input with web2py form. The input fields are username, password, site and role. We are going to create a drop-down menu to show the sites and roles so that the users don’t have to type them.</p>
+<img alt="_images/ch09-pic2.png" src="_images/ch09-pic2.png" />
+<div class="section" id="algorithm">
+<h3><a class="toc-backref" href="#id5">Algorithm</a><a class="headerlink" href="#algorithm" title="Permalink to this headline">¶</a></h3>
+<p>We are going to use the below algorithm to write the script.</p>
+<ol class="arabic simple">
+<li>Create a New Function and a View for this task &#8220;Packet Drops&#8221;.</li>
+<li>Display a form to get username, password, site and role.</li>
+<li>Build Switch IP Address list.</li>
+<li>Reuse the packet drops Python script and returns the result to the view.</li>
+</ol>
+</div>
+<div class="section" id="develop-script">
+<h3><a class="toc-backref" href="#id6">Develop Script</a><a class="headerlink" href="#develop-script" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="step-1-create-a-new-function-and-a-view-for-this-task-packet-drops">
+<h4><a class="toc-backref" href="#id7">Step 1: Create a New Function and a View for this task &#8220;Packet Drops&#8221;</a><a class="headerlink" href="#step-1-create-a-new-function-and-a-view-for-this-task-packet-drops" title="Permalink to this headline">¶</a></h4>
+<p>Go to admin interface using the url <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/admin/default/index</p>
+<p>Arista_EOS_Tool: Manage &#8211;&gt; Edit</p>
+<img alt="_images/ch09-pic3.png" src="_images/ch09-pic3.png" />
+<p>Controllers: default.py &#8211;&gt; Edit</p>
+<img alt="_images/ch09-pic4.png" src="_images/ch09-pic4.png" />
+<p>Create a new function packet_drops()</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">packet_drops</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Create a View for the function packet_drops</p>
+<p>Click the &#8220;files toggle&#8221; on the top left</p>
+<p>Click Create and select views from the drop down window</p>
+<p>Provide the file name with path &#8211;&gt; default/packet_drops.html</p>
+<img alt="_images/ch09-pic5.png" src="_images/ch09-pic5.png" />
+<p>We are going to create a default view with the header &#8220;Packet Drops&#8221;. Save this file.</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span>{{extend &#39;layout.html&#39;}}
+<span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Packet Drops<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+{{=BEAUTIFY(response._vars)}}
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-2-display-a-form-to-get-username-password-site-and-role">
+<h4><a class="toc-backref" href="#id8">Step 2: Display a form to get username, password, site and role</a><a class="headerlink" href="#step-2-display-a-form-to-get-username-password-site-and-role" title="Permalink to this headline">¶</a></h4>
+<p>We know how to create a form with the static fields such as username and password using SQLFORM.factory().</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">form</span> <span class="o">=</span> <span class="n">SQLFORM</span><span class="o">.</span><span class="n">factory</span><span class="p">(</span>
+    <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_NOT_EMPTY</span><span class="p">()),</span>
+    <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_NOT_EMPTY</span><span class="p">()))</span>
+</pre></div>
+</div>
+<p>We need to create the fields for site and role with a drop-down menu. The SQLFORM.factory() provides the option using IS_IN_SET() function to display drop-down menu. The drop-down menu can list the content of Python&#8217;s data structure called set. First we will look at SQLFORM.factory()&#8217;s option for drop-down menu, and then we will spend some time in the Python interpreter to understand what is set.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">form</span> <span class="o">=</span> <span class="n">SQLFORM</span><span class="o">.</span><span class="n">factory</span><span class="p">(</span>
+    <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_NOT_EMPTY</span><span class="p">()),</span>
+    <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_NOT_EMPTY</span><span class="p">()),</span>
+    <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;site&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_IN_SET</span><span class="p">(</span><span class="n">sites</span><span class="p">)),</span>
+    <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;role&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_IN_SET</span><span class="p">(</span><span class="n">roles</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>The &#8220;site&#8221; and &#8220;role&#8221; fields are going to show the drop-down menus with the list of sites and roles stored in the set &#8220;sites&#8221; and &#8220;roles&#8221; respectively. Now we will explore Python&#8217;s data structure set. We will create a list with duplicate entries, and then we will convert the list as set.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees:~ anees$ python
+&gt;&gt;&gt;
+&gt;&gt;&gt; <span class="nv">sites</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;All&quot;</span>, <span class="s2">&quot;sjc&quot;</span>, <span class="s2">&quot;atl&quot;</span>, <span class="s2">&quot;lax&quot;</span>, <span class="s2">&quot;sjc&quot;</span><span class="o">]</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; sites
+<span class="o">[</span><span class="s1">&#39;All&#39;</span>, <span class="s1">&#39;sjc&#39;</span>, <span class="s1">&#39;atl&#39;</span>, <span class="s1">&#39;lax&#39;</span>, <span class="s1">&#39;sjc&#39;</span><span class="o">]</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; type<span class="o">(</span>sites<span class="o">)</span>
+&lt;<span class="nb">type</span> <span class="s1">&#39;list&#39;</span>&gt;
+&gt;&gt;&gt;
+&gt;&gt;&gt; <span class="nv">sites</span> <span class="o">=</span> set<span class="o">([</span><span class="s2">&quot;All&quot;</span>, <span class="s2">&quot;sjc&quot;</span>, <span class="s2">&quot;atl&quot;</span>, <span class="s2">&quot;lax&quot;</span>, <span class="s2">&quot;sjc&quot;</span><span class="o">])</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; sites
+set<span class="o">([</span><span class="s1">&#39;sjc&#39;</span>, <span class="s1">&#39;All&#39;</span>, <span class="s1">&#39;lax&#39;</span>, <span class="s1">&#39;atl&#39;</span><span class="o">])</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; type<span class="o">(</span>sites<span class="o">)</span>
+&lt;<span class="nb">type</span> <span class="s1">&#39;set&#39;</span>&gt;
+</pre></div>
+</div>
+<p>Before defining the SQLFORM.factory(), we need to build the set sites and roles from the inventory.json file. We will read this file and pull site and role for each switch and add it to the set sites and roles. Since sites and roles are sets, we don’t have to worry about the duplicate entries of site and role from the inventory.json file.</p>
+<p>Let’s start building this portion of the script step by step.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">packet_drops</span><span class="p">():</span>
+    <span class="c1"># Read the inventory.json file into a dictionary</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">inventory</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">readfile</span><span class="p">)</span>
+
+    <span class="c1"># Define set sites and roles with a single item &quot;All&quot;</span>
+    <span class="n">sites</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;All&quot;</span><span class="p">])</span>
+    <span class="n">roles</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;All&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Read site and role of each switch and add it to the set</span>
+    <span class="k">for</span> <span class="n">each_switch</span> <span class="ow">in</span> <span class="n">inventory</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">sites</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;site&quot;</span><span class="p">])</span>
+        <span class="n">roles</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;role&quot;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">sites</span><span class="o">=</span><span class="n">sites</span><span class="p">,</span> <span class="n">roles</span><span class="o">=</span><span class="n">roles</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Test your script using the URL <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/Arista_EOS_Tool/default/packet_drops.</p>
+<img alt="_images/ch09-pic6.png" src="_images/ch09-pic6.png" />
+<p>Let’s add the form and validate the display of the form.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">packet_drops</span><span class="p">():</span>
+    <span class="c1"># Read the inventory.json file into a dictionary</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">inventory</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">readfile</span><span class="p">)</span>
+
+    <span class="c1"># Define set sites and roles with a single item &quot;All&quot;</span>
+    <span class="n">sites</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;All&quot;</span><span class="p">])</span>
+    <span class="n">roles</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;All&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Read site and role of each switch and add it to the set</span>
+    <span class="k">for</span> <span class="n">each_switch</span> <span class="ow">in</span> <span class="n">inventory</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">sites</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;site&quot;</span><span class="p">])</span>
+        <span class="n">roles</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;role&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Create a form using the sets</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">SQLFORM</span><span class="o">.</span><span class="n">factory</span><span class="p">(</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_NOT_EMPTY</span><span class="p">()),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_NOT_EMPTY</span><span class="p">()),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;site&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_IN_SET</span><span class="p">(</span><span class="n">sites</span><span class="p">)),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;role&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_IN_SET</span><span class="p">(</span><span class="n">roles</span><span class="p">),))</span>
+
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Test your script using the URL <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/Arista_EOS_Tool/default/packet_drops.</p>
+<img alt="_images/ch09-pic7.png" src="_images/ch09-pic7.png" />
+</div>
+<div class="section" id="step-3-build-switch-ip-address-list">
+<h4><a class="toc-backref" href="#id9">Step 3: Build Switch IP Address list</a><a class="headerlink" href="#step-3-build-switch-ip-address-list" title="Permalink to this headline">¶</a></h4>
+<p>Our goal is to derive the list of switch IP addresses from the inventory.json file based on the selection of site and role by the user. One important point to remember here is that we provide an option &#8220;All&#8221; in the site and role field of the form. So we need to write an algorithm to derive the switch IP addresses. Let us look at the inventory of the switches before writing the algorithm.</p>
+<img alt="_images/ch09-pic8.png" src="_images/ch09-pic8.png" />
+<p>Here is the algorithm we are going to use to build the list of switch IP addresses.</p>
+<ul class="simple">
+<li>Create an empty list called switches = [ ]</li>
+<li>If the site = &#8220;All&#8221; and the role = &#8220;All&#8221;, we need all the switch IP addresses from the inventory.json file. So we will assign inventory.keys() to the list switches.</li>
+<li>If both the site and role are not “All”, we have to parse through site and role of each switch against the input selected by the user.<ul>
+<li>If the site = “All” and the role = (user selected), compare the role of each switch against the role selected by the user.</li>
+<li>If the site = (user selected) and the role = &#8220;All compare the site of each switch against the site selected by the user.</li>
+<li>If the site = (user selected), role = (user selected), compare the site and role of each switch against the input selected by the user.</li>
+</ul>
+</li>
+</ul>
+<p>Let&#8217;s update the packet_drops() function to derive switch ip addresses after the user submitted the form.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">packet_drops</span><span class="p">():</span>
+    <span class="c1"># Read the inventory.json file into a dictionary</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">inventory</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">readfile</span><span class="p">)</span>
+
+    <span class="c1"># Define set sites and roles with a single item &quot;All&quot;</span>
+    <span class="n">sites</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;All&quot;</span><span class="p">])</span>
+    <span class="n">roles</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;All&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Read site and role of each switch and add it to the set</span>
+    <span class="k">for</span> <span class="n">each_switch</span> <span class="ow">in</span> <span class="n">inventory</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">sites</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;site&quot;</span><span class="p">])</span>
+        <span class="n">roles</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;role&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Create a form using the sets</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">SQLFORM</span><span class="o">.</span><span class="n">factory</span><span class="p">(</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_NOT_EMPTY</span><span class="p">()),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_NOT_EMPTY</span><span class="p">()),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;site&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_IN_SET</span><span class="p">(</span><span class="n">sites</span><span class="p">)),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;role&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_IN_SET</span><span class="p">(</span><span class="n">roles</span><span class="p">),))</span>
+
+<span class="hll">    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">process</span><span class="p">()</span><span class="o">.</span><span class="n">accepted</span><span class="p">:</span>
+</span><span class="hll">        <span class="c1"># Create a switch IP addresses list from site and role selection</span>
+</span><span class="hll">        <span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class="hll">
+</span><span class="hll">        <span class="sd">&quot;&quot;&quot; compare the site and role between user selected and the values in</span>
+</span><span class="hll"><span class="sd">        inventory &quot;&quot;&quot;</span>
+</span><span class="hll">
+</span><span class="hll">        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">site</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span> <span class="ow">and</span> <span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span><span class="p">:</span>
+</span><span class="hll">            <span class="n">switches</span> <span class="o">=</span> <span class="n">inventory</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</span><span class="hll">        <span class="k">else</span><span class="p">:</span>
+</span><span class="hll">            <span class="k">for</span> <span class="n">each_switch</span> <span class="ow">in</span> <span class="n">inventory</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+</span><span class="hll">                <span class="n">each_site</span> <span class="o">=</span> <span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;site&quot;</span><span class="p">]</span>
+</span><span class="hll">                <span class="n">each_role</span> <span class="o">=</span> <span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;role&quot;</span><span class="p">]</span>
+</span><span class="hll">                <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">site</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span> <span class="ow">and</span> <span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="n">each_role</span><span class="p">:</span>
+</span><span class="hll">                    <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each_switch</span><span class="p">)</span>
+</span><span class="hll">                <span class="k">elif</span> <span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">site</span> <span class="o">==</span> <span class="n">each_site</span> <span class="ow">and</span>
+</span><span class="hll">                        <span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span><span class="p">):</span>
+</span><span class="hll">                    <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each_switch</span><span class="p">)</span>
+</span><span class="hll">                <span class="k">elif</span> <span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">site</span> <span class="o">==</span> <span class="n">each_site</span> <span class="ow">and</span>
+</span><span class="hll">                        <span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="n">each_role</span><span class="p">):</span>
+</span><span class="hll">                    <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each_switch</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">        <span class="c1"># Return the switches list to the view for verification purpose</span>
+</span><span class="hll">        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">switches</span><span class="o">=</span><span class="n">switches</span><span class="p">)</span>
+</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Test your script using the URL <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/Arista_EOS_Tool/default/packet_drops. Make sure you see the expected switch IP addresses list by selecting various combinations of sites and roles.</p>
+<img alt="_images/ch09-pic9.png" src="_images/ch09-pic9.png" />
+</div>
+<div class="section" id="step-4-reuse-the-packet-drops-python-script">
+<h4><a class="toc-backref" href="#id10">Step 4: Reuse the packet drops Python script</a><a class="headerlink" href="#step-4-reuse-the-packet-drops-python-script" title="Permalink to this headline">¶</a></h4>
+<p>We will use the packet drops Python script which we wrote in chapter 3. The only thing you should change in that script is to change the username and password variable in the pyeapi.connect() function. You should use form.vars.username and form.vars.password for username and password variable.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">packet_drops</span><span class="p">():</span>
+    <span class="c1"># Read the inventory.json file into a dictionary</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">inventory</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">readfile</span><span class="p">)</span>
+
+    <span class="c1"># Define set sites and roles with a single item &quot;All&quot;</span>
+    <span class="n">sites</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;All&quot;</span><span class="p">])</span>
+    <span class="n">roles</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;All&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Read site and role of each switch and add it to the set</span>
+    <span class="k">for</span> <span class="n">each_switch</span> <span class="ow">in</span> <span class="n">inventory</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">sites</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;site&quot;</span><span class="p">])</span>
+        <span class="n">roles</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;role&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Create a form using the sets</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">SQLFORM</span><span class="o">.</span><span class="n">factory</span><span class="p">(</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_NOT_EMPTY</span><span class="p">()),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_NOT_EMPTY</span><span class="p">()),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;site&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_IN_SET</span><span class="p">(</span><span class="n">sites</span><span class="p">)),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;role&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_IN_SET</span><span class="p">(</span><span class="n">roles</span><span class="p">),))</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">process</span><span class="p">()</span><span class="o">.</span><span class="n">accepted</span><span class="p">:</span>
+        <span class="c1"># Create a switch IP addresses list from site and role selection</span>
+        <span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="sd">&quot;&quot;&quot; compare the site and role between user selected and the values in</span>
+<span class="sd">        inventory &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">site</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span> <span class="ow">and</span> <span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span><span class="p">:</span>
+            <span class="n">switches</span> <span class="o">=</span> <span class="n">inventory</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">each_switch</span> <span class="ow">in</span> <span class="n">inventory</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">each_site</span> <span class="o">=</span> <span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;site&quot;</span><span class="p">]</span>
+                <span class="n">each_role</span> <span class="o">=</span> <span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;role&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">site</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span> <span class="ow">and</span> <span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="n">each_role</span><span class="p">:</span>
+                    <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each_switch</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">site</span> <span class="o">==</span> <span class="n">each_site</span> <span class="ow">and</span>
+                        <span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span><span class="p">):</span>
+                    <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each_switch</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">site</span> <span class="o">==</span> <span class="n">each_site</span> <span class="ow">and</span>
+                        <span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="n">each_role</span><span class="p">):</span>
+                    <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each_switch</span><span class="p">)</span>
+
+<span class="hll">        <span class="c1"># Packet Drops Script</span>
+</span><span class="hll">        <span class="n">interface_drops</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class="hll">        <span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class="hll">        <span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+</span><span class="hll">            <span class="k">try</span><span class="p">:</span>
+</span><span class="hll">                <span class="c1"># Define API Connection String</span>
+</span><span class="hll">                <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span>
+</span><span class="hll">                                      <span class="n">username</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+</span><span class="hll">                                      <span class="n">password</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
+</span><span class="hll">                                      <span class="n">port</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</span><span class="hll">                <span class="c1"># Execute the desired command</span>
+</span><span class="hll">                <span class="n">interface_counters</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+</span><span class="hll">                    <span class="p">[</span><span class="s2">&quot;show interfaces counters discards&quot;</span><span class="p">])</span>
+</span><span class="hll">                <span class="n">interface_counters_clean</span> <span class="o">=</span> <span class="n">interface_counters</span><span class="p">[</span>
+</span><span class="hll">                    <span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">]</span>
+</span><span class="hll">                <span class="n">host_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show hostname&quot;</span><span class="p">])</span>
+</span><span class="hll">                <span class="n">host_name_clean</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">host_name</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;hostname&quot;</span><span class="p">])</span>
+</span><span class="hll">                <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class="hll">
+</span><span class="hll">                <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">interface_counters_clean</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+</span><span class="hll">                    <span class="k">if</span> <span class="s2">&quot;Port-Channel&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">interface</span><span class="p">:</span>
+</span><span class="hll">                        <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class="hll">                            <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class="hll">                            <span class="n">show_interface</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+</span><span class="hll">                                <span class="p">[</span><span class="s2">&quot;show interfaces &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">interface</span><span class="p">)])</span>
+</span><span class="hll">                            <span class="n">show_interface_clean</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span>
+</span><span class="hll">                                <span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;interfaceCounters&quot;</span><span class="p">]</span>
+</span><span class="hll">                            <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;Interface Status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span>
+</span><span class="hll">                                <span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;interfaceStatus&quot;</span><span class="p">]</span>
+</span><span class="hll">                            <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;Line Protocol Status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface</span><span class="p">[</span>
+</span><span class="hll">                                <span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;lineProtocolStatus&quot;</span><span class="p">]</span>
+</span><span class="hll">
+</span><span class="hll">                            <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class="hll">                                <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span>
+</span><span class="hll">                                    <span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class="hll">                                <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">][</span>
+</span><span class="hll">                                    <span class="s2">&quot;Total Discards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span>
+</span><span class="hll">                                <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">][</span>
+</span><span class="hll">                                    <span class="s2">&quot;Input Errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;inputErrorsDetail&quot;</span><span class="p">]</span>
+</span><span class="hll">
+</span><span class="hll">                            <span class="k">if</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class="hll">                                <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span>
+</span><span class="hll">                                    <span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class="hll">                                <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">][</span>
+</span><span class="hll">                                    <span class="s2">&quot;Total Discards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">interface_counters_clean</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span>
+</span><span class="hll">                                <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">][</span>
+</span><span class="hll">                                    <span class="s2">&quot;Output Errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_interface_clean</span><span class="p">[</span><span class="s2">&quot;outputErrorsDetail&quot;</span><span class="p">]</span>
+</span><span class="hll">
+</span><span class="hll">            <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+</span><span class="hll">                <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+</span><span class="hll">
+</span><span class="hll">            <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+</span><span class="hll">                <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+</span><span class="hll">
+</span><span class="hll">            <span class="k">if</span> <span class="ow">not</span> <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]:</span>
+</span><span class="hll">                <span class="k">del</span> <span class="n">interface_drops</span><span class="p">[</span><span class="n">host_name_clean</span><span class="p">]</span>
+</span><span class="hll">
+</span><span class="hll">        <span class="c1"># Return the switches list to the view for verification purpose</span>
+</span><span class="hll">        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="n">interface_drops</span><span class="o">=</span><span class="n">interface_drops</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>Test your script using the URL <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/Arista_EOS_Tool/default/packet_drops</p>
+<img alt="_images/ch09-pic10.png" src="_images/ch09-pic10.png" />
+</div>
+</div>
+<div class="section" id="script-enhancements">
+<h3><a class="toc-backref" href="#id11">Script Enhancements</a><a class="headerlink" href="#script-enhancements" title="Permalink to this headline">¶</a></h3>
+<p>At this point, we know how to port our scripts to web2py. To summarize, we have three sections in the script.</p>
+<ol class="arabic simple">
+<li>Web2Py form to receive user input.</li>
+<li>Build Switch List based on the user input.</li>
+<li>The core logic for your Network Use case.</li>
+</ol>
+<p>The first two sections are going to be common for the most use cases. We can create functions for these two sections so that we can re-use them for all our use cases. We will also create a function for discovering the packet drops which will improve the readability and functionality of the script.</p>
+<div class="section" id="step-1-create-a-function-to-create-a-web2py-form">
+<h4><a class="toc-backref" href="#id12">Step 1: Create a function to create a web2py form</a><a class="headerlink" href="#step-1-create-a-function-to-create-a-web2py-form" title="Permalink to this headline">¶</a></h4>
+<p>We will create a function called eos_form to build a web2py form. We will call this form from the packet_drops function.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">eos_form</span><span class="p">():</span>
+    <span class="c1"># Read the inventory.json file into a dictionary</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">inventory</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">readfile</span><span class="p">)</span>
+
+    <span class="c1"># Define set sites and roles with a single item &quot;All&quot;</span>
+    <span class="n">sites</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;All&quot;</span><span class="p">])</span>
+    <span class="n">roles</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;All&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Read site and role of each switch and add it to the set</span>
+    <span class="k">for</span> <span class="n">each_switch</span> <span class="ow">in</span> <span class="n">inventory</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">sites</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;site&quot;</span><span class="p">])</span>
+        <span class="n">roles</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;role&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Create a form using the sets</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">SQLFORM</span><span class="o">.</span><span class="n">factory</span><span class="p">(</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_NOT_EMPTY</span><span class="p">()),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_NOT_EMPTY</span><span class="p">()),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;site&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_IN_SET</span><span class="p">(</span><span class="n">sites</span><span class="p">)),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;role&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_IN_SET</span><span class="p">(</span><span class="n">roles</span><span class="p">),))</span>
+
+    <span class="k">return</span> <span class="n">form</span>
+
+
+<span class="k">def</span> <span class="nf">packet_drops</span><span class="p">():</span>
+    <span class="c1"># Build Form</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">eos_form</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">process</span><span class="p">()</span><span class="o">.</span><span class="n">accepted</span><span class="p">:</span>
+        <span class="c1"># Create a switch IP addresses list from site and role selection</span>
+        <span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="sd">&quot;&quot;&quot; compare the site and role between user selected and the values in</span>
+<span class="sd">        inventory &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-2-create-a-function-to-derive-the-list-of-switches">
+<h4><a class="toc-backref" href="#id13">Step 2: Create a function to derive the list of switches</a><a class="headerlink" href="#step-2-create-a-function-to-derive-the-list-of-switches" title="Permalink to this headline">¶</a></h4>
+<p>We will create a function switches_list to derive the list of switch IP addresses. We will call this function from the packet_drops function. When we call, we need to pass the user input so that switches_list function derives the list from the user provides values for site and role.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">switches_list</span><span class="p">(</span><span class="n">form_vars</span><span class="p">):</span>
+    <span class="c1"># Read the inventory</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">inventory</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">readfile</span><span class="p">)</span>
+
+    <span class="c1"># Define an empty list</span>
+    <span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="sd">&quot;&quot;&quot; compare the site and role between user selected and the values in</span>
+<span class="sd">          inventory &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">site</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span> <span class="ow">and</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span><span class="p">:</span>
+        <span class="n">switches</span> <span class="o">=</span> <span class="n">inventory</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">each_switch</span> <span class="ow">in</span> <span class="n">inventory</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">each_site</span> <span class="o">=</span> <span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;site&quot;</span><span class="p">]</span>
+            <span class="n">each_role</span> <span class="o">=</span> <span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;role&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">site</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span> <span class="ow">and</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="n">each_role</span><span class="p">:</span>
+                <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each_switch</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">site</span> <span class="o">==</span> <span class="n">each_site</span> <span class="ow">and</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span><span class="p">:</span>
+                <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each_switch</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">site</span> <span class="o">==</span> <span class="n">each_site</span> <span class="ow">and</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="n">each_role</span><span class="p">:</span>
+                <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each_switch</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">switches</span>
+
+
+<span class="k">def</span> <span class="nf">packet_drops</span><span class="p">():</span>
+    <span class="c1"># Build Form</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">eos_form</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">process</span><span class="p">()</span><span class="o">.</span><span class="n">accepted</span><span class="p">:</span>
+        <span class="c1"># Create a switch IP addresses list from site and role selection</span>
+        <span class="n">switches</span> <span class="o">=</span> <span class="n">switches_list</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
+
+        <span class="c1"># Packet Drops Script</span>
+        <span class="n">interface_drops</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-3-create-a-function-for-discovering-interface-drops">
+<h4><a class="toc-backref" href="#id14">Step 3: Create a function for discovering interface drops</a><a class="headerlink" href="#step-3-create-a-function-for-discovering-interface-drops" title="Permalink to this headline">¶</a></h4>
+<p>We will write a function for discovering interface drops and we will call this function from packet_drops function.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">discover_packet_drops</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="c1"># Define empty dictionary</span>
+    <span class="n">int_drops</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Execute the desired command</span>
+    <span class="n">int_counters_raw</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces counters discards&quot;</span><span class="p">])</span>
+    <span class="n">int_counters</span> <span class="o">=</span> <span class="n">int_counters_raw</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">int_counters</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="s2">&quot;Port-Channel&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">interface</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">int_counters</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="ow">or</span>
+                    <span class="n">int_counters</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">show_int_raw</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+                    <span class="p">[</span><span class="s2">&quot;show interfaces &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">interface</span><span class="p">)])</span>
+                <span class="n">show_int</span> <span class="o">=</span> <span class="n">show_int_raw</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span>
+                    <span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;interfaceCounters&quot;</span><span class="p">]</span>
+                <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;Interface Status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_int_raw</span><span class="p">[</span>
+                    <span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;interfaceStatus&quot;</span><span class="p">]</span>
+                <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;Line Protocol Status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_int_raw</span><span class="p">[</span>
+                    <span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;lineProtocolStatus&quot;</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">int_counters</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">][</span>
+                        <span class="s2">&quot;Total Discards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">int_counters</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span>
+                    <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">][</span>
+                        <span class="s2">&quot;Input Errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_int</span><span class="p">[</span><span class="s2">&quot;inputErrorsDetail&quot;</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">int_counters</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">][</span>
+                        <span class="s2">&quot;Total Discards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">int_counters</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span>
+                    <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">][</span>
+                        <span class="s2">&quot;Output Errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_int</span><span class="p">[</span><span class="s2">&quot;outputErrorsDetail&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">int_drops</span>
+
+
+<span class="k">def</span> <span class="nf">host_name</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="n">host_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show hostname&quot;</span><span class="p">])</span>
+    <span class="n">host_name_clean</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">host_name</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;hostname&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">host_name_clean</span>
+
+
+<span class="k">def</span> <span class="nf">packet_drops</span><span class="p">():</span>
+    <span class="c1"># Build Form</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">eos_form</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">process</span><span class="p">()</span><span class="o">.</span><span class="n">accepted</span><span class="p">:</span>
+        <span class="c1"># Create a switch IP addresses list from site and role selection</span>
+        <span class="n">switches</span> <span class="o">=</span> <span class="n">switches_list</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
+
+        <span class="c1"># Packet Drops Script</span>
+        <span class="n">interface_drops</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Define API Connection String</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span>
+                                      <span class="n">username</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                                      <span class="n">password</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
+                                      <span class="n">port</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+                <span class="c1"># Identify the switch hostname for reporting purpose</span>
+                <span class="n">switchname</span> <span class="o">=</span> <span class="n">host_name</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+                <span class="c1"># Discover Interface Packet Drops</span>
+                <span class="n">interface_drops</span><span class="p">[</span><span class="n">switchname</span><span class="p">]</span> <span class="o">=</span> <span class="n">discover_packet_drops</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+                <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+            <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+                <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">interface_drops</span><span class="p">[</span><span class="n">switchname</span><span class="p">]:</span>
+                <span class="k">del</span> <span class="n">interface_drops</span><span class="p">[</span><span class="n">switchname</span><span class="p">]</span>
+
+        <span class="c1"># Return the switches list to the view for verification purpose</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="n">interface_drops</span><span class="o">=</span><span class="n">interface_drops</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="final-script">
+<h3><a class="toc-backref" href="#id15">Final Script</a><a class="headerlink" href="#final-script" title="Permalink to this headline">¶</a></h3>
+<p>The final script with all the functions is shown below.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">eos_form</span><span class="p">():</span>
+    <span class="c1"># Read the inventory.json file into a dictionary</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">inventory</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">readfile</span><span class="p">)</span>
+
+    <span class="c1"># Define set sites and roles with a single item &quot;All&quot;</span>
+    <span class="n">sites</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;All&quot;</span><span class="p">])</span>
+    <span class="n">roles</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s2">&quot;All&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Read site and role of each switch and add it to the set</span>
+    <span class="k">for</span> <span class="n">each_switch</span> <span class="ow">in</span> <span class="n">inventory</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">sites</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;site&quot;</span><span class="p">])</span>
+        <span class="n">roles</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;role&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Create a form using the sets</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">SQLFORM</span><span class="o">.</span><span class="n">factory</span><span class="p">(</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_NOT_EMPTY</span><span class="p">()),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_NOT_EMPTY</span><span class="p">()),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;site&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_IN_SET</span><span class="p">(</span><span class="n">sites</span><span class="p">)),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="s1">&#39;role&#39;</span><span class="p">,</span> <span class="n">requires</span><span class="o">=</span><span class="n">IS_IN_SET</span><span class="p">(</span><span class="n">roles</span><span class="p">),))</span>
+
+    <span class="k">return</span> <span class="n">form</span>
+
+
+<span class="k">def</span> <span class="nf">switches_list</span><span class="p">(</span><span class="n">form_vars</span><span class="p">):</span>
+    <span class="c1"># Read the inventory</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">readfile</span><span class="p">:</span>
+        <span class="n">inventory</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">readfile</span><span class="p">)</span>
+
+    <span class="c1"># Define an empty list</span>
+    <span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="sd">&quot;&quot;&quot; compare the site and role between user selected and the values in</span>
+<span class="sd">          inventory &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">site</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span> <span class="ow">and</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span><span class="p">:</span>
+        <span class="n">switches</span> <span class="o">=</span> <span class="n">inventory</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">each_switch</span> <span class="ow">in</span> <span class="n">inventory</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">each_site</span> <span class="o">=</span> <span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;site&quot;</span><span class="p">]</span>
+            <span class="n">each_role</span> <span class="o">=</span> <span class="n">inventory</span><span class="p">[</span><span class="n">each_switch</span><span class="p">][</span><span class="s2">&quot;role&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">site</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span> <span class="ow">and</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="n">each_role</span><span class="p">:</span>
+                <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each_switch</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">site</span> <span class="o">==</span> <span class="n">each_site</span> <span class="ow">and</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span><span class="p">:</span>
+                <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each_switch</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">site</span> <span class="o">==</span> <span class="n">each_site</span> <span class="ow">and</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="n">each_role</span><span class="p">:</span>
+                <span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each_switch</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">switches</span>
+
+
+<span class="k">def</span> <span class="nf">discover_packet_drops</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="c1"># Define empty dictionary</span>
+    <span class="n">int_drops</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Execute the desired command</span>
+    <span class="n">int_counters_raw</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show interfaces counters discards&quot;</span><span class="p">])</span>
+    <span class="n">int_counters</span> <span class="o">=</span> <span class="n">int_counters_raw</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">int_counters</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="s2">&quot;Port-Channel&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">interface</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">int_counters</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="ow">or</span>
+                    <span class="n">int_counters</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">show_int_raw</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+                    <span class="p">[</span><span class="s2">&quot;show interfaces &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">interface</span><span class="p">)])</span>
+                <span class="n">show_int</span> <span class="o">=</span> <span class="n">show_int_raw</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span>
+                    <span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;interfaceCounters&quot;</span><span class="p">]</span>
+                <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;Interface Status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_int_raw</span><span class="p">[</span>
+                    <span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;interfaceStatus&quot;</span><span class="p">]</span>
+                <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;Line Protocol Status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_int_raw</span><span class="p">[</span>
+                    <span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaces&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;lineProtocolStatus&quot;</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">int_counters</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">][</span>
+                        <span class="s2">&quot;Total Discards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">int_counters</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">]</span>
+                    <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;inDiscards&quot;</span><span class="p">][</span>
+                        <span class="s2">&quot;Input Errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_int</span><span class="p">[</span><span class="s2">&quot;inputErrorsDetail&quot;</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">int_counters</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">][</span>
+                        <span class="s2">&quot;Total Discards&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">int_counters</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">]</span>
+                    <span class="n">int_drops</span><span class="p">[</span><span class="n">interface</span><span class="p">][</span><span class="s2">&quot;outDiscards&quot;</span><span class="p">][</span>
+                        <span class="s2">&quot;Output Errors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_int</span><span class="p">[</span><span class="s2">&quot;outputErrorsDetail&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">int_drops</span>
+
+
+<span class="k">def</span> <span class="nf">host_name</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="n">host_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show hostname&quot;</span><span class="p">])</span>
+    <span class="n">host_name_clean</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">host_name</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;hostname&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">host_name_clean</span>
+
+
+<span class="k">def</span> <span class="nf">packet_drops</span><span class="p">():</span>
+    <span class="c1"># Build Form</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">eos_form</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">process</span><span class="p">()</span><span class="o">.</span><span class="n">accepted</span><span class="p">:</span>
+        <span class="c1"># Create a switch IP addresses list from site and role selection</span>
+        <span class="n">switches</span> <span class="o">=</span> <span class="n">switches_list</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
+
+        <span class="c1"># Packet Drops Script</span>
+        <span class="n">interface_drops</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Define API Connection String</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span>
+                                      <span class="n">username</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                                      <span class="n">password</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
+                                      <span class="n">port</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+                <span class="c1"># Identify the switch hostname for reporting purpose</span>
+                <span class="n">switchname</span> <span class="o">=</span> <span class="n">host_name</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+                <span class="c1"># Discover Interface Packet Drops</span>
+                <span class="n">interface_drops</span><span class="p">[</span><span class="n">switchname</span><span class="p">]</span> <span class="o">=</span> <span class="n">discover_packet_drops</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+                <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+            <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+                <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">interface_drops</span><span class="p">[</span><span class="n">switchname</span><span class="p">]:</span>
+                <span class="k">del</span> <span class="n">interface_drops</span><span class="p">[</span><span class="n">switchname</span><span class="p">]</span>
+
+        <span class="c1"># Return the switches list to the view for verification purpose</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="n">interface_drops</span><span class="o">=</span><span class="n">interface_drops</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="control-plane-drops">
+<h2><a class="toc-backref" href="#id16">Control Plane Drops</a><a class="headerlink" href="#control-plane-drops" title="Permalink to this headline">¶</a></h2>
+<p>This is going to be a very simple script. We have already written functions for form and switch list. We have also written script for control plane drops in the chapter 3.</p>
+<p>We will write a new function called discover_copp_drops() in default.py and re-use the script for the control plane drops that we wrote in the chapter 3. Then we will create another function called controlplane_drops() in default.py to build our use-case by using all the three functions.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">discover_copp_drops</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="c1"># Define empty dictionary</span>
+    <span class="n">copp_drops</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Execute the desired command</span>
+    <span class="n">copp_counters_raw</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;show policy-map interface control-plane copp-system-policy&quot;</span><span class="p">])</span>
+    <span class="n">copp_counters</span> <span class="o">=</span> <span class="n">copp_counters_raw</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span>
+        <span class="s2">&quot;policyMaps&quot;</span><span class="p">][</span><span class="s2">&quot;copp-system-policy&quot;</span><span class="p">][</span><span class="s2">&quot;classMaps&quot;</span><span class="p">]</span>
+
+    <span class="c1"># parse through each copp system class map and discover non drop counters</span>
+    <span class="k">for</span> <span class="n">each_copp_class</span> <span class="ow">in</span> <span class="n">copp_counters</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">copp_counters</span><span class="p">[</span><span class="n">each_copp_class</span><span class="p">][</span><span class="s2">&quot;intfPacketCounters&quot;</span><span class="p">]</span>
+                <span class="p">[</span><span class="s2">&quot;dropPackets&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">copp_drops</span><span class="p">[</span><span class="n">each_copp_class</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">copp_drops</span><span class="p">[</span><span class="n">each_copp_class</span><span class="p">][</span><span class="s2">&quot;Drop Packets&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">copp_counters</span><span class="p">[</span>
+                <span class="n">each_copp_class</span><span class="p">][</span><span class="s2">&quot;intfPacketCounters&quot;</span><span class="p">][</span><span class="s2">&quot;dropPackets&quot;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">copp_drops</span>
+
+
+<span class="k">def</span> <span class="nf">controlplane_drops</span><span class="p">():</span>
+    <span class="c1"># Build Form</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">eos_form</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">process</span><span class="p">()</span><span class="o">.</span><span class="n">accepted</span><span class="p">:</span>
+        <span class="c1"># Create a switch IP addresses list from site and role selection</span>
+        <span class="n">switches</span> <span class="o">=</span> <span class="n">switches_list</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
+
+        <span class="c1"># CoPP Drops Script</span>
+        <span class="n">copp_drops</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Define API Connection String</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span>
+                                      <span class="n">username</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                                      <span class="n">password</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
+                                      <span class="n">port</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+                <span class="c1"># Identify the switch hostname for reporting purpose</span>
+                <span class="n">switchname</span> <span class="o">=</span> <span class="n">host_name</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+                <span class="c1"># Discover CoPP Drops</span>
+                <span class="n">copp_drops</span><span class="p">[</span><span class="n">switchname</span><span class="p">]</span> <span class="o">=</span> <span class="n">discover_copp_drops</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+                <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+            <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+                <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">copp_drops</span><span class="p">[</span><span class="n">switchname</span><span class="p">]:</span>
+                <span class="k">del</span> <span class="n">copp_drops</span><span class="p">[</span><span class="n">switchname</span><span class="p">]</span>
+
+        <span class="c1"># Return the switches list to the view for verification purpose</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="n">copp_drops</span><span class="o">=</span><span class="n">copp_drops</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Create a View for the function controlplane_drops</p>
+<p>Click the &#8220;files toggle&#8221; on the top left</p>
+<p>Click Create and select views from the drop down window</p>
+<p>Provide the file name with path &#8211;&gt; default/controlplane_drops.html</p>
+<p>We are going to create a default view with the header &#8220;Control Plane Drops&#8221;. Save this file.</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span>{{extend &#39;layout.html&#39;}}
+<span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Control Plane Drops<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+{{=BEAUTIFY(response._vars)}}
+</pre></div>
+</div>
+<p>Test your script using the URL <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/Arista_EOS_Tool/default/controlplane_drops</p>
+<img alt="_images/ch09-pic11.png" src="_images/ch09-pic11.png" />
+</div>
+<div class="section" id="last-10-sev-1-3-log-messages">
+<h2><a class="toc-backref" href="#id17">Last 10 Sev 1-3 Log Messages</a><a class="headerlink" href="#last-10-sev-1-3-log-messages" title="Permalink to this headline">¶</a></h2>
+<p>The goal of this script is to collect the last 10 severity 1-3 messages from the switches. It will be helpful when you are troubleshooting a network-wide problem and quickly run this command and look at the severity 1-3 logs on the switches within the network. We have not written a script for this logic previously in this book. So we will first explore the logic through IDLE and then we will port the logic into this tool.</p>
+<p>Let’s login to an Arista switch and explore the required EOS commands.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">Switch# show logging | json</span>
+<span class="gp">%</span> This is an unconverted <span class="nb">command</span>
+
+<span class="go">switch# show logging 10 errors</span>
+
+<span class="go">Jan  9 10:55:57 22sw2 ribd-vrf-102[27895]: %BGP-3-NOTIFICATION: sent to neighbor 10.10.202.11 (AS 99) 4/0 (Hold Timer Expired Error/Unspecified) 0 bytes</span>
+
+<span class="go">Jan  9 10:55:57 22sw2 ribd-vrf-111[28249]: %BGP-3-NOTIFICATION: sent to neighbor 10.10.211.11 (AS 99) 4/0 (Hold Timer Expired Error/Unspecified) 0 bytes</span>
+</pre></div>
+</div>
+<p>Before looking at the algorithm, let’s take a look at the basic Python script to pull the logs from the switch. Since the show log is not json converted, we will use the jsonrpclib with “text” format, and we parse the data using the string parsing methods.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pprint</span>
+<span class="kn">from</span> <span class="nn">jsonrpclib</span> <span class="kn">import</span> <span class="n">Server</span>
+<span class="kn">import</span> <span class="nn">ssl</span>
+<span class="n">ssl</span><span class="o">.</span><span class="n">_create_default_https_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">_create_unverified_context</span>
+
+<span class="n">node</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="s2">&quot;https://admin:admin@172.28.170.97/command-api&quot;</span><span class="p">)</span>
+
+<span class="n">show_log</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">runCmds</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;show logging 10 errors&quot;</span><span class="p">],</span> <span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="n">show_log_clean</span> <span class="o">=</span> <span class="n">show_log</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;output&quot;</span><span class="p">]</span>
+
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">show_log_clean</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Save and run this script.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">&gt;</span>&gt;&gt; <span class="o">================================</span> <span class="nv">RESTART</span> <span class="o">================================</span>
+<span class="gp">&gt;</span>&gt;&gt;
+<span class="go">u&#39;Jan  9 10:55:57 22sw2 ribd-vrf-102[27895]: %BGP-3-NOTIFICATION: sent to neighbor 10.10.202.11 (AS 99) 4/0 (Hold Timer Expired Error/Unspecified) 0 bytes\nJan  9 10:55:57 22sw2 ribd-vrf-111[28249]: %BGP-3-NOTIFICATION: sent to neighbor 10.10.211.11 (AS 99) 4/0 (Hold Timer Expired Error/Unspecified) 0 bytes\n&#39;</span>
+</pre></div>
+</div>
+<div class="section" id="id1">
+<h3><a class="toc-backref" href="#id18">Algorithm</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>We will build the script directly from web2py editor. We are going to write a function switch_logs() in the default controller of our web2py application Arista_EOS_tool. We are going to use the below algorithm to write the script.</p>
+<ol class="arabic simple">
+<li>Create a New Function and a View for this task “show logs.&#8221;</li>
+<li>Use the eos_form() and switches_list() function to display form.</li>
+<li>Write the core logic of the script</li>
+</ol>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li>Create a list for the &#8220;logging&#8221; levels 0 to 3, which are emergencies, alerts, critical and errors.</li>
+<li>For each &#8220;logging&#8221; level within the list, collect the show logging 10 &lt;logging_level&gt; output.</li>
+<li>For each logging level, parse through the required output and store under the corresponding switch entry within the dictionary.</li>
+</ol>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li>Return the dictionary show_log to the view.</li>
+</ol>
+</div>
+<div class="section" id="id2">
+<h3><a class="toc-backref" href="#id19">Develop Script</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="step-1-create-a-new-function-and-a-view-for-this-task-show-logs">
+<h4><a class="toc-backref" href="#id20">Step 1: Create a New Function and a View for this task “show logs&#8221;</a><a class="headerlink" href="#step-1-create-a-new-function-and-a-view-for-this-task-show-logs" title="Permalink to this headline">¶</a></h4>
+<p>Create a new function switch_logs() in the default.py controller.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">switch_logs</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Create a view switch_logs.html under views/default folder.</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span>{{extend &#39;layout.html&#39;}}
+<span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Display Logs with Severity 0 to 3 <span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+{{=BEAUTIFY(response._vars)}}
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-2-use-the-eos-form-and-switches-list-function-to-display-form">
+<h4><a class="toc-backref" href="#id21">Step 2: Use the eos_form() and switches_list() function to display form</a><a class="headerlink" href="#step-2-use-the-eos-form-and-switches-list-function-to-display-form" title="Permalink to this headline">¶</a></h4>
+<p>We have written two functions eos_form() and switches_list() in the previous use case. We will use those functions with this script to display form and derive IP addresses of the switches from the user selection.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">switch_logs</span><span class="p">():</span>
+    <span class="c1"># Build Form</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">eos_form</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">process</span><span class="p">()</span><span class="o">.</span><span class="n">accepted</span><span class="p">:</span>
+        <span class="c1"># Create a switch IP addresses list from site and role selection</span>
+        <span class="n">switches</span> <span class="o">=</span> <span class="n">switches_list</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-3-write-the-core-logic-of-the-script">
+<h4><a class="toc-backref" href="#id22">Step 3: Write the core logic of the script</a><a class="headerlink" href="#step-3-write-the-core-logic-of-the-script" title="Permalink to this headline">¶</a></h4>
+<p>Since we are going to use jsonrpclib, we need to install that module in the Linux system where we are hosting the web2py application.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>anees@ubuntu-web2py:~$ sudo pip2 install jsonrpclib
+Downloading/unpacking jsonrpclib
+  Downloading jsonrpclib-0.1.7.tar.gz
+  Running setup.py <span class="o">(</span>path:/tmp/pip_build_root/jsonrpclib/setup.py<span class="o">)</span> egg_info <span class="k">for</span> package jsonrpclib
+
+Installing collected packages: jsonrpclib
+  Running setup.py install <span class="k">for</span> jsonrpclib
+
+Successfully installed jsonrpclib
+Cleaning up...
+</pre></div>
+</div>
+<p>The algorithm for the core logic is shown below.</p>
+<ol class="loweralpha simple">
+<li>Create a list for the &#8220;logging&#8221; levels 0 to 3, which are emergencies, alerts, critical and errors.</li>
+<li>For each &#8220;logging&#8221; level within the list, collect the show logging 10 &lt;logging_level&gt; output.</li>
+<li>For each logging level, parse through the required output and store under the corresponding switch entry within the dictionary.</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Import the neccessary python modules</span>
+<span class="kn">import</span> <span class="nn">pyeapi</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="hll"><span class="kn">from</span> <span class="nn">jsonrpclib</span> <span class="kn">import</span> <span class="n">Server</span><span class="p">,</span> <span class="n">ProtocolError</span>
+</span>
+
+<span class="k">def</span> <span class="nf">hostname</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="n">host_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">runCmds</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;show hostname&quot;</span><span class="p">])</span>
+    <span class="n">host_name_clean</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">host_name</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;hostname&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">host_name_clean</span>
+
+
+<span class="k">def</span> <span class="nf">collect_logs</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="c1"># Define an empty list</span>
+    <span class="n">show_log</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Create a list for the logging levels 0 to 3</span>
+    <span class="n">severity_level</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;emergencies&quot;</span><span class="p">,</span> <span class="s2">&quot;alerts&quot;</span><span class="p">,</span> <span class="s2">&quot;critical&quot;</span><span class="p">,</span> <span class="s2">&quot;errors&quot;</span><span class="p">]</span>
+
+    <span class="c1"># For each logging level listed in the list, collect the show log</span>
+    <span class="k">for</span> <span class="n">each_sev_level</span> <span class="ow">in</span> <span class="n">severity_level</span><span class="p">:</span>
+        <span class="n">show_log_cli_raw</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">runCmds</span><span class="p">(</span>
+            <span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;show logging 10 &quot;</span> <span class="o">+</span> <span class="n">each_sev_level</span><span class="p">],</span> <span class="s2">&quot;text&quot;</span><span class="p">)</span>
+        <span class="n">show_log_cli</span> <span class="o">=</span> <span class="n">show_log_cli_raw</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;output&quot;</span><span class="p">]</span>
+        <span class="n">show_log</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">show_log_cli</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">show_log</span>
+
+
+<span class="k">def</span> <span class="nf">switch_logs</span><span class="p">():</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">eos_form</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">process</span><span class="p">()</span><span class="o">.</span><span class="n">accepted</span><span class="p">:</span>
+        <span class="n">form_vars</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">vars</span>
+        <span class="n">switches</span> <span class="o">=</span> <span class="n">switches_list</span><span class="p">(</span><span class="n">form_vars</span><span class="p">)</span>
+
+        <span class="c1"># Define dictionaries</span>
+        <span class="n">show_log</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="s2">&quot;https://&quot;</span> <span class="o">+</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">username</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span>
+                          <span class="n">form_vars</span><span class="o">.</span><span class="n">password</span> <span class="o">+</span> <span class="s2">&quot;@&quot;</span> <span class="o">+</span> <span class="n">switch</span> <span class="o">+</span>
+                          <span class="s2">&quot;/command-api&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Collect hostname for reporting purpose</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">hostname</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+            <span class="c1"># Collect the logs</span>
+            <span class="n">show_log</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">collect_logs</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">show_log</span><span class="o">=</span><span class="n">show_log</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Test your script using the URL <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/Arista_EOS_Tool/default/switch_logs.</p>
+<img alt="_images/ch09-pic12.png" src="_images/ch09-pic12.png" />
+<p>We are going to add three things to complete this script</p>
+<ol class="arabic simple">
+<li>Add Exception Handing</li>
+<li>Display log entry one per line for clean view of the output</li>
+<li>Add a logic to delete the switch entries if there are no logs.</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">collect_logs</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="c1"># Define an empty list</span>
+    <span class="n">show_log</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Create a list for the logging levels 0 to 3</span>
+    <span class="n">severity_level</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;emergencies&quot;</span><span class="p">,</span> <span class="s2">&quot;alerts&quot;</span><span class="p">,</span> <span class="s2">&quot;critical&quot;</span><span class="p">,</span> <span class="s2">&quot;errors&quot;</span><span class="p">]</span>
+
+    <span class="c1"># For each logging level listed in the list, collect the show log</span>
+    <span class="k">for</span> <span class="n">each_sev_level</span> <span class="ow">in</span> <span class="n">severity_level</span><span class="p">:</span>
+        <span class="n">show_log_cli_raw</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">runCmds</span><span class="p">(</span>
+            <span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;show logging 10 &quot;</span><span class="o">+</span><span class="n">each_sev_level</span><span class="p">],</span> <span class="s2">&quot;text&quot;</span><span class="p">)</span>
+        <span class="n">show_log_cli</span> <span class="o">=</span> <span class="n">show_log_cli_raw</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;output&quot;</span><span class="p">]</span>
+<span class="hll">        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">show_log_cli</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+</span><span class="hll">            <span class="n">show_log</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span>
+    <span class="k">return</span> <span class="n">show_log</span>
+
+
+<span class="k">def</span> <span class="nf">switch_logs</span><span class="p">():</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">eos_form</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">process</span><span class="p">()</span><span class="o">.</span><span class="n">accepted</span><span class="p">:</span>
+        <span class="n">form_vars</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">vars</span>
+        <span class="n">switches</span> <span class="o">=</span> <span class="n">switches_list</span><span class="p">(</span><span class="n">form_vars</span><span class="p">)</span>
+
+        <span class="c1"># Define dictionaries</span>
+        <span class="n">show_log</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="hll">        <span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+</span>
+        <span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+<span class="hll">            <span class="k">try</span><span class="p">:</span>
+</span>                <span class="n">node</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="s2">&quot;https://&quot;</span> <span class="o">+</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">username</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span>
+                              <span class="n">form_vars</span><span class="o">.</span><span class="n">password</span> <span class="o">+</span> <span class="s2">&quot;@&quot;</span> <span class="o">+</span> <span class="n">switch</span> <span class="o">+</span>
+                              <span class="s2">&quot;/command-api&quot;</span><span class="p">)</span>
+
+                <span class="c1"># Collect hostname for reporting purpose</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">hostname</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+                <span class="c1"># Collect the logs</span>
+                <span class="n">show_log</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">collect_logs</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+<span class="hll">                <span class="c1"># If there are no logs, delete the entry for the switch</span>
+</span><span class="hll">                <span class="k">if</span> <span class="ow">not</span> <span class="n">show_log</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+</span><span class="hll">                    <span class="k">del</span> <span class="n">show_log</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+</span>
+<span class="hll">            <span class="k">except</span> <span class="n">ProtocolError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span class="hll">                <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Invalid EOS Command&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</span>
+<span class="hll">            <span class="k">except</span><span class="p">:</span>
+</span><span class="hll">                <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;eAPI Connection Error&quot;</span>
+</span>
+<span class="hll">        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="n">show_log</span><span class="o">=</span><span class="n">show_log</span><span class="p">)</span>
+</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Test your script using the URL <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/Arista_EOS_Tool/default/switch_logs.</p>
+<img alt="_images/ch09-pic13.png" src="_images/ch09-pic13.png" />
+</div>
+</div>
+<div class="section" id="id3">
+<h3><a class="toc-backref" href="#id23">Final Script</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>The final script with all the functions is shown below.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Import the neccessary python modules</span>
+<span class="kn">from</span> <span class="nn">jsonrpclib</span> <span class="kn">import</span> <span class="n">Server</span><span class="p">,</span> <span class="n">ProtocolError</span>
+
+
+<span class="k">def</span> <span class="nf">hostname</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="n">host_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">runCmds</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;show hostname&quot;</span><span class="p">])</span>
+    <span class="n">host_name_clean</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">host_name</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;hostname&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">host_name_clean</span>
+
+<span class="k">def</span> <span class="nf">collect_logs</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="c1"># Define an empty list</span>
+    <span class="n">show_log</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Create a list for the logging levels 0 to 3</span>
+    <span class="n">severity_level</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;emergencies&quot;</span><span class="p">,</span> <span class="s2">&quot;alerts&quot;</span><span class="p">,</span> <span class="s2">&quot;critical&quot;</span><span class="p">,</span> <span class="s2">&quot;errors&quot;</span><span class="p">]</span>
+
+    <span class="c1"># For each logging level listed in the list, collect the show log</span>
+    <span class="k">for</span> <span class="n">each_sev_level</span> <span class="ow">in</span> <span class="n">severity_level</span><span class="p">:</span>
+        <span class="n">show_log_cli_raw</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">runCmds</span><span class="p">(</span>
+            <span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;show logging 10 &quot;</span><span class="o">+</span><span class="n">each_sev_level</span><span class="p">],</span> <span class="s2">&quot;text&quot;</span><span class="p">)</span>
+        <span class="n">show_log_cli</span> <span class="o">=</span> <span class="n">show_log_cli_raw</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;output&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">show_log_cli</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+            <span class="n">show_log</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">show_log</span>
+
+
+<span class="k">def</span> <span class="nf">switch_logs</span><span class="p">():</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">eos_form</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">process</span><span class="p">()</span><span class="o">.</span><span class="n">accepted</span><span class="p">:</span>
+        <span class="n">form_vars</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">vars</span>
+        <span class="n">switches</span> <span class="o">=</span> <span class="n">switches_list</span><span class="p">(</span><span class="n">form_vars</span><span class="p">)</span>
+
+        <span class="c1"># Define dictionaries</span>
+        <span class="n">show_log</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="s2">&quot;https://&quot;</span> <span class="o">+</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">username</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span>
+                              <span class="n">form_vars</span><span class="o">.</span><span class="n">password</span> <span class="o">+</span> <span class="s2">&quot;@&quot;</span> <span class="o">+</span> <span class="n">switch</span> <span class="o">+</span>
+                              <span class="s2">&quot;/command-api&quot;</span><span class="p">)</span>
+
+                <span class="c1"># Collect hostname for reporting purpose</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">hostname</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+                <span class="c1"># Collect the logs</span>
+                <span class="n">show_log</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">collect_logs</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+                <span class="c1"># If there are no logs, delete the entry for the switch</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">show_log</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+                    <span class="k">del</span> <span class="n">show_log</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+            <span class="k">except</span> <span class="n">ProtocolError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Invalid EOS Command&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;eAPI Connection Error&quot;</span>
+
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="n">show_log</span><span class="o">=</span><span class="n">show_log</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="web2py-prepare.html" class="btn btn-neutral" title="Chapter 8: Web2Py - Prepare the Tool" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Anees Mohammed.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

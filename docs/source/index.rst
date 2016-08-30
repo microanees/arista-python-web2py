@@ -22,3 +22,4 @@ Contents:
     web2py-installation
     create-application
     web2py-prepare
+    web2py-tshoot

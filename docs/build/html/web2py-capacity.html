@@ -1,0 +1,470 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Chapter 10: Web2Py - Capacity Planning Use Cases &mdash; Python for Network Engineers</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Python for Network Engineers" href="index.html"/>
+        <link rel="prev" title="Chapter 9: Web2Py - Troubleshooting Use Cases" href="web2py-tshoot.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> arista-python-web2py
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Chapter 1: Introducing Python Core Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core-concepts.html">Chapter 2: Script Framework for Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Chapter 3: Troubleshooting Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capacity-planning.html">Chapter 4: Capacity Planning Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web2py-introduction.html">Chapter 5: Web2Py Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web2py-installation.html">Chapter 6: Web2Py Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create-application.html">Chapter 7: Creating a New Web2Py Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web2py-prepare.html">Chapter 8: Web2Py - Prepare the Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web2py-tshoot.html">Chapter 9: Web2Py - Troubleshooting Use Cases</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chapter 10: Web2Py - Capacity Planning Use Cases</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#port-capacity">Port Capacity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#develop-script">Develop Script</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-create-a-new-function-and-a-view-for-this-task-port-capacity">Step 1: Create a new Function and a View for this task “Port Capacity&#8221;</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-2-use-the-eos-form-and-switches-list-function-to-display-form">Step 2: Use the eos_form() and switches_list() function to display form</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-create-a-function-to-discover-the-unused-ports">Step 3: Create a function to discover the unused ports</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#hardware-scale">Hardware Scale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">arista-python-web2py</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Chapter 10: Web2Py - Capacity Planning Use Cases</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/web2py-capacity.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="chapter-10-web2py-capacity-planning-use-cases">
+<h1>Chapter 10: Web2Py - Capacity Planning Use Cases<a class="headerlink" href="#chapter-10-web2py-capacity-planning-use-cases" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#port-capacity" id="id1">Port Capacity</a><ul>
+<li><a class="reference internal" href="#develop-script" id="id2">Develop Script</a><ul>
+<li><a class="reference internal" href="#step-1-create-a-new-function-and-a-view-for-this-task-port-capacity" id="id3">Step 1: Create a new Function and a View for this task “Port Capacity&#8221;</a></li>
+<li><a class="reference internal" href="#step-2-use-the-eos-form-and-switches-list-function-to-display-form" id="id4">Step 2: Use the eos_form() and switches_list() function to display form</a></li>
+<li><a class="reference internal" href="#step-3-create-a-function-to-discover-the-unused-ports" id="id5">Step 3: Create a function to discover the unused ports</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hardware-scale" id="id6">Hardware Scale</a></li>
+<li><a class="reference internal" href="#summary" id="id7">Summary</a></li>
+</ul>
+</div>
+<p>We have created a solid framework using web2py in the previous two sections “Prepare the Tool” and &#8220;Troubleshooting Use Cases.&#8221; This section should be pretty straightforward to create the use cases for Capacity Planning with the framework. And that’s the goal of this book. Once we created the framework, you should be able to add plenty of use cases by spending time only on the core logic of your requirement than spending time on the web2py framework.</p>
+<p>In this chapter, we are going to write two use cases that are Port Capacity and Hardware Tables Capacity.</p>
+<img alt="_images/ch10-pic1.png" src="_images/ch10-pic1.png" />
+<div class="section" id="port-capacity">
+<h2><a class="toc-backref" href="#id1">Port Capacity</a><a class="headerlink" href="#port-capacity" title="Permalink to this headline">¶</a></h2>
+<p>The goal of this use case is to find the unused ports and transceivers in the network. We have already created the Python script for this use case earlier in this book. From web2py perspective, when the user accesses the Port Capacity link from the home page, it should show the same form that asks for username, password, site and role.</p>
+<img alt="_images/ch10-pic2.png" src="_images/ch10-pic2.png" />
+<p>Once the user provided the required information, the script collects the information about the unused ports and displays the result.</p>
+<img alt="_images/ch10-pic3.png" src="_images/ch10-pic3.png" />
+<p>We are going to use the following steps to write the script.</p>
+<div class="section" id="develop-script">
+<h3><a class="toc-backref" href="#id2">Develop Script</a><a class="headerlink" href="#develop-script" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Create a new Function and a View for this task “Port Capacity.&#8221;</li>
+<li>Use the eos_form() and switches_list() function to display form.</li>
+<li>Create a function to discover the unused ports.</li>
+</ol>
+<div class="section" id="step-1-create-a-new-function-and-a-view-for-this-task-port-capacity">
+<h4><a class="toc-backref" href="#id3">Step 1: Create a new Function and a View for this task “Port Capacity&#8221;</a><a class="headerlink" href="#step-1-create-a-new-function-and-a-view-for-this-task-port-capacity" title="Permalink to this headline">¶</a></h4>
+<p>Create a new function port_capacity() in the default.py controller.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">port_capacity</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Create a view port_capacity.html under views/default folder.</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span>{{extend &#39;layout.html&#39;}}
+<span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Port Capacity <span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+{{=BEAUTIFY(response._vars)}}
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-2-use-the-eos-form-and-switches-list-function-to-display-form">
+<h4><a class="toc-backref" href="#id4">Step 2: Use the eos_form() and switches_list() function to display form</a><a class="headerlink" href="#step-2-use-the-eos-form-and-switches-list-function-to-display-form" title="Permalink to this headline">¶</a></h4>
+<p>We have written two functions eos_form() and switches_list() in the previous chapter. We will use those functions with this script to display form and derive IP addresses of the switches from the user selection.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">port_capacity</span><span class="p">():</span>
+    <span class="c1"># Build Form</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">eos_form</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">process</span><span class="p">()</span><span class="o">.</span><span class="n">accepted</span><span class="p">:</span>
+        <span class="c1"># Create a switch IP addresses list from site and role selection</span>
+        <span class="n">switches</span> <span class="o">=</span> <span class="n">switches_list</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="step-3-create-a-function-to-discover-the-unused-ports">
+<h4><a class="toc-backref" href="#id5">Step 3: Create a function to discover the unused ports</a><a class="headerlink" href="#step-3-create-a-function-to-discover-the-unused-ports" title="Permalink to this headline">¶</a></h4>
+<p>We will create a new function discover_unused_ports() and reuse the script that we wrote in chapter 4. Then we will call this function from the port_capacity() function.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">discover_unused_ports</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="c1"># Define a dictionary for unused_ports</span>
+    <span class="n">unused_ports</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Collect the model name and device description</span>
+    <span class="n">show_inventory</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span><span class="s2">&quot;show inventory&quot;</span><span class="p">])</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">show_inventory</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;systemInformation&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">show_inventory</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;systemInformation&quot;</span><span class="p">][</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">])</span>
+    <span class="n">unused_ports</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span> <span class="s2">&quot;Description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">}</span>
+
+    <span class="c1"># Collect interfaces status</span>
+    <span class="n">sh_int_status_raw</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">execute</span><span class="p">([</span>
+        <span class="s2">&quot;show interfaces status notconnect disabled&quot;</span><span class="p">])</span>
+    <span class="n">sh_int_status</span> <span class="o">=</span> <span class="n">sh_int_status_raw</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;interfaceStatuses&quot;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">each_interface</span> <span class="ow">in</span> <span class="n">sh_int_status</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">bandwidth</span> <span class="o">=</span> <span class="n">sh_int_status</span><span class="p">[</span><span class="n">each_interface</span><span class="p">][</span><span class="s2">&quot;bandwidth&quot;</span><span class="p">]</span>
+        <span class="n">bandwidth_GE</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">bandwidth</span> <span class="o">/</span> <span class="mi">1000000000</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;GE&quot;</span>
+        <span class="n">interface_type</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sh_int_status</span><span class="p">[</span><span class="n">each_interface</span><span class="p">][</span><span class="s2">&quot;interfaceType&quot;</span><span class="p">])</span>
+
+        <span class="c1"># check for bandwidth entry and add it if not there</span>
+        <span class="k">if</span> <span class="n">bandwidth_GE</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unused_ports</span><span class="p">:</span>
+            <span class="n">unused_ports</span><span class="p">[</span><span class="n">bandwidth_GE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># check for interface type and add it if not there</span>
+        <span class="k">if</span> <span class="n">interface_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unused_ports</span><span class="p">[</span><span class="n">bandwidth_GE</span><span class="p">]:</span>
+            <span class="n">unused_ports</span><span class="p">[</span><span class="n">bandwidth_GE</span><span class="p">][</span><span class="n">interface_type</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">unused_ports</span><span class="p">[</span><span class="n">bandwidth_GE</span><span class="p">][</span><span class="n">interface_type</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">unused_ports</span>
+
+
+<span class="k">def</span> <span class="nf">port_capacity</span><span class="p">():</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">eos_form</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">process</span><span class="p">()</span><span class="o">.</span><span class="n">accepted</span><span class="p">:</span>
+        <span class="n">switches</span> <span class="o">=</span> <span class="n">switches_list</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
+
+        <span class="c1"># Create an Empty Dictionary</span>
+        <span class="n">unused_ports</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Define API Connection String</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="s2">&quot;https&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">switch</span><span class="p">,</span>
+                                      <span class="n">username</span><span class="o">=</span><span class="n">form_vars</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                                      <span class="n">password</span><span class="o">=</span><span class="n">form_vars</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
+                                      <span class="n">port</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+                <span class="c1"># Collect hostname for reporting purpose</span>
+                <span class="n">switchname</span> <span class="o">=</span> <span class="n">host_name</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+                <span class="c1"># Discover Unused Ports</span>
+                <span class="n">unused_ports</span><span class="p">[</span><span class="n">switchname</span><span class="p">]</span> <span class="o">=</span> <span class="n">discover_unused_ports</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+                <span class="c1"># If there are no unused ports, delete the entry for the switch</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">unused_ports</span><span class="p">[</span><span class="n">switchname</span><span class="p">]:</span>
+                    <span class="k">del</span> <span class="n">unused_ports</span><span class="p">[</span><span class="n">switchname</span><span class="p">]</span>
+
+            <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
+                <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ConnectionError: unable to connect to eAPI&quot;</span>
+
+            <span class="k">except</span> <span class="n">pyeapi</span><span class="o">.</span><span class="n">eapilib</span><span class="o">.</span><span class="n">CommandError</span><span class="p">:</span>
+                <span class="n">errors</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CommandError: Check your EOS command syntax&quot;</span>
+
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="n">unused_ports</span><span class="o">=</span><span class="n">unused_ports</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Test your script using the URL <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/Arista_EOS_Tool/default/port_capacity.</p>
+<img alt="_images/ch10-pic4.png" src="_images/ch10-pic4.png" />
+</div>
+</div>
+</div>
+<div class="section" id="hardware-scale">
+<h2><a class="toc-backref" href="#id6">Hardware Scale</a><a class="headerlink" href="#hardware-scale" title="Permalink to this headline">¶</a></h2>
+<p>We have built four use cases in the web2py. By now, you should be comfortable to build use cases in web2py by leveraging the existing functions and Python scripts. In this case, we are going to copy all the functions we created for hardware table scalability in chapter 4 in the web2py&#8217;s default.py controller.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mac_scale</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="n">show_mac</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">runCmds</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;show mac address-table count&quot;</span><span class="p">])</span>
+    <span class="n">show_mac_clean</span> <span class="o">=</span> <span class="n">show_mac</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;vlanCounts&quot;</span><span class="p">]</span>
+    <span class="n">mac_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">each_vlan</span> <span class="ow">in</span> <span class="n">show_mac_clean</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">mac_count</span> <span class="o">+=</span> <span class="n">show_mac_clean</span><span class="p">[</span><span class="n">each_vlan</span><span class="p">][</span><span class="s2">&quot;dynamic&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">mac_count</span>
+
+
+<span class="k">def</span> <span class="nf">vrf_scale</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="n">show_vrf</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">runCmds</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;show vrf | include ipv4,ipv6&quot;</span><span class="p">],</span> <span class="s2">&quot;text&quot;</span><span class="p">)</span>
+    <span class="n">show_vrf_clean</span> <span class="o">=</span> <span class="n">show_vrf</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;output&quot;</span><span class="p">]</span>
+    <span class="n">vrfs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">show_vrf_clean</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">vrfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">vrfs</span>
+
+
+<span class="k">def</span> <span class="nf">arp_scale</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">vrfs</span><span class="p">):</span>
+    <span class="n">arp_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">each_vrf</span> <span class="ow">in</span> <span class="n">vrfs</span><span class="p">:</span>
+        <span class="n">show_arp</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">runCmds</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span>
+            <span class="s2">&quot;show ip arp vrf &quot;</span> <span class="o">+</span> <span class="n">each_vrf</span> <span class="o">+</span> <span class="s2">&quot; summary&quot;</span><span class="p">])</span>
+        <span class="n">arp_count</span> <span class="o">+=</span> <span class="n">show_arp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dynamicEntries&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">arp_count</span>
+
+
+<span class="k">def</span> <span class="nf">route_scale</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">vrfs</span><span class="p">):</span>
+    <span class="n">route_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">each_vrf</span> <span class="ow">in</span> <span class="n">vrfs</span><span class="p">:</span>
+        <span class="n">show_route</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">runCmds</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span>
+            <span class="s2">&quot;show ip route vrf &quot;</span> <span class="o">+</span> <span class="n">each_vrf</span> <span class="o">+</span> <span class="s2">&quot; summary&quot;</span><span class="p">])</span>
+        <span class="n">route_count</span> <span class="o">+=</span> <span class="n">show_route</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;totalRoutes&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">route_count</span>
+
+
+<span class="k">def</span> <span class="nf">tcam_scale</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="n">tcam_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">show_tcam</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">runCmds</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span>
+        <span class="s2">&quot;enable&quot;</span><span class="p">,</span> <span class="s2">&quot;show platform trident tcam | include TCAM group&quot;</span><span class="p">],</span> <span class="s2">&quot;text&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">each_line</span> <span class="ow">in</span> <span class="n">show_tcam</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;output&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+        <span class="n">tcam_count</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">each_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">4</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">tcam_count</span>
+
+
+<span class="k">def</span> <span class="nf">hostname</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="n">host_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">runCmds</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;show hostname&quot;</span><span class="p">])</span>
+    <span class="n">host_name_clean</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">host_name</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;hostname&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">host_name_clean</span>
+
+
+<span class="k">def</span> <span class="nf">hardware_scale</span><span class="p">():</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">eos_form</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">process</span><span class="p">()</span><span class="o">.</span><span class="n">accepted</span><span class="p">:</span>
+        <span class="n">form_vars</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">vars</span>
+        <span class="n">switches</span> <span class="o">=</span> <span class="n">switches_list</span><span class="p">(</span><span class="n">form_vars</span><span class="p">)</span>
+
+        <span class="c1"># Hardware scale assessment script</span>
+        <span class="n">verify_scale</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Define Connection Attributes for jsonrpc</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="s2">&quot;https://&quot;</span> <span class="o">+</span> <span class="n">form_vars</span><span class="o">.</span><span class="n">username</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span>
+                              <span class="n">form_vars</span><span class="o">.</span><span class="n">password</span> <span class="o">+</span> <span class="s2">&quot;@&quot;</span> <span class="o">+</span> <span class="n">switch</span> <span class="o">+</span>
+                              <span class="s2">&quot;/command-api&quot;</span><span class="p">)</span>
+
+                <span class="c1"># Call the hardware scale functions</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">hostname</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                <span class="n">mac_count</span> <span class="o">=</span> <span class="n">mac_scale</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                <span class="n">vrfs</span> <span class="o">=</span> <span class="n">vrf_scale</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                <span class="n">arp_count</span> <span class="o">=</span> <span class="n">arp_scale</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">vrfs</span><span class="p">)</span>
+                <span class="n">route_count</span> <span class="o">=</span> <span class="n">route_scale</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">vrfs</span><span class="p">)</span>
+                <span class="n">tcam_count</span> <span class="o">=</span> <span class="n">tcam_scale</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+                <span class="c1"># Store the values in a dictionary</span>
+
+                <span class="n">verify_scale</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;MAC Scale&quot;</span><span class="p">:</span> <span class="n">mac_count</span><span class="p">,</span>
+                                      <span class="s2">&quot;Number of VRFs&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">vrfs</span><span class="p">),</span>
+                                      <span class="s2">&quot;Number of ARP Entries&quot;</span><span class="p">:</span> <span class="n">arp_count</span><span class="p">,</span>
+                                      <span class="s2">&quot;Number of Routes&quot;</span><span class="p">:</span> <span class="n">route_count</span><span class="p">,</span>
+                                      <span class="s2">&quot;Number of TCAM entries Used&quot;</span><span class="p">:</span> <span class="n">tcam_count</span>
+                                      <span class="p">}</span>
+
+            <span class="k">except</span> <span class="n">ProtocolError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">verify_scale</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Invalid EOS Command&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">verify_scale</span><span class="p">[</span><span class="n">switch</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;eAPI Connection Error&quot;</span>
+
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">verify_scale</span><span class="o">=</span><span class="n">verify_scale</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Test your script using the URL <a class="reference external" href="https:/">https:/</a>/&lt;web-server&gt;/Arista_EOS_Tool/default/hardware_scale.</p>
+<img alt="_images/ch10-pic5.png" src="_images/ch10-pic5.png" />
+</div>
+<div class="section" id="summary">
+<h2><a class="toc-backref" href="#id7">Summary</a><a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>We have ported all the five use cases to the tool. You make a list of your common networking tasks and write the scripts using Python and then port it to the tool. You can also keep all the network-related documentation in this tool. Let&#8217;s go to the next chapter to learn about the web2py view.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="web2py-tshoot.html" class="btn btn-neutral" title="Chapter 9: Web2Py - Troubleshooting Use Cases" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Anees Mohammed.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

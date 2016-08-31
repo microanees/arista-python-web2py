@@ -23,3 +23,4 @@ Contents:
     create-application
     web2py-prepare
     web2py-tshoot
+    web2py-capacity

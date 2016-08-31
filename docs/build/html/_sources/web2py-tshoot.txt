@@ -1038,6 +1038,7 @@ The final script with all the functions is shown below.
       host_name_clean = str(host_name[0]["hostname"])
       return host_name_clean
 
+
   def collect_logs(node):
       # Define an empty list
       show_log = []

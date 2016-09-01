@@ -448,10 +448,8 @@ Obviously we don’t want to display the password on the screen when we type. We
   switches = []
 
   with open(file_switches) as readfile:
-      n = 0
       for line in readfile:
           switches.append(line.strip())
-          n = n + 1
 
   # Input Username and Password
 
@@ -503,10 +501,8 @@ Now we have achieved our requirements of inputting switch IP addresses, username
   switches = []
 
   with open(file_switches) as readfile:
-      n = 0
       for line in readfile:
           switches.append(line.strip())
-          n = n + 1
 
   # Input Username and Password
 
@@ -654,7 +650,6 @@ Let us go back and update our original inventory_version script. Create a new py
       for line in readfile:
           switches.append(line.strip())
 
-
   # Input Username and Password
 
   my_username = raw_input("Enter your username: ")
@@ -782,7 +777,6 @@ We will update our script inventory_version_exception.py with try/except clause.
   file_name_switches = "switches.txt"
   file_switches = file_path + file_name_switches
 
-
   # Read the content of the file and save it in a List
 
   switches = []
@@ -893,8 +887,6 @@ We can update our script inventory_version_exception.py to differentiate the typ
 
   my_username = raw_input("Enter your username: ")
   my_password = getpass.getpass("Enter your password: ")
-
-  # Collect Inventory using pyeapi
 
   # Collect Inventory using pyeapi
 
